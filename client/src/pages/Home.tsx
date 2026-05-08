@@ -434,73 +434,43 @@ export default function Home() {
         </section>
 
         {/* Categories Section */}
-        <section className="py-10 sm:py-14 bg-muted/20 overflow-hidden relative">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-3xl mx-auto text-center mb-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-              >
-                <span className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-2 block">SHOP BY CATEGORY</span>
-                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight text-foreground">Premium Collection: Bags, Watches & More</h2>
-                <div className="h-1 w-20 bg-secondary mx-auto mb-4 rounded-full" />
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Experience the pinnacle of Pakistani craftsmanship. From elegant handbags to luxury timepieces, discover quality that defines your style.
-                </p>
-              </motion.div>
-            </div>
-            
-            {/* Mobile: 2-column grid */}
-            <div className="sm:hidden grid grid-cols-2 gap-3 max-w-7xl mx-auto">
-              {isCategoriesLoading ? (
-                Array.from({ length: 6 }).map((_, i) => (
-                  <Skeleton key={i} className="aspect-[4/3] rounded-2xl" />
-                ))
-              ) : (
-                categories.map((category, index) => {
-                  let categoryImage = category.image || categoriesListImage;
-                  if (category.name.toLowerCase() === "bags") categoryImage = bagsCategoryImage;
-                  else if (category.name.toLowerCase() === "slippers") categoryImage = slippersCategoryImage;
-                  else if (category.name.toLowerCase() === "shoes") categoryImage = shoesCategoryImage;
-                  else if (category.name.toLowerCase().includes("eid special")) categoryImage = eidSpecialImage;
-                  else if (category.name.toLowerCase().includes("watches")) categoryImage = watchesImage;
-                  return (
-                    <CategoryCard
-                      key={category.id}
-                      name={category.name}
-                      slug={category.slug || String(category.id)}
-                      href={`/collections/${category.slug || String(category.id)}`}
-                      count={0}
-                      image={categoryImage}
-                      priority={index < 2}
-                    />
-                  );
-                })
-              )}
+        <section className="py-5 sm:py-6 bg-muted/20 border-b border-border/40">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+
+            {/* Compact header row */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="h-5 w-1 bg-primary rounded-full" />
+                <h2 className="font-display text-base sm:text-lg font-bold tracking-tight text-foreground uppercase">
+                  Shop by Category
+                </h2>
+              </div>
+              <Link href="/categories" className="text-xs sm:text-sm text-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all duration-200">
+                View All <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
 
-            {/* Desktop: horizontal scroll with arrows */}
-            <div className="hidden sm:block relative max-w-7xl mx-auto sm:px-8">
+            {/* Scrollable category bubbles — works on both mobile & desktop */}
+            <div className="relative">
               <button
                 onClick={() => scrollCategories("left")}
                 data-testid="button-categories-scroll-left"
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-lg border border-border rounded-full w-10 h-10 flex items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 flex items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
                 aria-label="Scroll categories left"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4" />
               </button>
 
               <div
                 ref={categoriesScrollRef}
-                className="flex gap-5 overflow-x-auto scroll-smooth pb-2"
+                className="flex gap-3 sm:gap-4 overflow-x-auto scroll-smooth sm:px-10"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
               >
                 {isCategoriesLoading ? (
-                  Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="flex-none w-44 md:w-48">
-                      <Skeleton className="aspect-[4/3] rounded-2xl" />
+                  Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className="flex-none flex flex-col items-center gap-2">
+                      <Skeleton className="w-16 h-16 sm:w-20 sm:h-20 rounded-full" />
+                      <Skeleton className="h-3 w-14 rounded" />
                     </div>
                   ))
                 ) : (
@@ -511,17 +481,25 @@ export default function Home() {
                     else if (category.name.toLowerCase() === "shoes") categoryImage = shoesCategoryImage;
                     else if (category.name.toLowerCase().includes("eid special")) categoryImage = eidSpecialImage;
                     else if (category.name.toLowerCase().includes("watches")) categoryImage = watchesImage;
+                    const linkHref = `/collections/${category.slug || String(category.id)}`;
+                    const optimizedImg = getOptimizedImageUrl(categoryImage, { width: 160, height: 160, crop: "fill" });
                     return (
-                      <div key={category.id} className="flex-none w-44 md:w-48">
-                        <CategoryCard
-                          name={category.name}
-                          slug={category.slug || String(category.id)}
-                          href={`/collections/${category.slug || String(category.id)}`}
-                          count={0}
-                          image={categoryImage}
-                          priority={index < 4}
-                        />
-                      </div>
+                      <Link key={category.id} href={linkHref} className="flex-none flex flex-col items-center gap-1.5 group cursor-pointer">
+                        <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
+                          <img
+                            src={optimizedImg}
+                            alt={category.name}
+                            width="80"
+                            height="80"
+                            loading={index < 4 ? "eager" : "lazy"}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300 rounded-full" />
+                        </div>
+                        <span className="text-[10px] sm:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight max-w-[72px] sm:max-w-[88px] line-clamp-2">
+                          {category.name}
+                        </span>
+                      </Link>
                     );
                   })
                 )}
@@ -530,17 +508,14 @@ export default function Home() {
               <button
                 onClick={() => scrollCategories("right")}
                 data-testid="button-categories-scroll-right"
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-lg border border-border rounded-full w-10 h-10 flex items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 flex items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
                 aria-label="Scroll categories right"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
+
           </div>
-          
-          {/* Subtle background decoration */}
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
         </section>
 
         {/* New Arrivals */}
