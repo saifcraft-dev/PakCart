@@ -507,7 +507,7 @@ export default function Home() {
           style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 1200px' }}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -517,9 +517,6 @@ export default function Home() {
                 <h2 className="font-display text-4xl font-bold text-foreground mb-2">New Arrivals</h2>
                 <div className="h-1.5 w-16 bg-secondary rounded-full" />
               </motion.div>
-              <Link href="/new-arrivals" className="text-xs sm:text-sm text-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all duration-200 shrink-0">
-                View All <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
@@ -597,12 +594,14 @@ export default function Home() {
                     </h2>
                     <div className="h-1.5 w-16 bg-secondary rounded-full" />
                   </motion.div>
-                  <Link
-                    href={`/collections/${categorySlug}`}
-                    className="text-xs sm:text-sm text-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all duration-200 shrink-0"
-                    data-testid={`link-view-all-${categorySlug}`}
-                  >
-                    View All <ArrowRight className="w-3.5 h-3.5" />
+                  <Link href={`/collections/${categorySlug}`}>
+                    <Button
+                      variant="ghost"
+                      className="text-primary hover:text-primary/80"
+                      data-testid={`link-view-all-${categorySlug}`}
+                    >
+                      View All <ArrowRight className="h-4 w-4 ml-1" />
+                    </Button>
                   </Link>
                 </div>
 
