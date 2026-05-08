@@ -397,11 +397,9 @@ export default function Home() {
             <div className="flex animate-marquee gap-10 whitespace-nowrap">
               {[
                 { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
-                { icon: <ShieldCheck className="h-4 w-4 shrink-0" />, label: "7-day easy returns" },
                 { icon: <Clock className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
                 { icon: <Star className="h-4 w-4 shrink-0" />, label: "Authentic products" },
                 { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
-                { icon: <ShieldCheck className="h-4 w-4 shrink-0" />, label: "7-day easy returns" },
                 { icon: <Clock className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
                 { icon: <Star className="h-4 w-4 shrink-0" />, label: "Authentic products" },
               ].map((item, i) => (
@@ -413,9 +411,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Tablet / Desktop: static 4-column grid */}
+          {/* Tablet / Desktop: static 3-column grid */}
           <div className="hidden sm:block container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-3 gap-6 sm:gap-8">
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
                   <Truck className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -423,15 +421,6 @@ export default function Home() {
                 <div>
                   <h4 className="font-bold text-[10px] sm:text-sm">Free Delivery</h4>
                   <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">Orders over Rs. 10000</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
-                  <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-[10px] sm:text-sm">7-Day Returns</h4>
-                  <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">Easy exchange & refund</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 sm:gap-4">
