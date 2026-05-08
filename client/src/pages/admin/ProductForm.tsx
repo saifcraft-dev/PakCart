@@ -265,15 +265,36 @@ export default function AdminProductForm() {
     }
 
     let categoryApplied = "";
-    if (result.category && categories?.length) {
+    if (result.category) {
       const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
       const target = norm(result.category);
-      const match =
-        categories.find((c) => norm(c.name || "") === target) ||
-        categories.find((c) => norm(c.name || "").includes(target) || target.includes(norm(c.name || "")));
+      const match = categories?.length
+        ? (categories.find((c) => norm(c.name || "") === target) ||
+           categories.find((c) => norm(c.name || "").includes(target) || target.includes(norm(c.name || ""))))
+        : undefined;
       if (match) {
         form.setValue("categoryId", String(match.id), { shouldValidate: true, shouldDirty: true });
         categoryApplied = match.name;
+      } else {
+        try {
+          const newSlug = result.category
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/[\s_]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+          const newCat = await categoryFirestoreService.createCategory({
+            name: result.category,
+            slug: newSlug,
+            description: "",
+            image: "",
+            parentCategoryId: null,
+          });
+          queryClient.invalidateQueries({ queryKey: ["categories"] });
+          form.setValue("categoryId", String(newCat.id), { shouldValidate: true, shouldDirty: true });
+          categoryApplied = `${result.category} (auto-created)`;
+        } catch (err: any) {
+          console.warn("[AI] Failed to auto-create category:", err);
+        }
       }
     }
 
