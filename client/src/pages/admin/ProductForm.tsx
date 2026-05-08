@@ -285,15 +285,24 @@ export default function AdminProductForm() {
           const newCat = await categoryFirestoreService.createCategory({
             name: result.category,
             slug: newSlug,
-            description: "",
-            image: "",
-            parentCategoryId: null,
+            description: undefined,
+            image: undefined,
+            parentCategoryId: undefined,
+          });
+          queryClient.setQueryData(["categories"], (old: Category[] | undefined) => {
+            const list = old ? [...old, newCat] : [newCat];
+            return list.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
           });
           queryClient.invalidateQueries({ queryKey: ["categories"] });
           form.setValue("categoryId", String(newCat.id), { shouldValidate: true, shouldDirty: true });
           categoryApplied = `${result.category} (auto-created)`;
         } catch (err: any) {
           console.warn("[AI] Failed to auto-create category:", err);
+          toast({
+            title: "Category not found",
+            description: `AI suggested "${result.category}" but it couldn't be created. Please select a category manually.`,
+            variant: "destructive",
+          });
         }
       }
     }
