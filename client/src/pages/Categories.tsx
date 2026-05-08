@@ -154,7 +154,7 @@ export default function Categories() {
                     <p className="text-muted-foreground text-sm mb-4 -mt-2 pl-3.5">{parent.description}</p>
                   )}
 
-                  <div className="grid grid-cols-3 place-items-center gap-x-3 gap-y-5 pt-2 pb-3">
+                  <div className="grid grid-cols-4 place-items-center gap-x-3 gap-y-5 sm:flex sm:flex-row sm:flex-wrap sm:gap-6 pt-2 pb-3">
                     {subs.length > 0 ? (
                       subs.map((cat) => (
                         <CategoryCard
