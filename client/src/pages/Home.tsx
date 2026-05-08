@@ -450,27 +450,31 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Scrollable category bubbles — works on both mobile & desktop */}
-            <div className="relative">
+            {/* Scrollable category bubbles */}
+            <div className="relative -mx-4 sm:mx-0">
+              {/* Desktop arrow — left */}
               <button
                 onClick={() => scrollCategories("left")}
                 data-testid="button-categories-scroll-left"
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 flex items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
                 aria-label="Scroll categories left"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
 
+              {/* Fade hint on right edge (mobile only) */}
+              <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-muted/60 to-transparent pointer-events-none z-10 sm:hidden" />
+
               <div
                 ref={categoriesScrollRef}
-                className="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth sm:px-10 justify-center pt-2 pb-3"
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
+                className="flex gap-3 sm:gap-6 overflow-x-auto scroll-smooth px-4 sm:px-10 pt-2 pb-3"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
               >
                 {isCategoriesLoading ? (
                   Array.from({ length: 8 }).map((_, i) => (
                     <div key={i} className="flex-none flex flex-col items-center gap-2">
-                      <Skeleton className="w-20 h-20 sm:w-24 sm:h-24 rounded-full" />
-                      <Skeleton className="h-3 w-16 rounded" />
+                      <Skeleton className="w-[68px] h-[68px] sm:w-24 sm:h-24 rounded-full" />
+                      <Skeleton className="h-3 w-14 rounded" />
                     </div>
                   ))
                 ) : (
@@ -485,18 +489,18 @@ export default function Home() {
                     const optimizedImg = getOptimizedImageUrl(categoryImage, { width: 192, height: 192, crop: "fill" });
                     return (
                       <Link key={category.id} href={linkHref} className="flex-none flex flex-col items-center gap-2 group cursor-pointer">
-                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
+                        <div className="relative w-[68px] h-[68px] sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
                           <img
                             src={optimizedImg}
                             alt={category.name}
                             width="96"
                             height="96"
-                            loading={index < 4 ? "eager" : "lazy"}
+                            loading={index < 5 ? "eager" : "lazy"}
                             className="w-full h-full object-cover"
                           />
                           <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300 rounded-full" />
                         </div>
-                        <span className="text-[11px] sm:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight max-w-[88px] sm:max-w-[100px] line-clamp-2">
+                        <span className="text-[10px] sm:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight w-[72px] sm:w-[100px] line-clamp-2">
                           {category.name}
                         </span>
                       </Link>
@@ -505,10 +509,11 @@ export default function Home() {
                 )}
               </div>
 
+              {/* Desktop arrow — right */}
               <button
                 onClick={() => scrollCategories("right")}
                 data-testid="button-categories-scroll-right"
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 flex items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
                 aria-label="Scroll categories right"
               >
                 <ChevronRight className="w-4 h-4" />
