@@ -255,23 +255,42 @@ export default function CategoryCollection() {
         </div>
       </div>
 
-      {/* Trust badge strip — icon-based, clean */}
-      <div className="border-b border-border/60 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-start sm:justify-center gap-5 sm:gap-10 py-3 overflow-x-auto whitespace-nowrap"
-            style={{ scrollbarWidth: "none" } as React.CSSProperties}>
+      {/* Trust badge strip — marquee on mobile, static centered on desktop */}
+      <div className="border-b border-border/60 bg-background overflow-hidden py-3">
+
+        {/* Mobile: auto-scrolling marquee */}
+        <div className="flex sm:hidden">
+          <div className="flex animate-marquee gap-10 whitespace-nowrap">
             {[
               { icon: Truck, label: "Free delivery over Rs. 10,000" },
               { icon: Banknote, label: "Cash on Delivery" },
               { icon: ShieldCheck, label: "Authentic products" },
+              { icon: Truck, label: "Free delivery over Rs. 10,000" },
+              { icon: Banknote, label: "Cash on Delivery" },
+              { icon: ShieldCheck, label: "Authentic products" },
             ].map(({ icon: Icon, label }, i) => (
-              <span key={i} className="flex items-center gap-2 text-[11px] sm:text-xs font-medium text-muted-foreground shrink-0">
+              <span key={i} className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground shrink-0">
                 <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
                 {label}
               </span>
             ))}
           </div>
         </div>
+
+        {/* Desktop: static centered row */}
+        <div className="hidden sm:flex items-center justify-center gap-10">
+          {[
+            { icon: Truck, label: "Free delivery over Rs. 10,000" },
+            { icon: Banknote, label: "Cash on Delivery" },
+            { icon: ShieldCheck, label: "Authentic products" },
+          ].map(({ icon: Icon, label }, i) => (
+            <span key={i} className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
+              {label}
+            </span>
+          ))}
+        </div>
+
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-10 sm:pt-5">
