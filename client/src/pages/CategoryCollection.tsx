@@ -259,43 +259,62 @@ export default function CategoryCollection() {
         </div>
       </div>
 
-      {/* Trust badge strip — marquee on mobile, static centered on desktop */}
-      <div className="border-b border-border/60 bg-background overflow-hidden py-3">
+      {/* Trust Indicators */}
+      <section className="py-5 sm:py-7 border-b bg-card overflow-hidden">
 
         {/* Mobile: auto-scrolling marquee */}
         <div className="flex sm:hidden">
           <div className="flex animate-marquee gap-10 whitespace-nowrap">
             {[
-              { icon: Truck, label: "Free delivery over Rs. 10,000" },
-              { icon: Banknote, label: "Cash on Delivery" },
-              { icon: ShieldCheck, label: "Authentic products" },
-              { icon: Truck, label: "Free delivery over Rs. 10,000" },
-              { icon: Banknote, label: "Cash on Delivery" },
-              { icon: ShieldCheck, label: "Authentic products" },
-            ].map(({ icon: Icon, label }, i) => (
-              <span key={i} className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground shrink-0">
-                <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
-                {label}
-              </span>
+              { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
+              { icon: <Banknote className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
+              { icon: <ShieldCheck className="h-4 w-4 shrink-0" />, label: "Authentic products" },
+              { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
+              { icon: <Banknote className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
+              { icon: <ShieldCheck className="h-4 w-4 shrink-0" />, label: "Authentic products" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-2 text-foreground/80">
+                <span className="text-primary">{item.icon}</span>
+                <span className="text-xs font-semibold">{item.label}</span>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Desktop: static centered row */}
-        <div className="hidden sm:flex items-center justify-center gap-10">
-          {[
-            { icon: Truck, label: "Free delivery over Rs. 10,000" },
-            { icon: Banknote, label: "Cash on Delivery" },
-            { icon: ShieldCheck, label: "Authentic products" },
-          ].map(({ icon: Icon, label }, i) => (
-            <span key={i} className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-              <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
-              {label}
-            </span>
-          ))}
+        {/* Tablet / Desktop: static 3-column grid */}
+        <div className="hidden sm:block container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-3 gap-6 sm:gap-8">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                <Truck className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-[10px] sm:text-sm">Free Delivery</h4>
+                <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">Orders over Rs. 10000</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                <Banknote className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-[10px] sm:text-sm">Cash on Delivery</h4>
+                <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">Pay when you receive</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-[10px] sm:text-sm">Authentic Products</h4>
+                <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">100% genuine quality</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-      </div>
+      </section>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-10 sm:pt-5">
 
