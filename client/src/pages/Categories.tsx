@@ -35,28 +35,26 @@ function getCategoryImage(name: string, fallback?: string): string {
 
 function CategoryCard({ name, slug, image }: { name: string; slug: string; image?: string }) {
   const img = getCategoryImage(name, image);
-  const optimized = getOptimizedImageUrl(img, { width: 400, height: 300, crop: "fill" });
+  const optimized = getOptimizedImageUrl(img, { width: 192, height: 192, crop: "fill" });
   return (
     <Link
       href={`/collections/${slug}`}
-      className="group relative overflow-hidden rounded-2xl aspect-[4/3] block shadow-sm hover:shadow-lg transition-all duration-300"
+      className="flex flex-col items-center gap-2 group cursor-pointer"
     >
-      <img
-        src={optimized}
-        alt={name}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        loading="lazy"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-        <h3 className="text-white font-bold text-sm sm:text-base leading-tight drop-shadow-md group-hover:text-white/90 transition-colors">
-          {name}
-        </h3>
+      <div className="relative w-[68px] h-[68px] sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
+        <img
+          src={optimized}
+          alt={name}
+          width="96"
+          height="96"
+          loading="lazy"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300 rounded-full" />
       </div>
-      <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-        <ArrowRight className="w-3.5 h-3.5 text-white" />
-      </div>
+      <span className="text-[10px] sm:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight w-[72px] sm:w-[100px] line-clamp-2">
+        {name}
+      </span>
     </Link>
   );
 }
@@ -156,7 +154,7 @@ export default function Categories() {
                     <p className="text-muted-foreground text-sm mb-4 -mt-2 pl-3.5">{parent.description}</p>
                   )}
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+                  <div className="grid grid-cols-4 place-items-center gap-x-3 gap-y-5 sm:flex sm:flex-row sm:flex-wrap sm:gap-6 pt-2 pb-3">
                     {subs.length > 0 ? (
                       subs.map((cat) => (
                         <CategoryCard
