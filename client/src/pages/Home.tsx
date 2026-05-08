@@ -452,16 +452,6 @@ export default function Home() {
 
             {/* Scrollable category bubbles */}
             <div className="relative -mx-4 sm:mx-0">
-              {/* Desktop arrow — left */}
-              <button
-                onClick={() => scrollCategories("left")}
-                data-testid="button-categories-scroll-left"
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
-                aria-label="Scroll categories left"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-
               {/* Fade hint on right edge (mobile only) */}
               <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-muted/60 to-transparent pointer-events-none z-10 sm:hidden" />
 
@@ -509,15 +499,6 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Desktop arrow — right */}
-              <button
-                onClick={() => scrollCategories("right")}
-                data-testid="button-categories-scroll-right"
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-zinc-800 shadow-md border border-border rounded-full w-8 h-8 items-center justify-center text-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 hidden sm:flex"
-                aria-label="Scroll categories right"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
             </div>
 
           </div>
