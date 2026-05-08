@@ -190,52 +190,70 @@ export default function CategoryCollection() {
         }}
       />
 
-      {/* Hero banner */}
-      <div className="relative w-full h-40 sm:h-52 md:h-60 overflow-hidden">
+      {/* Hero banner — taller on mobile for impact */}
+      <div className="relative w-full h-48 sm:h-56 md:h-64 overflow-hidden">
         <img
           src={optimizedHero}
           alt={category.name}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20" />
-        <div className="absolute inset-0 flex flex-col justify-end px-4 sm:px-6 lg:px-8 pb-5 sm:pb-7 container mx-auto">
-          <Breadcrumb className="mb-2">
-            <BreadcrumbList className="text-white/70">
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/" className="text-white/70 hover:text-white text-xs">Home</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="text-white/50" />
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/categories" className="text-white/70 hover:text-white text-xs">Categories</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="text-white/50" />
-              <BreadcrumbItem>
-                <BreadcrumbPage className="text-white text-xs font-medium">{category.name}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight drop-shadow-md">
-            {category.name}
-          </h1>
-          {category.description && (
-            <p className="text-white/80 text-xs sm:text-sm mt-1 max-w-xl line-clamp-2">{category.description}</p>
-          )}
+        {/* Gradient: strong at bottom for text legibility, lighter at top */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+        <div className="absolute inset-0 flex flex-col justify-end pb-5 sm:pb-7">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <Breadcrumb className="mb-2">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/" className="text-white/65 hover:text-white text-[11px]">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="text-white/40" />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/categories" className="text-white/65 hover:text-white text-[11px]">Categories</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="text-white/40" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-white text-[11px] font-medium">{category.name}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight drop-shadow-lg">
+              {category.name}
+            </h1>
+            {category.description && (
+              <p className="text-white/75 text-xs sm:text-sm mt-1 max-w-lg line-clamp-1 sm:line-clamp-2">{category.description}</p>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
+      {/* Trust badge strip */}
+      <div className="bg-primary/5 border-b border-primary/10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 py-2.5 overflow-x-auto scrollbar-none text-xs font-medium text-foreground/70 whitespace-nowrap">
+            <span className="flex items-center gap-1.5">🚚 Free delivery over Rs. 10,000</span>
+            <span className="hidden sm:block text-border">|</span>
+            <span className="flex items-center gap-1.5">↩️ 7-day easy returns</span>
+            <span className="hidden sm:block text-border">|</span>
+            <span className="flex items-center gap-1.5">💳 Cash on Delivery</span>
+            <span className="hidden sm:block text-border">|</span>
+            <span className="flex items-center gap-1.5">✅ Authentic products</span>
+          </div>
+        </div>
+      </div>
 
-        {/* Toolbar row */}
-        <div className="flex items-center justify-between mb-5 gap-3">
-          <p className="text-sm text-muted-foreground font-medium">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+
+        {/* Sticky toolbar */}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-2.5 mb-5 flex items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground font-medium shrink-0">
             {filteredAndSortedProducts.length > 0
-              ? `${filteredAndSortedProducts.length} product${filteredAndSortedProducts.length !== 1 ? "s" : ""}`
-              : ""}
+              ? <><span className="font-bold text-foreground">{filteredAndSortedProducts.length}</span> {filteredAndSortedProducts.length !== 1 ? "products" : "product"}</>
+              : null}
           </p>
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+            <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
             <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
-              <SelectTrigger className="w-40 h-8 text-sm" data-testid="select-sort">
+              <SelectTrigger className="h-8 text-xs w-[150px] sm:w-44" data-testid="select-sort">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -250,13 +268,16 @@ export default function CategoryCollection() {
 
         {/* Products grid */}
         {filteredAndSortedProducts.length === 0 ? (
-          <div className="text-center py-24 bg-muted/20 rounded-3xl border-2 border-dashed border-muted-foreground/20">
+          <div className="text-center py-20 bg-muted/20 rounded-3xl border-2 border-dashed border-muted-foreground/20">
             <h3 className="text-xl font-bold mb-2">No products found</h3>
             <p className="text-muted-foreground">Check back soon for new items in this category.</p>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5 mb-8" data-testid="products-grid">
+            <div
+              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 mb-8"
+              data-testid="products-grid"
+            >
               {visibleProducts.map((product) => (
                 <ProductCardComponent key={product.id} product={product} data-testid={`product-card-${product.id}`} />
               ))}
@@ -270,7 +291,7 @@ export default function CategoryCollection() {
                 <Button
                   onClick={() => setVisibleCount(prev => prev + 12)}
                   variant="outline"
-                  className="px-10"
+                  className="px-10 rounded-full"
                   data-testid="button-load-more"
                 >
                   Load More
@@ -280,11 +301,11 @@ export default function CategoryCollection() {
           </>
         )}
 
-        {/* About this collection — collapsed by default */}
-        <div className="mt-10 border rounded-2xl overflow-hidden">
+        {/* About — collapsed by default */}
+        <div className="mt-8 border rounded-2xl overflow-hidden bg-muted/20">
           <button
             onClick={() => setAboutOpen(o => !o)}
-            className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-muted/30 transition-colors"
+            className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-muted/40 transition-colors"
           >
             <span className="text-sm font-semibold text-foreground">About {category.name}</span>
             <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} />
@@ -292,49 +313,29 @@ export default function CategoryCollection() {
           {aboutOpen && (
             <div className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed space-y-3 border-t pt-4">
               <p>
-                Welcome to our exclusive {category.name.toLowerCase()} collection at PakCart. We bring you the finest selection of {category.name.toLowerCase()} available online in Pakistan, curated from trusted suppliers and manufacturers across the country.
+                Welcome to our exclusive {category.name.toLowerCase()} collection at PakCart. We bring you the finest selection of {category.name.toLowerCase()} available online in Pakistan, curated from trusted suppliers across the country.
               </p>
               <p>
-                All our {category.name.toLowerCase()} undergo rigorous quality checks to ensure authenticity and durability. With our affordable pricing, fast delivery across Pakistan, free shipping on orders over Rs. 10,000, hassle-free 7-day returns, and secure payment options including cash on delivery, shopping has never been easier.
+                All products undergo quality checks before shipping. We offer free delivery on orders over Rs. 10,000, hassle-free 7-day returns, and secure payment including Cash on Delivery.
               </p>
             </div>
           )}
         </div>
 
-        {/* FAQ section */}
+        {/* FAQ */}
         {filteredAndSortedProducts.length > 0 && (
-          <section className="mt-8">
-            <h2 className="text-lg font-bold mb-4 tracking-tight">Frequently Asked Questions</h2>
-            <Accordion type="single" collapsible className="w-full max-w-3xl divide-y border rounded-2xl px-1">
+          <section className="mt-6 mb-4">
+            <h2 className="text-base font-bold mb-3 tracking-tight">Frequently Asked Questions</h2>
+            <Accordion type="single" collapsible className="w-full max-w-2xl border rounded-2xl divide-y overflow-hidden">
               {[
-                {
-                  id: "delivery",
-                  q: `What are the shipping options for ${category.name.toLowerCase()}?`,
-                  a: "We offer fast and reliable shipping across Pakistan. Orders are dispatched within 24-48 hours, with delivery in 3-7 business days. Free shipping on orders over Rs. 10,000.",
-                },
-                {
-                  id: "quality",
-                  q: `Are the ${category.name.toLowerCase()} authentic and good quality?`,
-                  a: `Yes — all our ${category.name.toLowerCase()} are carefully sourced from trusted suppliers and pass our quality checks before shipping.`,
-                },
-                {
-                  id: "returns",
-                  q: "What is your return and exchange policy?",
-                  a: "7-day returns on all products. Items must be unused in original packaging. Return shipping is free for defective items.",
-                },
-                {
-                  id: "payment",
-                  q: "What payment methods do you accept?",
-                  a: "Visa, Mastercard, bank transfer, and Cash on Delivery. All payments are encrypted and secure.",
-                },
-                {
-                  id: "bulk",
-                  q: `Do you offer bulk discounts on ${category.name.toLowerCase()}?`,
-                  a: "Yes — for orders of 10+ items, email support@pakcart.store for a custom quote.",
-                },
+                { id: "delivery", q: `Shipping options for ${category.name.toLowerCase()}?`, a: "Fast delivery across Pakistan in 3-7 business days. Dispatched within 24-48 hours. Free shipping over Rs. 10,000." },
+                { id: "quality", q: `Are the products authentic?`, a: `Yes — all ${category.name.toLowerCase()} are sourced from trusted suppliers and quality-checked before shipping.` },
+                { id: "returns", q: "Return & exchange policy?", a: "7-day returns on unused items in original packaging. Free return shipping on defective products." },
+                { id: "payment", q: "Payment methods accepted?", a: "Visa, Mastercard, bank transfer, and Cash on Delivery. All payments are encrypted and secure." },
+                { id: "bulk", q: "Bulk order discounts?", a: "Yes — contact support@pakcart.store for orders of 10+ items." },
               ].map(({ id, q, a }) => (
-                <AccordionItem key={id} value={id} className="border-none">
-                  <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-left">
+                <AccordionItem key={id} value={id} className="border-none px-1">
+                  <AccordionTrigger className="text-sm font-medium py-3.5 hover:no-underline text-left pr-2">
                     {q}
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-4">
