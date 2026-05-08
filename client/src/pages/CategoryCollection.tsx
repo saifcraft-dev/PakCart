@@ -190,13 +190,13 @@ export default function CategoryCollection() {
       />
 
       {/* ── Hero ── */}
-      <div className="relative w-full h-56 sm:h-72 md:h-[380px] lg:h-[460px] overflow-hidden">
+      <div className="relative w-full h-72 sm:h-80 md:h-[380px] lg:h-[460px] overflow-hidden">
 
         {/* Full-bleed background image */}
         <img
           src={optimizedHero}
           alt={category.name}
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-top sm:object-center"
         />
 
         {/* Unified overlay: dark at bottom-left, fades naturally across the image */}
