@@ -264,10 +264,16 @@ export default function AdminProductForm() {
       replaceFeatures(result.features as any);
     }
 
+    console.log("[AI] result.category raw value:", JSON.stringify(result.category));
+    console.log("[AI] available categories:", categories?.map(c => c.name));
+
+    // If AI returned no category, derive one from the product name as fallback
+    const categoryToUse = result.category || (result.name ? result.name.split(" ").slice(0, 3).join(" ") : "");
+
     let categoryApplied = "";
-    if (result.category) {
+    if (categoryToUse) {
       const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
-      const target = norm(result.category);
+      const target = norm(categoryToUse);
       const match = categories?.length
         ? (categories.find((c) => norm(c.name || "") === target) ||
            categories.find((c) => norm(c.name || "").includes(target) || target.includes(norm(c.name || ""))))
@@ -276,32 +282,34 @@ export default function AdminProductForm() {
         form.setValue("categoryId", String(match.id), { shouldValidate: true, shouldDirty: true });
         categoryApplied = match.name;
       } else {
-        console.log("[AI] No matching category found for:", result.category, "— creating new category");
+        console.log("[AI] No matching category found for:", categoryToUse, "— creating new category");
         try {
-          const newSlug = result.category
+          const newSlug = categoryToUse
             .toLowerCase()
             .replace(/[^\w\s-]/g, "")
             .replace(/[\s_]+/g, "-")
             .replace(/^-+|-+$/g, "");
-          const newCat = await categoryFirestoreService.createCategory({
-            name: result.category,
+          const docRef = await addDoc(collection(db, "categories"), {
+            name: categoryToUse,
             slug: newSlug,
-            description: undefined,
-            image: undefined,
-            parentCategoryId: undefined,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
           });
+          const newCat = { id: docRef.id, name: categoryToUse, slug: newSlug } as any;
           queryClient.setQueryData(["categories"], (old: Category[] | undefined) => {
             const list = old ? [...old, newCat] : [newCat];
             return list.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
           });
           queryClient.invalidateQueries({ queryKey: ["categories"] });
-          form.setValue("categoryId", String(newCat.id), { shouldValidate: true, shouldDirty: true });
-          categoryApplied = `${result.category} (auto-created)`;
+          await new Promise(r => setTimeout(r, 50));
+          form.setValue("categoryId", docRef.id, { shouldValidate: true, shouldDirty: true });
+          categoryApplied = `${categoryToUse} (auto-created)`;
+          console.log("[AI] Category created successfully:", categoryToUse, docRef.id);
         } catch (err: any) {
           console.warn("[AI] Failed to auto-create category:", err);
           toast({
-            title: "Category not found",
-            description: `AI suggested "${result.category}" but it couldn't be created. Please select a category manually.`,
+            title: "Could not auto-create category",
+            description: `AI suggested "${categoryToUse}" but creation failed: ${err.message}. Please pick a category manually.`,
             variant: "destructive",
           });
         }
