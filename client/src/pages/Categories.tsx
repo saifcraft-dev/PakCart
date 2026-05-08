@@ -147,18 +147,9 @@ export default function Categories() {
               return (
                 <section key={parent.id} data-testid={`section-parent-${parent.id}`}>
                   {/* Section header */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2.5">
-                      <div className="h-5 w-1 bg-primary rounded-full" />
-                      <h2 className="text-lg sm:text-xl font-bold tracking-tight text-foreground">{parent.name}</h2>
-                    </div>
-                    <Link
-                      href={`/collections/${parent.slug}`}
-                      className="text-xs sm:text-sm text-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all duration-200"
-                      data-testid={`link-view-all-${parent.id}`}
-                    >
-                      View all <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <div className="h-5 w-1 bg-primary rounded-full" />
+                    <h2 className="text-lg sm:text-xl font-bold tracking-tight text-foreground">{parent.name}</h2>
                   </div>
 
                   {parent.description && (
