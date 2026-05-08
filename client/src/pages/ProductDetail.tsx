@@ -799,7 +799,7 @@ export default function ProductDetail() {
               <Link href={category?.slug ? `/collections/${category.slug}` : "/categories"}>View all</Link>
             </Button>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {relatedProducts.map((p: any) => (
               <ProductCard key={p.id} product={p} />
             ))}

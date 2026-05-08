@@ -111,7 +111,7 @@ export default function CategoryCollection() {
       <div>
         <Skeleton className="w-full h-40 sm:h-52 rounded-none" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-3 md:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-5">
             {Array.from({ length: 8 }).map((_, i) => (
               <Skeleton key={i} className="h-72 rounded-2xl" />
             ))}
