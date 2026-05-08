@@ -450,15 +450,12 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Scrollable category bubbles */}
-            <div className="relative -mx-4 sm:mx-0">
-              {/* Fade hint on right edge (mobile only) */}
-              <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-muted/60 to-transparent pointer-events-none z-10 sm:hidden" />
-
+            {/* Category bubbles — 4-col grid on mobile, centered row on desktop */}
+            <div className="relative">
               <div
                 ref={categoriesScrollRef}
-                className="flex gap-3 sm:gap-6 overflow-x-auto scroll-smooth px-4 sm:px-10 pt-2 pb-3 sm:justify-center"
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+                className="grid grid-cols-4 place-items-center gap-x-3 gap-y-5 sm:flex sm:flex-row sm:justify-center sm:gap-6 sm:overflow-x-auto sm:scroll-smooth pt-2 pb-3"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
               >
                 {isCategoriesLoading ? (
                   Array.from({ length: 8 }).map((_, i) => (
