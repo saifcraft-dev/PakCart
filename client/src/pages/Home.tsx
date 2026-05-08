@@ -450,17 +450,17 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Category bubbles — 4-col grid on mobile, centered row on desktop */}
+            {/* Category bubbles — 4-col grid on mobile, 5-col grid on tablet, centered row on desktop */}
             <div className="relative">
               <div
                 ref={categoriesScrollRef}
-                className="grid grid-cols-4 place-items-center gap-x-3 gap-y-5 sm:flex sm:flex-row sm:justify-center sm:gap-6 sm:overflow-x-auto sm:scroll-smooth pt-2 pb-3"
+                className="grid grid-cols-4 place-items-center gap-x-3 gap-y-5 sm:grid-cols-5 sm:gap-x-4 sm:gap-y-6 lg:flex lg:flex-row lg:justify-center lg:gap-6 lg:overflow-x-auto lg:scroll-smooth pt-2 pb-3"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
               >
                 {isCategoriesLoading ? (
-                  Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className="flex-none flex flex-col items-center gap-2">
-                      <Skeleton className="w-[68px] h-[68px] sm:w-24 sm:h-24 rounded-full" />
+                  Array.from({ length: 10 }).map((_, i) => (
+                    <div key={i} className="flex flex-col items-center gap-2">
+                      <Skeleton className="w-[68px] h-[68px] sm:w-[88px] sm:h-[88px] lg:w-24 lg:h-24 rounded-full" />
                       <Skeleton className="h-3 w-14 rounded" />
                     </div>
                   ))
@@ -476,7 +476,7 @@ export default function Home() {
                     const optimizedImg = getOptimizedImageUrl(categoryImage, { width: 192, height: 192, crop: "fill" });
                     return (
                       <Link key={category.id} href={linkHref} className="flex-none flex flex-col items-center gap-2 group cursor-pointer">
-                        <div className="relative w-[68px] h-[68px] sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
+                        <div className="relative w-[68px] h-[68px] sm:w-[88px] sm:h-[88px] lg:w-24 lg:h-24 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
                           <img
                             src={optimizedImg}
                             alt={category.name}
@@ -487,7 +487,7 @@ export default function Home() {
                           />
                           <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300 rounded-full" />
                         </div>
-                        <span className="text-[10px] sm:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight w-[72px] sm:w-[100px] line-clamp-2">
+                        <span className="text-[10px] sm:text-[11px] lg:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight w-[72px] sm:w-[96px] lg:w-[100px] line-clamp-2">
                           {category.name}
                         </span>
                       </Link>
