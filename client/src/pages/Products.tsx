@@ -35,11 +35,15 @@ import { useDropshipperStatus } from "@/hooks/use-dropshipper-status";
 
 type SortOption = "featured" | "price-low" | "price-high" | "newest";
 
+function getInitialCount() {
+  return window.innerWidth >= 1024 ? 24 : 16;
+}
+
 export default function Products() {
   const [location] = useLocation();
   const search = useSearch();
   const { isApprovedDropshipper } = useDropshipperStatus();
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [visibleCount, setVisibleCount] = useState(getInitialCount);
   const [sortBy, setSortBy] = useState<SortOption>("featured");
   const [filterState, setFilterState] = useState<FilterState>(() => {
     const params = new URLSearchParams(window.location.search);
@@ -140,7 +144,8 @@ export default function Products() {
   }, [filteredAndSortedProducts, visibleCount]);
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + 10, filteredAndSortedProducts.length));
+    const increment = window.innerWidth >= 1024 ? 24 : 16;
+    setVisibleCount((prev) => Math.min(prev + increment, filteredAndSortedProducts.length));
   };
 
   useEffect(() => {
@@ -151,7 +156,7 @@ export default function Products() {
 
   const handleFilterChange = (newFilters: FilterState) => {
     setFilterState(newFilters);
-    setVisibleCount(10);
+    setVisibleCount(getInitialCount());
   };
 
   const handleExportAll = () => {
@@ -348,7 +353,7 @@ export default function Products() {
                     variant="outline"
                     className="min-w-[240px] h-12 rounded-full border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 shadow-sm"
                   >
-                    Explore More Items
+                    Show More
                   </Button>
                 </div>
               )}

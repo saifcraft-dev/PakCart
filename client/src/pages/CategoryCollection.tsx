@@ -50,11 +50,15 @@ function getCategoryImage(name: string, fallback?: string): string {
 
 type SortOption = "featured" | "price-low" | "price-high" | "newest";
 
+function getInitialCount() {
+  return window.innerWidth >= 1024 ? 24 : 16;
+}
+
 export default function CategoryCollection() {
   const params = useParams<{ slug: string }>();
   const slug = params?.slug || "";
   const [sortBy, setSortBy] = useState<SortOption>("featured");
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] = useState(getInitialCount);
   const [aboutOpen, setAboutOpen] = useState(false);
 
   const { data: category, isLoading: categoryLoading } = useQuery<Category>({
@@ -338,12 +342,12 @@ export default function CategoryCollection() {
                   Showing {visibleProducts.length} of {filteredAndSortedProducts.length}
                 </p>
                 <Button
-                  onClick={() => setVisibleCount(prev => prev + 12)}
+                  onClick={() => setVisibleCount(prev => prev + (window.innerWidth >= 1024 ? 24 : 16))}
                   variant="outline"
                   className="px-12 rounded-full text-sm font-medium border-border/60 hover:border-primary hover:text-primary transition-colors"
                   data-testid="button-load-more"
                 >
-                  Load More
+                  Show More
                 </Button>
               </div>
             )}
