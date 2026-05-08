@@ -531,7 +531,7 @@ export default function Home() {
               </motion.div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8">
               {isNewArrivalsLoading ? (
                 Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="space-y-4">
@@ -618,7 +618,7 @@ export default function Home() {
                 </div>
 
                 {isAllProductsLoading ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8">
                     {Array.from({ length: 6 }).map((_, i) => (
                       <div key={i} className="space-y-4">
                         <Skeleton className="h-[300px] w-full rounded-2xl" />
@@ -628,7 +628,7 @@ export default function Home() {
                     ))}
                   </div>
                 ) : hasProducts ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 sm:gap-8">
                     {visibleProducts.map((product) => (
                       <ProductCard key={product.id} product={product} />
                     ))}
