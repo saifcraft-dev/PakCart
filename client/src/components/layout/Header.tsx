@@ -140,15 +140,15 @@ const Header = () => {
             : "bg-white/95 backdrop-blur-xl shadow-sm border-b border-gray-100"
         )}
       >
-        <div className="container mx-auto px-6 relative">
-          <div className="grid grid-cols-3 items-center h-20">
+        <div className="container mx-auto px-3 xl:px-6 relative">
+          <div className="grid grid-cols-3 items-center h-16 xl:h-20">
             {/* LEFT: Logo */}
             <div className="flex items-center">
               <Link href="/" data-testid="header-logo-link">
                 <img
                   src={logoImg}
                   alt="PakCart"
-                  className="h-10 w-auto transition-all duration-300"
+                  className="h-8 xl:h-10 w-auto transition-all duration-300"
                   width="140"
                   height="40"
                 />
@@ -156,7 +156,7 @@ const Header = () => {
             </div>
 
             {/* CENTER: Nav links */}
-            <nav className="flex items-center justify-center gap-5">
+            <nav className="flex items-center justify-center gap-2 xl:gap-5">
               {NAV_LINKS_LEFT.map((link) => {
                 const isActive = location === link.href;
                 return (
@@ -167,7 +167,7 @@ const Header = () => {
                   >
                     <span
                       className={cn(
-                        "relative text-sm font-medium uppercase tracking-normal whitespace-nowrap transition-colors duration-200 py-1",
+                        "relative text-[11px] xl:text-sm font-medium uppercase tracking-tight xl:tracking-normal whitespace-nowrap transition-colors duration-200 py-1",
                         "text-gray-700 hover:text-green-700",
                         isActive && "text-green-700"
                       )}
@@ -187,7 +187,7 @@ const Header = () => {
                 onMouseEnter={handleMegaMouseEnter}
                 onMouseLeave={handleMegaMouseLeave}
                 className={cn(
-                  "flex items-center gap-1 text-sm font-medium uppercase tracking-normal whitespace-nowrap transition-colors duration-200 py-1 text-gray-700 hover:text-green-700",
+                  "flex items-center gap-0.5 xl:gap-1 text-[11px] xl:text-sm font-medium uppercase tracking-tight xl:tracking-normal whitespace-nowrap transition-colors duration-200 py-1 text-gray-700 hover:text-green-700",
                   isMegaOpen && "text-green-700"
                 )}
                 aria-expanded={isMegaOpen}
@@ -196,7 +196,7 @@ const Header = () => {
                 Categories
                 <ChevronDown
                   className={cn(
-                    "h-3.5 w-3.5 transition-transform duration-200",
+                    "h-3 w-3 xl:h-3.5 xl:w-3.5 transition-transform duration-200",
                     isMegaOpen && "rotate-180"
                   )}
                 />
@@ -212,7 +212,7 @@ const Header = () => {
                   >
                     <span
                       className={cn(
-                        "relative text-sm font-medium uppercase tracking-normal whitespace-nowrap transition-colors duration-200 py-1",
+                        "relative text-[11px] xl:text-sm font-medium uppercase tracking-tight xl:tracking-normal whitespace-nowrap transition-colors duration-200 py-1",
                         "text-gray-700 hover:text-green-700",
                         isActive && "text-green-700"
                       )}
@@ -228,31 +228,31 @@ const Header = () => {
             </nav>
 
             {/* RIGHT: Icons */}
-            <div className="flex items-center justify-end gap-1">
+            <div className="flex items-center justify-end gap-0.5 xl:gap-1">
               {/* Search */}
               <button
                 type="button"
                 onClick={() => setIsSearchOpen(true)}
-                className="w-10 h-10 flex items-center justify-center rounded-full transition-colors text-gray-600 hover:bg-gray-100 hover:text-green-700"
+                className="w-8 h-8 xl:w-10 xl:h-10 flex items-center justify-center rounded-full transition-colors text-gray-600 hover:bg-gray-100 hover:text-green-700"
                 aria-label="Open search"
                 data-testid="header-search-btn"
               >
-                <Search className="h-5 w-5" />
+                <Search className="h-4 w-4 xl:h-5 xl:w-5" />
               </button>
 
               {/* Cart */}
               <Link href="/cart" data-testid="header-cart-link">
                 <button
                   type="button"
-                  className="relative w-10 h-10 flex items-center justify-center rounded-full transition-colors text-gray-600 hover:bg-gray-100 hover:text-green-700"
+                  className="relative w-8 h-8 xl:w-10 xl:h-10 flex items-center justify-center rounded-full transition-colors text-gray-600 hover:bg-gray-100 hover:text-green-700"
                   aria-label="Cart"
                   data-testid="header-cart-btn"
                 >
-                  <ShoppingBag className="h-5 w-5" />
+                  <ShoppingBag className="h-4 w-4 xl:h-5 xl:w-5" />
                   {totalItems > 0 && (
                     <span
                       className={cn(
-                        "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-green-600 text-white text-[10px] font-bold flex items-center justify-center transition-transform",
+                        "absolute -top-1 -right-1 min-w-[16px] h-[16px] px-0.5 rounded-full bg-green-600 text-white text-[9px] font-bold flex items-center justify-center transition-transform",
                         cartBadgePulse && "animate-bounce"
                       )}
                       data-testid="cart-badge"
@@ -269,7 +269,7 @@ const Header = () => {
                   <DropdownMenuTrigger asChild>
                     <button
                       type="button"
-                      className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all ml-1 bg-green-100 text-green-700 hover:bg-green-200"
+                      className="w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center font-semibold text-xs xl:text-sm transition-all ml-1 bg-green-100 text-green-700 hover:bg-green-200"
                       aria-label="User menu"
                       data-testid="header-user-avatar"
                     >
@@ -311,16 +311,19 @@ const Header = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <div className="flex items-center gap-2 ml-1">
+                <div className="flex items-center gap-1 xl:gap-2 ml-1">
                   <Link href="/auth/login" data-testid="header-login-link">
-                    <span className="text-sm font-medium transition-colors cursor-pointer text-gray-700 hover:text-green-700">
+                    <span className="text-[11px] xl:text-sm font-medium transition-colors cursor-pointer text-gray-700 hover:text-green-700 hidden xl:inline">
                       Log In
+                    </span>
+                    <span className="w-8 h-8 xl:hidden flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-700">
+                      <User className="h-4 w-4" />
                     </span>
                   </Link>
                   <Link href="/auth/signup" data-testid="header-signup-link">
                     <Button
                       size="sm"
-                      className="rounded-full px-5 bg-green-600 hover:bg-green-700 text-white font-medium"
+                      className="rounded-full px-3 xl:px-5 text-[11px] xl:text-sm bg-green-600 hover:bg-green-700 text-white font-medium h-8 xl:h-9"
                     >
                       Sign Up
                     </Button>
