@@ -30,7 +30,7 @@ import { productFirestoreService } from "@/services/productFirestoreService";
 import { categoryFirestoreService } from "@/services/categoryFirestoreService";
 import type { Category } from "@shared/schema";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
-import { SlidersHorizontal, ChevronDown } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, Truck, RotateCcw, Banknote, ShieldCheck } from "lucide-react";
 
 const bagsCategoryImage = "https://res.cloudinary.com/dftvtsjcg/image/upload/v1772789701/ChatGPT_Image_Mar_6_2026_02_15_28_PM_1_t8uwak.png";
 const slippersCategoryImage = "https://res.cloudinary.com/dftvtsjcg/image/upload/v1772789698/ChatGPT_Image_Mar_6_2026_02_15_30_PM_1_glrglb.png";
@@ -226,41 +226,46 @@ export default function CategoryCollection() {
         </div>
       </div>
 
-      {/* Trust badge strip */}
-      <div className="bg-primary/5 border-b border-primary/10">
+      {/* Trust badge strip — icon-based, clean */}
+      <div className="border-b border-border/60 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 py-2.5 overflow-x-auto scrollbar-none text-xs font-medium text-foreground/70 whitespace-nowrap">
-            <span className="flex items-center gap-1.5">🚚 Free delivery over Rs. 10,000</span>
-            <span className="hidden sm:block text-border">|</span>
-            <span className="flex items-center gap-1.5">↩️ 7-day easy returns</span>
-            <span className="hidden sm:block text-border">|</span>
-            <span className="flex items-center gap-1.5">💳 Cash on Delivery</span>
-            <span className="hidden sm:block text-border">|</span>
-            <span className="flex items-center gap-1.5">✅ Authentic products</span>
+          <div className="flex items-center justify-start sm:justify-center gap-5 sm:gap-10 py-3 overflow-x-auto whitespace-nowrap"
+            style={{ scrollbarWidth: "none" } as React.CSSProperties}>
+            {[
+              { icon: Truck, label: "Free delivery over Rs. 10,000" },
+              { icon: RotateCcw, label: "7-day easy returns" },
+              { icon: Banknote, label: "Cash on Delivery" },
+              { icon: ShieldCheck, label: "Authentic products" },
+            ].map(({ icon: Icon, label }, i) => (
+              <span key={i} className="flex items-center gap-2 text-[11px] sm:text-xs font-medium text-muted-foreground shrink-0">
+                <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
+                {label}
+              </span>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-10 sm:pt-5">
 
         {/* Sticky toolbar */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border/50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-2.5 mb-5 flex items-center justify-between gap-3">
-          <p className="text-sm text-muted-foreground font-medium shrink-0">
-            {filteredAndSortedProducts.length > 0
-              ? <><span className="font-bold text-foreground">{filteredAndSortedProducts.length}</span> {filteredAndSortedProducts.length !== 1 ? "products" : "product"}</>
-              : null}
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-5 flex items-center justify-between gap-3 border-b border-border/40">
+          <p className="text-sm text-muted-foreground shrink-0">
+            {filteredAndSortedProducts.length > 0 && (
+              <><span className="font-semibold text-foreground">{filteredAndSortedProducts.length}</span> {filteredAndSortedProducts.length !== 1 ? "products" : "product"}</>
+            )}
           </p>
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
             <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
-              <SelectTrigger className="h-8 text-xs w-[150px] sm:w-44" data-testid="select-sort">
+              <SelectTrigger className="h-8 text-xs w-[148px] border-border/50" data-testid="select-sort">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="featured">Featured</SelectItem>
                 <SelectItem value="price-low">Price: Low to High</SelectItem>
                 <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="newest">Newest</SelectItem>
+                <SelectItem value="newest">Newest First</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -268,30 +273,27 @@ export default function CategoryCollection() {
 
         {/* Products grid */}
         {filteredAndSortedProducts.length === 0 ? (
-          <div className="text-center py-20 bg-muted/20 rounded-3xl border-2 border-dashed border-muted-foreground/20">
-            <h3 className="text-xl font-bold mb-2">No products found</h3>
-            <p className="text-muted-foreground">Check back soon for new items in this category.</p>
+          <div className="text-center py-20 rounded-2xl border border-dashed border-muted-foreground/20 bg-muted/10">
+            <p className="text-lg font-semibold text-foreground mb-1">No products found</p>
+            <p className="text-sm text-muted-foreground">Check back soon for new items in this category.</p>
           </div>
         ) : (
           <>
-            <div
-              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 mb-8"
-              data-testid="products-grid"
-            >
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 mb-10" data-testid="products-grid">
               {visibleProducts.map((product) => (
                 <ProductCardComponent key={product.id} product={product} data-testid={`product-card-${product.id}`} />
               ))}
             </div>
 
             {visibleCount < filteredAndSortedProducts.length && (
-              <div className="flex flex-col items-center gap-2 mb-6">
+              <div className="flex flex-col items-center gap-3 mb-8">
                 <p className="text-xs text-muted-foreground">
-                  Showing {visibleProducts.length} of {filteredAndSortedProducts.length} products
+                  Showing {visibleProducts.length} of {filteredAndSortedProducts.length}
                 </p>
                 <Button
                   onClick={() => setVisibleCount(prev => prev + 12)}
                   variant="outline"
-                  className="px-10 rounded-full"
+                  className="px-12 rounded-full text-sm font-medium border-border/60 hover:border-primary hover:text-primary transition-colors"
                   data-testid="button-load-more"
                 >
                   Load More
@@ -301,51 +303,55 @@ export default function CategoryCollection() {
           </>
         )}
 
-        {/* About — collapsed by default */}
-        <div className="mt-8 border rounded-2xl overflow-hidden bg-muted/20">
-          <button
-            onClick={() => setAboutOpen(o => !o)}
-            className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-muted/40 transition-colors"
-          >
-            <span className="text-sm font-semibold text-foreground">About {category.name}</span>
-            <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} />
-          </button>
-          {aboutOpen && (
-            <div className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed space-y-3 border-t pt-4">
-              <p>
-                Welcome to our exclusive {category.name.toLowerCase()} collection at PakCart. We bring you the finest selection of {category.name.toLowerCase()} available online in Pakistan, curated from trusted suppliers across the country.
-              </p>
-              <p>
-                All products undergo quality checks before shipping. We offer free delivery on orders over Rs. 10,000, hassle-free 7-day returns, and secure payment including Cash on Delivery.
-              </p>
+        {/* Divider before meta content */}
+        <div className="border-t border-border/40 pt-8 mt-2 space-y-4">
+
+          {/* About — collapsed */}
+          <div className="rounded-xl border border-border/50 overflow-hidden">
+            <button
+              onClick={() => setAboutOpen(o => !o)}
+              className="w-full flex items-center justify-between px-5 py-4 text-left bg-muted/20 hover:bg-muted/40 transition-colors"
+            >
+              <span className="text-sm font-semibold text-foreground">About {category.name}</span>
+              <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} />
+            </button>
+            {aboutOpen && (
+              <div className="px-5 pb-5 pt-4 text-sm text-muted-foreground leading-relaxed space-y-2.5">
+                <p>
+                  Welcome to our exclusive {category.name.toLowerCase()} collection at PakCart — curated from trusted suppliers across Pakistan with authentic, quality-checked products.
+                </p>
+                <p>
+                  We offer free delivery on orders over Rs. 10,000, hassle-free 7-day returns, and secure payment including Cash on Delivery.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* FAQ */}
+          {filteredAndSortedProducts.length > 0 && (
+            <div>
+              <p className="text-sm font-semibold text-foreground mb-3">Frequently Asked Questions</p>
+              <Accordion type="single" collapsible className="w-full max-w-2xl rounded-xl border border-border/50 overflow-hidden divide-y divide-border/40">
+                {[
+                  { id: "delivery", q: "How long does delivery take?", a: "Orders are dispatched within 24-48 hours and delivered in 3-7 business days. Free shipping on orders over Rs. 10,000." },
+                  { id: "quality", q: "Are the products authentic?", a: `Yes — all ${category.name.toLowerCase()} are sourced from verified suppliers and quality-checked before dispatch.` },
+                  { id: "returns", q: "What is the return policy?", a: "7-day returns on unused items in original packaging. Free return shipping for defective products." },
+                  { id: "payment", q: "What payment methods are accepted?", a: "Visa, Mastercard, bank transfer, and Cash on Delivery. All transactions are encrypted." },
+                  { id: "bulk", q: "Are bulk discounts available?", a: "Yes — email support@pakcart.store for orders of 10 or more items." },
+                ].map(({ id, q, a }) => (
+                  <AccordionItem key={id} value={id} className="border-none">
+                    <AccordionTrigger className="text-sm font-medium px-5 py-3.5 hover:no-underline hover:bg-muted/20 text-left [&>svg]:shrink-0">
+                      {q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-sm leading-relaxed px-5 pb-4">
+                      {a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           )}
         </div>
-
-        {/* FAQ */}
-        {filteredAndSortedProducts.length > 0 && (
-          <section className="mt-6 mb-4">
-            <h2 className="text-base font-bold mb-3 tracking-tight">Frequently Asked Questions</h2>
-            <Accordion type="single" collapsible className="w-full max-w-2xl border rounded-2xl divide-y overflow-hidden">
-              {[
-                { id: "delivery", q: `Shipping options for ${category.name.toLowerCase()}?`, a: "Fast delivery across Pakistan in 3-7 business days. Dispatched within 24-48 hours. Free shipping over Rs. 10,000." },
-                { id: "quality", q: `Are the products authentic?`, a: `Yes — all ${category.name.toLowerCase()} are sourced from trusted suppliers and quality-checked before shipping.` },
-                { id: "returns", q: "Return & exchange policy?", a: "7-day returns on unused items in original packaging. Free return shipping on defective products." },
-                { id: "payment", q: "Payment methods accepted?", a: "Visa, Mastercard, bank transfer, and Cash on Delivery. All payments are encrypted and secure." },
-                { id: "bulk", q: "Bulk order discounts?", a: "Yes — contact support@pakcart.store for orders of 10+ items." },
-              ].map(({ id, q, a }) => (
-                <AccordionItem key={id} value={id} className="border-none px-1">
-                  <AccordionTrigger className="text-sm font-medium py-3.5 hover:no-underline text-left pr-2">
-                    {q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-4">
-                    {a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </section>
-        )}
       </div>
     </div>
   );
