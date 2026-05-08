@@ -703,7 +703,7 @@ Generate exactly these sections in this order:
 3. Short Description — Concise and sales-focused, 15–25 words max, hook-driven opening.
 4. Long Description — Persuasive and structured, 70–150 words max. Must include a "Product Details" subsection heading. Combine emotional appeal with practical benefits. Sound premium, clear, trustworthy.
 5. Key Features — 3 to 5 features. Each 4–6 words max. Benefit-oriented and punchy. Bold the most important words.
-6. Category — Pick the SINGLE BEST matching category for this product from the "Available Categories" list given in CONTEXT. Write the category name EXACTLY as it appears in that list (case and punctuation must match). If the list is missing or no match fits, write "Uncategorized".
+6. Category — Pick the SINGLE BEST matching category for this product from the "Available Categories" list given in CONTEXT. Write the category name EXACTLY as it appears in that list (case and punctuation must match). If no category from the list fits well, invent a SHORT, clear category name (2–4 words max) that best describes this type of product — e.g. "Home Storage", "Kids Toys", "Tech Accessories". Do NOT write "Uncategorized".
 7. Variant Groups — All variant axes that apply (Color, Size, Material, etc.). One line per axis in the format \`- AxisName: option1, option2, option3\`. Output every detected axis. If no variants at all, write "No variants specified".
 
 STRICT RULES:
@@ -757,7 +757,7 @@ OUTPUT FORMAT — return EXACTLY in this template, nothing else, no preamble, no
 - **[Feature 3 - 4–6 words]**
 
 **Category:**
-[exact category name from Available Categories list, or "Uncategorized"]
+[exact category name from Available Categories list, or a short new category name if none fit]
 
 **Variant Groups:**
 - Color: [opt1], [opt2], [opt3]

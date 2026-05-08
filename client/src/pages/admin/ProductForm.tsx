@@ -276,6 +276,7 @@ export default function AdminProductForm() {
         form.setValue("categoryId", String(match.id), { shouldValidate: true, shouldDirty: true });
         categoryApplied = match.name;
       } else {
+        console.log("[AI] No matching category found for:", result.category, "— creating new category");
         try {
           const newSlug = result.category
             .toLowerCase()
