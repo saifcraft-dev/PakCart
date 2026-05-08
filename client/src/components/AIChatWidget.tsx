@@ -112,7 +112,7 @@ Key pages to direct users to:
 - Create account: /auth/signup
 - About PakCart / brand story: /about
 - Privacy policy: /privacy
-- Terms & return policy: /terms (Section 4 = Shipping & Returns, 7-day return window)
+- Terms & shipping policy: /terms (Section 4 = Shipping & Returns)
 - Get your own custom eCommerce website built (one-time Rs 45,000 — single Standard plan, lifetime free hosting + emails, 1-month delivery, no Shopify/WordPress, no monthly fees). For custom/larger scope, WhatsApp +92 318 8055850 for a tailored quote: /web-development
 - Become a reseller / dropshipper: /dropshipper  (approved sellers' dashboard: /dropshipper/dashboard)
 - Contact / WhatsApp / email: /contact

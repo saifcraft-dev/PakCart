@@ -48,7 +48,7 @@ export default function Terms() {
           <h2 className="text-2xl font-serif text-emerald-800">4. Shipping & Returns</h2>
           <p>
             We offer nationwide delivery across Pakistan. Standard delivery times are 3-5 business days. 
-            Returns are accepted within 7 days of delivery for unused items in original packaging. 
+            If a product arrives damaged or defective, contact us at support@pakcart.store with photos and your order number and we will arrange a replacement.
             Perishable food items are not eligible for returns unless damaged during transit.
           </p>
         </section>

@@ -276,7 +276,7 @@ export default function ProductDetail() {
     { question: "What is the sizing or fit information for this product?", answer: "Check the specifications and size chart above for detailed dimensions and sizing information. If you need personalized assistance with sizing, please contact our support team at support@pakcart.store." },
     { question: "How can I verify the authenticity of this product?", answer: "All products sold on PakCart are authentic and sourced directly from authorized suppliers. We guarantee the authenticity of every item." },
     { question: "How long does shipping take?", answer: "Delivery times vary by location within Pakistan. Typically, orders are delivered within 3-7 business days from the date of dispatch. Orders are usually dispatched within 24-48 hours." },
-    { question: "Can I return this product?", answer: "Yes, we offer a 7-day return/exchange policy. The product must be unused, in original packaging, and in resalable condition. Return shipping is free for defective items." },
+    { question: "What if my product arrives damaged?", answer: "If your product arrives damaged, please contact us immediately at support@pakcart.store with photos and your order number. We will arrange a replacement as per our policy." },
     { question: "Is customization available for this product?", answer: "Customization options depend on the specific product. Check the product options above to see available variants. For special customization requests, please contact our team at support@pakcart.store." },
     { question: "How can I leave a review for this product?", answer: "You can leave a review in the Customer Reviews tab above. Share your experience with the product, rate it from 1-5 stars, and help other customers make informed decisions." },
     { question: "Are there any discounts for first-time buyers?", answer: "We frequently offer promotions and seasonal discounts. Sign up for our newsletter to receive the latest updates on exclusive deals and offers for our valued customers." },
@@ -287,7 +287,7 @@ export default function ProductDetail() {
     <div className="container mx-auto px-4 py-8">
       <SEO 
         title={`${product.name} | Buy Online in Pakistan - PakCart`} 
-        description={`${product.description.substring(0, 150)}... Buy ${product.name} at the best price in Pakistan. Fast shipping and 7-day easy returns.`}
+        description={`${product.description.substring(0, 150)}... Buy ${product.name} at the best price in Pakistan. Fast shipping and Cash on Delivery available.`}
         url={`https://pakcart.store/products/${product.slug}`}
         type="product"
         image={images[0]}
@@ -756,10 +756,10 @@ export default function ProductDetail() {
 
                 <AccordionItem value="return-policy">
                   <AccordionTrigger className="text-lg font-semibold">
-                    Can I return this product?
+                    What if my product arrives damaged?
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground leading-relaxed">
-                    Yes, we offer a 7-day return/exchange policy. The product must be unused, in original packaging, and in resalable condition. Return shipping is free for defective items. To initiate a return, please contact our support team with your order number and reason for return.
+                    If your product arrives damaged or defective, please contact us immediately at support@pakcart.store with photos and your order number. We will arrange a replacement as quickly as possible.
                   </AccordionContent>
                 </AccordionItem>
 

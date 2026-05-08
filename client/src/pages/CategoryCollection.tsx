@@ -152,9 +152,8 @@ export default function CategoryCollection() {
         faqs={[
           { question: `What are the shipping options for ${category.name.toLowerCase()}?`, answer: "We offer fast and reliable shipping across Pakistan. Orders are typically dispatched within 24-48 hours. Delivery times vary by location, usually 3-7 business days. We provide free shipping on orders over Rs. 10,000." },
           { question: `Are the ${category.name.toLowerCase()} authentic and of good quality?`, answer: `Yes, all our ${category.name.toLowerCase()} are carefully selected for quality and authenticity. Each product goes through our quality checks to ensure it meets our standards.` },
-          { question: "What is your return and exchange policy?", answer: "We offer a 7-day return/exchange policy on all products. Items must be unused and in original packaging. Return shipping is free for defective items." },
+          { question: "What payment methods do you accept?", answer: "We accept Cash on Delivery (COD), credit/debit cards (Visa, Mastercard), and bank transfers. All transactions are secure and encrypted." },
           { question: `Do the ${category.name.toLowerCase()} come with a warranty?`, answer: `Warranty availability depends on the specific product and manufacturer. Check the product details page for warranty information.` },
-          { question: "What payment methods do you accept?", answer: "We accept credit/debit cards (Visa, Mastercard), bank transfers, and cash on delivery. All transactions are secure and encrypted." },
           { question: `Do you offer bulk discounts on ${category.name.toLowerCase()}?`, answer: "Yes, we offer special pricing for bulk orders of 10+ items. Contact support@pakcart.store for a custom quote." },
         ]}
         schema={{
@@ -263,7 +262,6 @@ export default function CategoryCollection() {
             style={{ scrollbarWidth: "none" } as React.CSSProperties}>
             {[
               { icon: Truck, label: "Free delivery over Rs. 10,000" },
-              { icon: RotateCcw, label: "7-day easy returns" },
               { icon: Banknote, label: "Cash on Delivery" },
               { icon: ShieldCheck, label: "Authentic products" },
             ].map(({ icon: Icon, label }, i) => (
@@ -351,7 +349,7 @@ export default function CategoryCollection() {
                   Welcome to our exclusive {category.name.toLowerCase()} collection at PakCart — curated from trusted suppliers across Pakistan with authentic, quality-checked products.
                 </p>
                 <p>
-                  We offer free delivery on orders over Rs. 10,000, hassle-free 7-day returns, and secure payment including Cash on Delivery.
+                  We offer free delivery on orders over Rs. 10,000 and secure payment including Cash on Delivery.
                 </p>
               </div>
             )}
@@ -365,8 +363,7 @@ export default function CategoryCollection() {
                 {[
                   { id: "delivery", q: "How long does delivery take?", a: "Orders are dispatched within 24-48 hours and delivered in 3-7 business days. Free shipping on orders over Rs. 10,000." },
                   { id: "quality", q: "Are the products authentic?", a: `Yes — all ${category.name.toLowerCase()} are sourced from verified suppliers and quality-checked before dispatch.` },
-                  { id: "returns", q: "What is the return policy?", a: "7-day returns on unused items in original packaging. Free return shipping for defective products." },
-                  { id: "payment", q: "What payment methods are accepted?", a: "Visa, Mastercard, bank transfer, and Cash on Delivery. All transactions are encrypted." },
+                  { id: "payment", q: "What payment methods are accepted?", a: "We accept Cash on Delivery (COD), Visa, Mastercard, and bank transfer. All transactions are encrypted." },
                   { id: "bulk", q: "Are bulk discounts available?", a: "Yes — email support@pakcart.store for orders of 10 or more items." },
                 ].map(({ id, q, a }) => (
                   <AccordionItem key={id} value={id} className="border-none">

@@ -85,7 +85,7 @@ export default function Categories() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Shop by Category — Bags, Jewelry, Shoes, Watches, Stitched Dresses & Tech Gadgets"
-        description="Explore PakCart by category — bags & wallets, jewelry, shoes, slippers, stitched dresses, watches and tech gadgets. Cash on Delivery, easy returns and fast nationwide shipping in Pakistan."
+        description="Explore PakCart by category — bags & wallets, jewelry, shoes, slippers, stitched dresses, watches and tech gadgets. Cash on Delivery and fast nationwide shipping in Pakistan."
         keywords="shop by category pakistan, bags and wallets, jewelry pakistan, shoes pakistan, slippers, stitched dresses, watches pakistan, tech gadgets"
         url="https://pakcart.store/categories"
         robots="index,follow"

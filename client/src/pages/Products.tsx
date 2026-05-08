@@ -164,7 +164,7 @@ export default function Products() {
     <div className="container mx-auto px-4 py-8">
       <SEO 
         title="Shop All Products — Bags, Jewelry, Shoes, Watches, Stitched Dresses & Tech Gadgets"
-        description="Browse PakCart's complete collection — bags & wallets, jewelry, shoes, slippers, stitched dresses, watches and tech gadgets. Cash on Delivery, easy returns and fast nationwide shipping in Pakistan."
+        description="Browse PakCart's complete collection — bags & wallets, jewelry, shoes, slippers, stitched dresses, watches and tech gadgets. Cash on Delivery and fast nationwide shipping in Pakistan."
         keywords="shop online pakistan, bags and wallets, jewelry, shoes, slippers, stitched dresses, watches, tech gadgets, cash on delivery"
         url="https://pakcart.store/products"
         robots="index,follow"
