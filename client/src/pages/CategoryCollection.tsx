@@ -279,7 +279,7 @@ export default function CategoryCollection() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 mb-10" data-testid="products-grid">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3 mb-10" data-testid="products-grid">
               {visibleProducts.map((product) => (
                 <ProductCardComponent key={product.id} product={product} data-testid={`product-card-${product.id}`} />
               ))}
