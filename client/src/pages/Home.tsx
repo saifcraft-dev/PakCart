@@ -463,14 +463,14 @@ export default function Home() {
 
               <div
                 ref={categoriesScrollRef}
-                className="flex gap-3 sm:gap-4 overflow-x-auto scroll-smooth sm:px-10"
+                className="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth sm:px-10 justify-center"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
               >
                 {isCategoriesLoading ? (
                   Array.from({ length: 8 }).map((_, i) => (
                     <div key={i} className="flex-none flex flex-col items-center gap-2">
-                      <Skeleton className="w-16 h-16 sm:w-20 sm:h-20 rounded-full" />
-                      <Skeleton className="h-3 w-14 rounded" />
+                      <Skeleton className="w-20 h-20 sm:w-24 sm:h-24 rounded-full" />
+                      <Skeleton className="h-3 w-16 rounded" />
                     </div>
                   ))
                 ) : (
@@ -482,21 +482,21 @@ export default function Home() {
                     else if (category.name.toLowerCase().includes("eid special")) categoryImage = eidSpecialImage;
                     else if (category.name.toLowerCase().includes("watches")) categoryImage = watchesImage;
                     const linkHref = `/collections/${category.slug || String(category.id)}`;
-                    const optimizedImg = getOptimizedImageUrl(categoryImage, { width: 160, height: 160, crop: "fill" });
+                    const optimizedImg = getOptimizedImageUrl(categoryImage, { width: 192, height: 192, crop: "fill" });
                     return (
-                      <Link key={category.id} href={linkHref} className="flex-none flex flex-col items-center gap-1.5 group cursor-pointer">
-                        <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
+                      <Link key={category.id} href={linkHref} className="flex-none flex flex-col items-center gap-2 group cursor-pointer">
+                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-primary transition-all duration-300 shadow-sm group-hover:shadow-md group-hover:scale-105 transform">
                           <img
                             src={optimizedImg}
                             alt={category.name}
-                            width="80"
-                            height="80"
+                            width="96"
+                            height="96"
                             loading={index < 4 ? "eager" : "lazy"}
                             className="w-full h-full object-cover"
                           />
                           <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300 rounded-full" />
                         </div>
-                        <span className="text-[10px] sm:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight max-w-[72px] sm:max-w-[88px] line-clamp-2">
+                        <span className="text-[11px] sm:text-xs font-semibold text-center text-foreground/80 group-hover:text-primary transition-colors duration-200 leading-tight max-w-[88px] sm:max-w-[100px] line-clamp-2">
                           {category.name}
                         </span>
                       </Link>
