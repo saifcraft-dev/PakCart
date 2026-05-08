@@ -457,7 +457,7 @@ export default function Home() {
 
               <div
                 ref={categoriesScrollRef}
-                className="flex gap-3 sm:gap-6 overflow-x-auto scroll-smooth px-4 sm:px-10 pt-2 pb-3"
+                className="flex gap-3 sm:gap-6 overflow-x-auto scroll-smooth px-4 sm:px-10 pt-2 pb-3 sm:justify-center"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
               >
                 {isCategoriesLoading ? (
