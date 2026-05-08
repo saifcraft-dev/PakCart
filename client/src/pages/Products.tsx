@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter, SlidersHorizontal, FileDown, Download } from "lucide-react";
+import { Filter, SlidersHorizontal, FileDown, Download, Truck, Banknote, ShieldCheck } from "lucide-react";
 import { Filters, type FilterState } from "@/components/products/Filters";
 import { useQuery } from "@tanstack/react-query";
 import { productFirestoreService } from "@/services/productFirestoreService";
@@ -190,6 +190,46 @@ export default function Products() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+
+      {/* Trust badge strip */}
+      <div className="border border-border/60 rounded-2xl bg-muted/20 overflow-hidden mb-8">
+        {/* Mobile: auto-scrolling marquee */}
+        <div className="flex sm:hidden py-3 overflow-hidden">
+          <div className="flex animate-marquee gap-10 whitespace-nowrap">
+            {[
+              { icon: Truck, label: "Free Delivery", sub: "Orders over Rs. 10,000" },
+              { icon: Banknote, label: "Cash on Delivery", sub: "Pay when you receive" },
+              { icon: ShieldCheck, label: "Authentic Products", sub: "100% genuine quality" },
+              { icon: Truck, label: "Free Delivery", sub: "Orders over Rs. 10,000" },
+              { icon: Banknote, label: "Cash on Delivery", sub: "Pay when you receive" },
+              { icon: ShieldCheck, label: "Authentic Products", sub: "100% genuine quality" },
+            ].map(({ icon: Icon, label, sub }, i) => (
+              <span key={i} className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground shrink-0">
+                <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+        {/* Tablet & Desktop: static row */}
+        <div className="hidden sm:flex items-center justify-center gap-12 py-4 px-6">
+          {[
+            { icon: Truck, label: "Free Delivery", sub: "Orders over Rs. 10,000" },
+            { icon: Banknote, label: "Cash on Delivery", sub: "Pay when you receive" },
+            { icon: ShieldCheck, label: "Authentic Products", sub: "100% genuine quality" },
+          ].map(({ icon: Icon, label, sub }, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full border border-border/60 flex items-center justify-center shrink-0">
+                <Icon className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground leading-tight">{label}</p>
+                <p className="text-xs text-muted-foreground">{sub}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Mobile Filter Trigger */}
