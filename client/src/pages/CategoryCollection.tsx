@@ -30,7 +30,7 @@ import { productFirestoreService } from "@/services/productFirestoreService";
 import { categoryFirestoreService } from "@/services/categoryFirestoreService";
 import type { Category } from "@shared/schema";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
-import { SlidersHorizontal, ChevronDown, Truck, RotateCcw, Banknote, ShieldCheck } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, Truck, RotateCcw, Banknote, ShieldCheck, ArrowRight, Tag } from "lucide-react";
 
 const bagsCategoryImage = "https://res.cloudinary.com/dftvtsjcg/image/upload/v1772789701/ChatGPT_Image_Mar_6_2026_02_15_28_PM_1_t8uwak.png";
 const slippersCategoryImage = "https://res.cloudinary.com/dftvtsjcg/image/upload/v1772789698/ChatGPT_Image_Mar_6_2026_02_15_30_PM_1_glrglb.png";
@@ -190,39 +190,74 @@ export default function CategoryCollection() {
         }}
       />
 
-      {/* Hero banner — taller on mobile for impact */}
-      <div className="relative w-full h-48 sm:h-56 md:h-64 overflow-hidden">
+      {/* ── Hero ── */}
+      <div className="relative w-full h-52 sm:h-64 md:h-80 lg:h-[420px] overflow-hidden">
+        {/* Background image */}
         <img
           src={optimizedHero}
           alt={category.name}
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105 transition-transform duration-[8s] ease-out"
+          style={{ transformOrigin: "center" }}
         />
-        {/* Gradient: strong at bottom for text legibility, lighter at top */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-        <div className="absolute inset-0 flex flex-col justify-end pb-5 sm:pb-7">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <Breadcrumb className="mb-2">
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/" className="text-white/65 hover:text-white text-[11px]">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="text-white/40" />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/categories" className="text-white/65 hover:text-white text-[11px]">Categories</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="text-white/40" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="text-white text-[11px] font-medium">{category.name}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight drop-shadow-lg">
+
+        {/* Mobile: bottom-up dark veil */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/5 md:hidden" />
+
+        {/* Desktop: left-panel gradient — strong dark zone on left, transparent on right */}
+        <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
+        {/* Desktop: subtle bottom veil for depth */}
+        <div className="absolute inset-0 hidden md:block bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+
+        {/* Content */}
+        <div className="absolute inset-0 flex flex-col justify-end md:justify-center">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-6 md:pb-0 md:max-w-2xl lg:max-w-3xl md:mr-auto">
+
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-1.5 mb-3 md:mb-4">
+              <a href="/" className="text-white/55 hover:text-white/90 text-[11px] transition-colors">Home</a>
+              <span className="text-white/35 text-[11px]">/</span>
+              <a href="/categories" className="text-white/55 hover:text-white/90 text-[11px] transition-colors">Categories</a>
+              <span className="text-white/35 text-[11px]">/</span>
+              <span className="text-white/85 text-[11px] font-medium">{category.name}</span>
+            </div>
+
+            {/* Category label pill */}
+            <div className="inline-flex items-center gap-1.5 bg-primary/80 backdrop-blur-sm text-white text-[10px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full mb-3 md:mb-4">
+              <Tag className="w-2.5 h-2.5" />
+              Collection
+            </div>
+
+            {/* Title */}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight drop-shadow-xl mb-2 md:mb-3">
               {category.name}
             </h1>
-            {category.description && (
-              <p className="text-white/75 text-xs sm:text-sm mt-1 max-w-lg line-clamp-1 sm:line-clamp-2">{category.description}</p>
-            )}
+
+            {/* Description */}
+            <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed max-w-sm md:max-w-md line-clamp-2 mb-4 md:mb-6">
+              {category.description || `Explore our curated ${category.name.toLowerCase()} collection — quality products at the best prices in Pakistan.`}
+            </p>
+
+            {/* Stats + CTA row */}
+            <div className="flex items-center gap-3 flex-wrap">
+              {filteredAndSortedProducts.length > 0 && (
+                <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                  {filteredAndSortedProducts.length} Products
+                </span>
+              )}
+              <a
+                href="#products-grid"
+                className="inline-flex items-center gap-1.5 bg-white text-foreground text-xs font-bold px-4 py-2 rounded-full hover:bg-primary hover:text-white transition-all duration-200 shadow-lg hover:shadow-primary/30 hover:gap-2"
+              >
+                Shop Now <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
+        </div>
+
+        {/* Desktop: decorative right-side image frame */}
+        <div className="absolute right-0 top-0 bottom-0 w-[45%] hidden lg:block pointer-events-none">
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black/60 to-transparent z-10" />
         </div>
       </div>
 
