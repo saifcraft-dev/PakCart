@@ -30,7 +30,7 @@ import { productFirestoreService } from "@/services/productFirestoreService";
 import { categoryFirestoreService } from "@/services/categoryFirestoreService";
 import type { Category } from "@shared/schema";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
-import { SlidersHorizontal, ChevronDown, Truck, RotateCcw, Banknote, ShieldCheck, ArrowRight, Tag } from "lucide-react";
+import { SlidersHorizontal, ChevronDown, Truck, RotateCcw, Banknote, ShieldCheck, ArrowRight, Tag, MapPin } from "lucide-react";
 
 const bagsCategoryImage = "https://res.cloudinary.com/dftvtsjcg/image/upload/v1772789701/ChatGPT_Image_Mar_6_2026_02_15_28_PM_1_t8uwak.png";
 const slippersCategoryImage = "https://res.cloudinary.com/dftvtsjcg/image/upload/v1772789698/ChatGPT_Image_Mar_6_2026_02_15_30_PM_1_glrglb.png";
@@ -269,9 +269,11 @@ export default function CategoryCollection() {
               { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
               { icon: <Banknote className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
               { icon: <ShieldCheck className="h-4 w-4 shrink-0" />, label: "Authentic products" },
+              { icon: <MapPin className="h-4 w-4 shrink-0" />, label: "Nationwide Delivery" },
               { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
               { icon: <Banknote className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
               { icon: <ShieldCheck className="h-4 w-4 shrink-0" />, label: "Authentic products" },
+              { icon: <MapPin className="h-4 w-4 shrink-0" />, label: "Nationwide Delivery" },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-foreground/80">
                 <span className="text-primary">{item.icon}</span>
@@ -283,7 +285,7 @@ export default function CategoryCollection() {
 
         {/* Tablet / Desktop: static 3-column grid */}
         <div className="hidden sm:block container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-4 gap-6 sm:gap-8">
             <div className="flex items-center gap-3 sm:gap-4">
               <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
                 <Truck className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -309,6 +311,15 @@ export default function CategoryCollection() {
               <div>
                 <h4 className="font-bold text-[10px] sm:text-sm">Authentic Products</h4>
                 <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">100% genuine quality</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-[10px] sm:text-sm">Nationwide Delivery</h4>
+                <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">Delivered across Pakistan</p>
               </div>
             </div>
           </div>
