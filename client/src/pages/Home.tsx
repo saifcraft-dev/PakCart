@@ -645,15 +645,16 @@ export default function Home() {
 
                 {hasProducts && categoryProducts.length > 5 && (
                   <div className="mt-6 text-center">
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      onClick={() => toggleCategoryExpansion(category.id)}
-                      className="rounded-full min-w-[200px]"
-                      data-testid={`button-show-more-${categorySlug}`}
-                    >
-                      {isExpanded ? "Show Less" : "Show More"}
-                    </Button>
+                    <Link href={`/collections/${categorySlug}`}>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="rounded-full min-w-[200px]"
+                        data-testid={`button-view-all-${categorySlug}`}
+                      >
+                        View All <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
                   </div>
                 )}
               </div>
