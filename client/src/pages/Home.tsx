@@ -457,9 +457,6 @@ export default function Home() {
                   Shop by Category
                 </h2>
               </div>
-              <Link href="/categories" className="text-xs sm:text-sm text-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all duration-200">
-                View All <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
 
             {/* Category bubbles — 4-col grid on mobile, 5-col grid on tablet, centered row on desktop */}
