@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         : undefined,
       contents: geminiContents,
       generationConfig: {
-        maxOutputTokens: 512,
+        maxOutputTokens: 900,
         temperature: 0.7,
       },
     };

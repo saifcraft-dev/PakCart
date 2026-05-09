@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Bot, ChevronDown, RotateCcw, AlertCircle, Square } from "lucide-react";
+import { useLocation } from "wouter";
 import { useSiteContext } from "@/hooks/use-site-context";
 
 interface Message {
@@ -84,6 +85,106 @@ function renderMessageContent(text: string) {
       <span key={`s-${i}`}>{renderInlineWithLinks(seg.text, `si-${i}`)}</span>
     ),
   );
+}
+
+function getPageSuggestions(location: string): string[] {
+  if (location === "/" || location === "") {
+    return [
+      "Kya kya milta hai yahan? 🛍️",
+      "Gift ideas chahiye 🎁",
+      "Naya kya aaya? ✨",
+      "Order kaise karte hain?",
+    ];
+  }
+  if (location.startsWith("/collections/")) {
+    return [
+      "Is category mein best kya hai?",
+      "Gift ke liye recommend karein",
+      "Delivery kitne din mein hogi?",
+      "Return policy kia hai?",
+    ];
+  }
+  if (location === "/products" || location.startsWith("/products?")) {
+    return [
+      "Best sellers kaun se hain?",
+      "Gift ke liye kya loon?",
+      "Budget Rs 2000 ke andar options?",
+      "Return policy kia hai?",
+    ];
+  }
+  if (location.startsWith("/products/")) {
+    return [
+      "Yeh product acha hai?",
+      "Delivery kab tak hogi?",
+      "Size guide chahiye",
+      "Koi aur options hain?",
+    ];
+  }
+  if (location === "/cart") {
+    return [
+      "Checkout kaise karein?",
+      "COD available hai?",
+      "Delivery charges kia hain?",
+      "Kuch aur add karna chahiye?",
+    ];
+  }
+  if (location === "/checkout") {
+    return [
+      "COD payment hai?",
+      "Delivery kab tak aaye gi?",
+      "Address kaise update karein?",
+    ];
+  }
+  if (location === "/new-arrivals") {
+    return [
+      "Naye products mein best kya hai?",
+      "Gift ke liye naya kya hai?",
+      "Koi watch recommend karein",
+    ];
+  }
+  if (location === "/dropshipper") {
+    return [
+      "Dropshipping kaise shuru karein?",
+      "Kitna earn kar sakta hoon?",
+      "Apply kaise karein?",
+      "Koi fee hai?",
+    ];
+  }
+  if (location === "/web-development") {
+    return [
+      "Website ki price kia hai?",
+      "Kya kya include hoga?",
+      "Kitne din mein ready hogi?",
+      "Contact kaise karein?",
+    ];
+  }
+  if (location === "/about") {
+    return [
+      "PakCart ke baare mein batao",
+      "Saif Khan kaun hain?",
+      "Kitne customers hain?",
+    ];
+  }
+  if (location === "/contact") {
+    return [
+      "WhatsApp number kia hai?",
+      "Email address kia hai?",
+      "Support hours kia hain?",
+    ];
+  }
+  if (location === "/orders" || location.startsWith("/orders/")) {
+    return [
+      "Mera order kahan hai?",
+      "Order late kyu hai?",
+      "Return kaise karein?",
+    ];
+  }
+  return [
+    "Kya kya milta hai? 🛍️",
+    "Gift ideas chahiye 🎁",
+    "Order track karna hai",
+    "Help chahiye",
+  ];
 }
 
 const SYSTEM_PROMPT = `You are PakBot — the personal shopping guide for PakCart, a premium Pakistani e-commerce store. You're not a bot reading from a script. You're that one person in someone's contact list who actually knows Pakistani craftsmanship, can tell real Pashmina from a fake in two sentences, and gives a straight answer without a sales pitch attached.
@@ -913,6 +1014,7 @@ export default function AIChatWidget() {
     siteContextRef.current = siteContext;
   }, [siteContext]);
 
+  const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(() => {
     if (typeof window === "undefined") return [WELCOME_MESSAGE];
@@ -1207,6 +1309,26 @@ export default function AIChatWidget() {
             </div>
           </div>
         ))}
+
+        {messages.length === 1 && !isLoading && (
+          <div className="flex flex-col gap-1.5 pl-9">
+            <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wide px-0.5">
+              Quick swal pochein:
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {getPageSuggestions(location).map((suggestion) => (
+                <button
+                  key={suggestion}
+                  data-testid={`chip-suggestion-${suggestion.slice(0, 20)}`}
+                  onClick={() => sendMessage(suggestion)}
+                  className="text-xs px-3 py-1.5 rounded-full border border-[hsl(168,58%,32%)]/30 text-[hsl(168,58%,28%)] bg-[hsl(168,58%,32%)]/5 hover:bg-[hsl(168,58%,32%)]/15 hover:border-[hsl(168,58%,32%)]/60 transition-colors font-medium active:scale-95"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {isLoading && (
           <div className="flex gap-2 justify-start">

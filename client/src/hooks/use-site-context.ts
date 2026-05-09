@@ -25,6 +25,9 @@ export function useSiteContext() {
   const productSlugMatch = location.match(/^\/products\/([^/?#]+)/);
   const currentSlug = productSlugMatch?.[1];
 
+  const collectionSlugMatch = location.match(/^\/collections\/([^/?#]+)/);
+  const currentCollectionSlug = collectionSlugMatch?.[1];
+
   const { data: currentProduct } = useQuery<Product | null>({
     queryKey: ["pakbot-current-product", currentSlug ?? null],
     queryFn: async () => {
@@ -47,6 +50,29 @@ export function useSiteContext() {
     lines.push(`Today: ${new Date().toISOString().slice(0, 10)}`);
     lines.push(`Site domain: https://pakcart.store`);
     lines.push(`User is currently on page: ${location}`);
+
+    if (currentCollectionSlug) {
+      const matchedCategory = [...(categories || []), ...(parentCategories || [])].find(
+        (c: any) => c.slug === currentCollectionSlug
+      );
+      if (matchedCategory) {
+        lines.push(`\nUser is browsing this category: ${(matchedCategory as any).name} (/collections/${currentCollectionSlug})`);
+        const categoryProducts = catalog?.filter((p: any) =>
+          p.categoryId === (matchedCategory as any).id ||
+          p.categorySlug === currentCollectionSlug ||
+          (p.categories && p.categories.includes((matchedCategory as any).id))
+        ) ?? [];
+        if (categoryProducts.length > 0) {
+          lines.push(`Products in this category (${categoryProducts.length} found):`);
+          categoryProducts.slice(0, 20).forEach((p) => {
+            const stock = p.inStock ? "in stock" : "OUT OF STOCK";
+            lines.push(`  - ${p.name} | Rs${p.price} | ${stock} | /products/${p.slug}`);
+          });
+        }
+      } else {
+        lines.push(`\nUser is browsing collection: /collections/${currentCollectionSlug}`);
+      }
+    }
 
     lines.push(
       "\n=== COMPLETE PAGE DIRECTORY (every public page on pakcart.store — what each page does, what's on it, who it's for, and when to send a user there). This is the authoritative map of the site — use it for every navigation answer. ===\n" +
@@ -273,5 +299,5 @@ export function useSiteContext() {
     );
 
     return lines.join("\n");
-  }, [location, categories, parentCategories, cartItems, catalog, currentProduct]);
+  }, [location, categories, parentCategories, cartItems, catalog, currentProduct, currentCollectionSlug]);
 }
