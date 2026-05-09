@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { Link } from "wouter";
-import { ArrowRight, Star, Truck, ShieldCheck, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Star, Truck, ShieldCheck, Clock, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CategoryCard } from "@/components/products/CategoryCard";
@@ -399,9 +399,11 @@ export default function Home() {
                 { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
                 { icon: <Clock className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
                 { icon: <Star className="h-4 w-4 shrink-0" />, label: "Authentic products" },
+                { icon: <MapPin className="h-4 w-4 shrink-0" />, label: "Nationwide Delivery" },
                 { icon: <Truck className="h-4 w-4 shrink-0" />, label: "Free delivery over Rs. 10,000" },
                 { icon: <Clock className="h-4 w-4 shrink-0" />, label: "Cash on Delivery" },
                 { icon: <Star className="h-4 w-4 shrink-0" />, label: "Authentic products" },
+                { icon: <MapPin className="h-4 w-4 shrink-0" />, label: "Nationwide Delivery" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2 text-foreground/80">
                   <span className="text-primary">{item.icon}</span>
@@ -411,9 +413,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Tablet / Desktop: static 3-column grid */}
+          {/* Tablet / Desktop: static 4-column grid */}
           <div className="hidden sm:block container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-4 gap-6 sm:gap-8">
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
                   <Truck className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -439,6 +441,15 @@ export default function Home() {
                 <div>
                   <h4 className="font-bold text-[10px] sm:text-sm">Authentic Products</h4>
                   <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">100% genuine quality</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                  <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-[10px] sm:text-sm">Nationwide Delivery</h4>
+                  <p className="text-[8px] sm:text-xs text-muted-foreground whitespace-nowrap">Delivered across Pakistan</p>
                 </div>
               </div>
             </div>
