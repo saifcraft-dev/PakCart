@@ -603,15 +603,6 @@ export default function Home() {
                     </h2>
                     <div className="h-1.5 w-16 bg-secondary rounded-full" />
                   </motion.div>
-                  <Link href={`/collections/${categorySlug}`}>
-                    <Button
-                      variant="ghost"
-                      className="text-primary hover:text-primary/80"
-                      data-testid={`link-view-all-${categorySlug}`}
-                    >
-                      View All <ArrowRight className="h-4 w-4 ml-1" />
-                    </Button>
-                  </Link>
                 </div>
 
                 {isAllProductsLoading ? (
