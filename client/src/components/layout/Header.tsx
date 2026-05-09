@@ -8,6 +8,7 @@ import {
   LogOut,
   Package,
   ChevronDown,
+  LayoutDashboard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,7 +59,7 @@ const Header = () => {
   const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const totalItems = useCartStore((state) => state.getTotalItems());
-  const { user, isAuthenticated, logout } = useAuthStore();
+  const { user, isAuthenticated, isAdmin, logout } = useAuthStore();
   const { categories, parentCategories } = useCategories();
 
   // Debounced scroll listener
@@ -283,6 +284,16 @@ const Header = () => {
                       </p>
                       <p className="text-xs text-gray-500 truncate">{user.email}</p>
                     </div>
+                    {isAdmin && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin">
+                          <span className="flex items-center gap-2 cursor-pointer w-full" data-testid="header-admin-link">
+                            <LayoutDashboard className="h-4 w-4" />
+                            Admin Panel
+                          </span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem asChild>
                       <Link href="/profile">
                         <span className="flex items-center gap-2 cursor-pointer w-full" data-testid="header-profile-link">

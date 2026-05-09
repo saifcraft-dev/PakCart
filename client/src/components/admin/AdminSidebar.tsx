@@ -14,6 +14,7 @@ import {
   BarChart3,
   TrendingUp,
   Wand2,
+  Users,
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ const menuItems = [
   { icon: Package, label: "Products", href: "/admin/products" },
   { icon: ListTree, label: "Categories", href: "/admin/categories" },
   { icon: ShoppingCart, label: "Orders", href: "/admin/orders" },
+  { icon: Users, label: "Dropshippers", href: "/admin/dropshippers" },
   { icon: ImageIcon, label: "Homepage Slider", href: "/admin/homepage-slider" },
   { icon: Megaphone, label: "Announcements", href: "/admin/announcements" },
   { icon: MessageSquare, label: "Seed Comments", href: "/admin/seed-comments" },

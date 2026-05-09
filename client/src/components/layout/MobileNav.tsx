@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { User, ShoppingBag, LogOut } from "lucide-react";
+import { User, ShoppingBag, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -39,7 +39,7 @@ export function MobileNav({
   parentCategories,
   categories,
 }: MobileNavProps) {
-  const { user, isAuthenticated, logout } = useAuthStore();
+  const { user, isAuthenticated, isAdmin, logout } = useAuthStore();
 
   const handleLinkClick = () => {
     onClose();
@@ -158,6 +158,18 @@ export function MobileNav({
                   <p className="text-xs text-gray-500 truncate">{user.email}</p>
                 </div>
               </div>
+              {isAdmin && (
+                <Link href="/admin" onClick={handleLinkClick}>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-3 h-11 border-primary text-primary hover:bg-primary/10"
+                    data-testid="mobile-nav-admin"
+                  >
+                    <LayoutDashboard className="h-4 w-4" />
+                    Admin Panel
+                  </Button>
+                </Link>
+              )}
               <Link href="/profile" onClick={handleLinkClick}>
                 <Button
                   variant="outline"

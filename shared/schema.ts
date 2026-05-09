@@ -125,7 +125,7 @@ export const commentSchema = baseDocumentSchema.extend({
   productId: documentIdSchema,
   userId: z.string(),
   userName: z.string(),
-  userPhoto: z.string().optional(),
+  userPhoto: z.string().nullable().optional(),
   content: z.string().min(1),
   rating: z.number().min(1).max(5),
   images: z.array(z.string()).optional(),
