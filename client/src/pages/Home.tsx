@@ -59,8 +59,19 @@ export default function Home() {
     container.scrollBy({ left: direction === "left" ? -scrollAmount : scrollAmount, behavior: "smooth" });
   };
 
+  const [showMoreNewArrivals, setShowMoreNewArrivals] = useState(false);
   const [showMoreFeatured, setShowMoreFeatured] = useState(false);
   const [showMoreLiked, setShowMoreLiked] = useState(false);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+
+  const toggleCategoryExpansion = (categoryId: string) => {
+    setExpandedCategories(prev => {
+      const next = new Set(prev);
+      if (next.has(categoryId)) next.delete(categoryId);
+      else next.add(categoryId);
+      return next;
+    });
+  };
 
   // Repeat-visit LCP fast-path: read the hero URL cached by a previous visit
   // and synthesise a minimal HomepageSlide[] so the hero <img> renders on the
@@ -189,8 +200,8 @@ export default function Home() {
 
   const newArrivals = useMemo(() => {
     const filtered = allProducts?.filter(p => p.labels?.includes("New")) || [];
-    return filtered.slice(0, 6);
-  }, [allProducts]);
+    return showMoreNewArrivals ? filtered : filtered.slice(0, 6);
+  }, [allProducts, showMoreNewArrivals]);
 
   const isFeaturedLoading = isAllProductsLoading;
   const isLikedLoading = isAllProductsLoading;
@@ -536,17 +547,18 @@ export default function Home() {
               )}
             </div>
 
-            <div className="mt-6 text-center">
-              <Link href="/new-arrivals">
-                <Button
-                  variant="outline"
+            {allProducts && allProducts.length > 5 && (
+              <div className="mt-6 text-center">
+                <Button 
+                  variant="outline" 
                   size="lg"
+                  onClick={() => setShowMoreNewArrivals(!showMoreNewArrivals)}
                   className="rounded-full min-w-[200px]"
                 >
-                  View All <ArrowRight className="h-4 w-4 ml-1" />
+                  {showMoreNewArrivals ? "Show Less" : "Show More"}
                 </Button>
-              </Link>
-            </div>
+              </div>
+            )}
           </div>
         </section>
 
@@ -568,7 +580,8 @@ export default function Home() {
         })().map((category, catIndex) => {
           const categoryProducts = allProducts?.filter(p => p.categoryId === category.id) || [];
           const categorySlug = category.slug || String(category.id);
-          const visibleProducts = categoryProducts.slice(0, 6);
+          const isExpanded = expandedCategories.has(category.id);
+          const visibleProducts = isExpanded ? categoryProducts : categoryProducts.slice(0, 6);
           const hasProducts = categoryProducts.length > 0;
           return (
             <section
@@ -630,18 +643,17 @@ export default function Home() {
                   </div>
                 )}
 
-                {hasProducts && (
+                {hasProducts && categoryProducts.length > 5 && (
                   <div className="mt-6 text-center">
-                    <Link href={`/collections/${categorySlug}`}>
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        className="rounded-full min-w-[200px]"
-                        data-testid={`button-view-all-${categorySlug}`}
-                      >
-                        View All <ArrowRight className="h-4 w-4 ml-1" />
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      onClick={() => toggleCategoryExpansion(category.id)}
+                      className="rounded-full min-w-[200px]"
+                      data-testid={`button-show-more-${categorySlug}`}
+                    >
+                      {isExpanded ? "Show Less" : "Show More"}
+                    </Button>
                   </div>
                 )}
               </div>
