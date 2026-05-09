@@ -317,16 +317,6 @@ export function CommentSection({ productId }: CommentSectionProps) {
           </div>
         </div>
 
-        {/* Trust line */}
-        <div className="mt-3 pt-3 border-t border-border/50 flex flex-wrap items-center gap-1.5">
-          <CheckCircle className="w-3.5 h-3.5 text-green-600 shrink-0" />
-          <span className="text-[11px] text-muted-foreground">
-            Real verified customer reviews — same system as{" "}
-            <span className="font-semibold text-foreground">Daraz</span>,{" "}
-            <span className="font-semibold text-foreground">Amazon</span> &{" "}
-            <span className="font-semibold text-foreground">Alibaba</span>
-          </span>
-        </div>
       </div>
 
       {/* ── New review form ── */}
