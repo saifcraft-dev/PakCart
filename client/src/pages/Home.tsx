@@ -663,145 +663,94 @@ export default function Home() {
           );
         })}
 
-        {/* ── Business Programs Section ── */}
-        <section className="w-full py-14 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #0f1f12 0%, #1a3320 50%, #0f1f12 100%)" }}>
-          <div className="max-w-5xl mx-auto">
+        {/* ── Announcements Section ── */}
+        <section className="w-full bg-[#fffbf0] border-t border-amber-100 py-10 sm:py-14 px-4">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
 
-            {/* Section Header */}
-            <div className="text-center mb-10 sm:mb-14">
-              <span className="inline-block text-xs font-semibold tracking-[0.18em] uppercase text-amber-400 mb-3 px-4 py-1.5 rounded-full border border-amber-400/30 bg-amber-400/10">
-                Grow With PakCart
+            {/* Card 1: Online Store */}
+            <div className="bg-white rounded-2xl border border-amber-100 shadow-sm p-6 sm:p-8 flex flex-col items-center text-center">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 mb-4">
+                <Rocket className="h-6 w-6 text-amber-500" />
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mt-3 leading-snug">
-                Start Your Business Today
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800 leading-snug mb-2">
+                Apna Online Store Chahiye?
               </h2>
-              <p className="text-sm sm:text-base text-gray-400 mt-2 max-w-md mx-auto leading-relaxed">
-                Two powerful ways to earn online — choose the path that fits you.
+              <p className="text-sm text-gray-500 mb-5 leading-relaxed">
+                Professional e-commerce websites — pehle din se sell karne ke liye tayyar.
               </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-
-              {/* Card 1: Online Store */}
-              <div className="relative rounded-3xl overflow-hidden flex flex-col" style={{ background: "linear-gradient(145deg, #1e3a24 0%, #162b1a 100%)", border: "1px solid rgba(251,191,36,0.15)" }}>
-                {/* Top accent bar */}
-                <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b)" }} />
-
-                <div className="p-7 sm:p-9 flex flex-col flex-1">
-                  {/* Icon + Badge row */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-lg" style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)" }}>
-                      <Rocket className="h-7 w-7 text-white" />
-                    </div>
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded-full px-3 py-1">
-                      Website
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight mb-2">
-                    Apna Online Store<br />Chahiye?
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-7 leading-relaxed">
-                    Professional e-commerce websites — pehle din se sell karne ke liye tayyar.
-                  </p>
-
-                  {/* Features */}
-                  <div className="grid grid-cols-3 gap-3 mb-8">
-                    {[
-                      { icon: <Globe className="h-5 w-5" />, label: "Apni Website" },
-                      { icon: <ShieldCheck className="h-5 w-5" />, label: "Fully Managed" },
-                      { icon: <Phone className="h-5 w-5" />, label: "Full Support" },
-                    ].map(({ icon, label }) => (
-                      <div key={label} className="flex flex-col items-center gap-2 rounded-2xl p-3.5 text-center" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                        <span className="text-amber-400">{icon}</span>
-                        <span className="text-[11px] font-semibold text-gray-300 leading-tight">{label}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-auto">
-                    <Link href="/web-development" className="w-full block">
-                      <button
-                        type="button"
-                        className="w-full rounded-2xl font-bold py-3 text-sm transition-all duration-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-                        style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#fff" }}
-                        data-testid="home-webdev-learn-more"
-                      >
-                        Learn More →
-                      </button>
-                    </Link>
-                  </div>
+              <div className="grid grid-cols-3 gap-3 w-full mb-6">
+                <div className="flex flex-col items-center gap-1.5 rounded-xl border bg-gray-50 p-3 text-center">
+                  <Globe className="h-5 w-5 text-amber-500" />
+                  <span className="text-xs font-semibold text-gray-700 leading-tight">Apni Website</span>
+                </div>
+                <div className="flex flex-col items-center gap-1.5 rounded-xl border bg-gray-50 p-3 text-center">
+                  <ShieldCheck className="h-5 w-5 text-amber-500" />
+                  <span className="text-xs font-semibold text-gray-700 leading-tight">Fully Managed</span>
+                </div>
+                <div className="flex flex-col items-center gap-1.5 rounded-xl border bg-gray-50 p-3 text-center">
+                  <Phone className="h-5 w-5 text-amber-500" />
+                  <span className="text-xs font-semibold text-gray-700 leading-tight">Full Support</span>
                 </div>
               </div>
+              <Link href="/web-development" className="w-full">
+                <button
+                  type="button"
+                  className="w-full rounded-full bg-amber-500 hover:bg-amber-600 active:bg-amber-600 text-white font-semibold py-2.5 text-sm transition-colors"
+                  data-testid="home-webdev-learn-more"
+                >
+                  Learn more →
+                </button>
+              </Link>
+            </div>
 
-              {/* Card 2: Dropshipper Program */}
-              <div className="relative rounded-3xl overflow-hidden flex flex-col" style={{ background: "linear-gradient(145deg, #1e3a24 0%, #162b1a 100%)", border: "1px solid rgba(251,191,36,0.15)" }}>
-                {/* Top accent bar */}
-                <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24)" }} />
-
-                <div className="p-7 sm:p-9 flex flex-col flex-1">
-                  {/* Icon + Badge row */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-lg" style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)" }}>
-                      <TrendingUp className="h-7 w-7 text-white" />
-                    </div>
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded-full px-3 py-1">
-                      Dropship
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight mb-2">
-                    PakCart Dropshipper<br />Program
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-7 leading-relaxed">
-                    Ghar baithay business shuru karein — koi investment, koi stock nahi.
-                  </p>
-
-                  {/* Features */}
-                  <div className="space-y-3 mb-8 flex-1">
-                    {[
-                      { icon: <Package className="h-5 w-5" />, label: "Zero Stock, Zero Tension", desc: "Hum sambhaltay hain" },
-                      { icon: <TrendingUp className="h-5 w-5" />, label: "Apna Profit Set Karein", desc: "Full control aap ka" },
-                      { icon: <Truck className="h-5 w-5" />, label: "Delivery Hamari Zimmedari", desc: "Nationwide delivery" },
-                    ].map(({ icon, label, desc }) => (
-                      <div key={label} className="flex items-center gap-4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                        <span className="flex h-9 w-9 items-center justify-center rounded-xl shrink-0 text-amber-400" style={{ background: "rgba(251,191,36,0.12)" }}>
-                          {icon}
-                        </span>
-                        <div>
-                          <p className="text-sm font-semibold text-white leading-tight">{label}</p>
-                          <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-row gap-3 mt-auto">
-                    <Link href="/dropshipper" className="flex-1">
-                      <button
-                        type="button"
-                        className="w-full rounded-2xl font-bold py-3 text-sm transition-all duration-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-                        style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#fff" }}
-                        data-testid="home-dropshipper-join"
-                      >
-                        Abhi Join Karein
-                      </button>
-                    </Link>
-                    <Link href="/web-development" className="flex-1">
-                      <button
-                        type="button"
-                        className="w-full rounded-2xl font-semibold py-3 text-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                        style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.75)" }}
-                        data-testid="home-dropshipper-learn"
-                      >
-                        Learn More
-                      </button>
-                    </Link>
-                  </div>
+            {/* Card 2: Dropshipper Program */}
+            <div className="bg-white rounded-2xl border border-amber-100 shadow-sm p-6 sm:p-8 flex flex-col">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="flex-1 h-px bg-gray-100" />
+                <span className="text-xs font-semibold text-amber-500 uppercase tracking-wide whitespace-nowrap">
+                  Dropshipper Program
+                </span>
+                <div className="flex-1 h-px bg-gray-100" />
+              </div>
+              <p className="text-sm text-gray-600 mt-3 mb-4 leading-relaxed">
+                <span className="font-semibold text-gray-800">PakCart Dropshipper Program</span> — ghar baithay business shuru karein, koi investment nahi.
+              </p>
+              <div className="space-y-2.5 mb-6 flex-1">
+                <div className="flex items-center gap-3 rounded-xl border bg-gray-50 p-3">
+                  <Package className="h-5 w-5 text-amber-500 shrink-0" />
+                  <p className="text-xs font-semibold text-gray-800">Zero Stock, Zero Tension</p>
+                </div>
+                <div className="flex items-center gap-3 rounded-xl border bg-gray-50 p-3">
+                  <TrendingUp className="h-5 w-5 text-amber-500 shrink-0" />
+                  <p className="text-xs font-semibold text-gray-800">Apna Profit Set Karein</p>
+                </div>
+                <div className="flex items-center gap-3 rounded-xl border bg-gray-50 p-3">
+                  <Truck className="h-5 w-5 text-amber-500 shrink-0" />
+                  <p className="text-xs font-semibold text-gray-800">Delivery Hamari Zimmedari</p>
                 </div>
               </div>
-
+              <div className="flex flex-row gap-3">
+                <Link href="/dropshipper" className="flex-1">
+                  <button
+                    type="button"
+                    className="w-full rounded-lg bg-amber-500 hover:bg-amber-600 active:bg-amber-600 text-white font-semibold py-2.5 text-sm transition-colors"
+                    data-testid="home-dropshipper-join"
+                  >
+                    Abhi Join Karein
+                  </button>
+                </Link>
+                <Link href="/web-development" className="flex-1">
+                  <button
+                    type="button"
+                    className="w-full rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-500 font-medium py-2.5 text-sm transition-colors"
+                    data-testid="home-dropshipper-learn"
+                  >
+                    Learn More
+                  </button>
+                </Link>
+              </div>
             </div>
+
           </div>
         </section>
 
