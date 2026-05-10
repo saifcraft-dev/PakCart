@@ -36,8 +36,32 @@ const SEED_EMAIL = "seedbot.pakstore@temp-seed.com";
 const SEED_PASSWORD = "SeedBot#2026!";
 
 const GEMINI_BASE = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL ?? "https://generativelanguage.googleapis.com/v1beta";
-const GEMINI_KEY  = process.env.AI_INTEGRATIONS_GEMINI_API_KEY ?? process.env.GEMINI_API_KEY ?? "";
 const GEMINI_MODEL = "gemini-2.5-flash";
+
+// Rotate through all available Gemini keys to stay under per-key daily quota
+const GEMINI_KEYS: string[] = [
+  process.env.AI_INTEGRATIONS_GEMINI_API_KEY ?? "",
+  process.env.GEMINI_API_KEY ?? "",
+  process.env.GEMINI_API_KEY_B ?? "",
+  process.env.GEMINI_API_KEY_C ?? "",
+  process.env.GEMINI_API_KEY_D ?? "",
+].filter(Boolean).filter((k, i, a) => a.indexOf(k) === i); // dedupe
+
+let _keyIndex = 0;
+const exhaustedKeys = new Set<string>();
+
+function currentKey(): string {
+  return GEMINI_KEYS[_keyIndex % GEMINI_KEYS.length];
+}
+
+function rotateKey(): boolean {
+  exhaustedKeys.add(currentKey());
+  const nextIdx = GEMINI_KEYS.findIndex((k, i) => i !== (_keyIndex % GEMINI_KEYS.length) && !exhaustedKeys.has(k));
+  if (nextIdx === -1) return false; // all keys exhausted
+  _keyIndex = nextIdx;
+  console.log(`  ↩ Rotated to API key #${_keyIndex + 1}`);
+  return true;
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -70,21 +94,40 @@ interface ProductDoc {
 // ---------------------------------------------------------------------------
 
 async function callGemini(prompt: string): Promise<string> {
-  const url = `${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: { maxOutputTokens: 8192, temperature: 0.92 },
-    }),
-  });
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Gemini ${res.status}: ${err}`);
+  for (let attempt = 0; attempt < GEMINI_KEYS.length + 1; attempt++) {
+    const key = currentKey();
+    const url = `${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${key}`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 8192, temperature: 0.92 },
+      }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      return data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    }
+
+    const errText = await res.text();
+
+    // Rate limited — try rotating to next key
+    if (res.status === 429) {
+      console.log(`  ⚠ Key #${_keyIndex + 1} quota exhausted, rotating...`);
+      const rotated = rotateKey();
+      if (!rotated) {
+        throw new Error(`All ${GEMINI_KEYS.length} Gemini keys exhausted for today.`);
+      }
+      // Brief pause before retrying with new key
+      await new Promise((r) => setTimeout(r, 1500));
+      continue;
+    }
+
+    throw new Error(`Gemini ${res.status}: ${errText}`);
   }
-  const data = await res.json();
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+  throw new Error("Gemini: exceeded key rotation attempts");
 }
 
 // ---------------------------------------------------------------------------
@@ -324,10 +367,11 @@ async function main() {
   const batchOffset = oidx !== -1 ? parseInt(args[oidx + 1]) : 0;
   const batchLimit  = lidx !== -1 ? parseInt(args[lidx + 1]) : 999;
 
-  if (!GEMINI_KEY) {
-    console.error("ERROR: No Gemini API key found. Set AI_INTEGRATIONS_GEMINI_API_KEY or GEMINI_API_KEY.");
+  if (GEMINI_KEYS.length === 0) {
+    console.error("ERROR: No Gemini API key found. Set GEMINI_API_KEY, GEMINI_API_KEY_B, GEMINI_API_KEY_C, or GEMINI_API_KEY_D.");
     process.exit(1);
   }
+  console.log(`Using ${GEMINI_KEYS.length} Gemini API key(s) with rotation enabled.`);
 
   if (!isSample && !isAll && !singleId) {
     console.log("Usage:");
