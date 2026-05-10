@@ -5,7 +5,6 @@ import AnnouncementBanner from './AnnouncementBanner';
 import MobileBottomNav from './MobileBottomNav';
 
 const AnnouncementPopup = lazy(() => import('./AnnouncementPopup'));
-const AdvertPopup = lazy(() => import('./AdvertPopup'));
 const AIChatWidget = lazy(() => import('@/components/AIChatWidget'));
 
 interface LayoutProps {
@@ -42,7 +41,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {deferredReady && (
         <Suspense fallback={null}>
           <AnnouncementPopup />
-          <AdvertPopup />
           <AIChatWidget />
         </Suspense>
       )}

@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { Link } from "wouter";
-import { ArrowRight, Star, Truck, ShieldCheck, Clock, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import { ArrowRight, Star, Truck, ShieldCheck, Clock, ChevronLeft, ChevronRight, MapPin, Rocket, Globe, Phone, Package, TrendingUp } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CategoryCard } from "@/components/products/CategoryCard";
@@ -662,6 +662,98 @@ export default function Home() {
             </section>
           );
         })}
+
+        {/* ── Announcements Section ── */}
+        <section className="w-full bg-[#fffbf0] border-t border-amber-100 py-10 sm:py-14 px-4">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+
+            {/* Card 1: Online Store */}
+            <div className="bg-white rounded-2xl border border-amber-100 shadow-sm p-6 sm:p-8 flex flex-col items-center text-center">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 mb-4">
+                <Rocket className="h-6 w-6 text-amber-500" />
+              </span>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800 leading-snug mb-2">
+                Apna Online Store Chahiye?
+              </h2>
+              <p className="text-sm text-gray-500 mb-5 leading-relaxed">
+                Professional e-commerce websites — pehle din se sell karne ke liye tayyar.
+              </p>
+              <div className="grid grid-cols-3 gap-3 w-full mb-6">
+                <div className="flex flex-col items-center gap-1.5 rounded-xl border bg-gray-50 p-3 text-center">
+                  <Globe className="h-5 w-5 text-amber-500" />
+                  <span className="text-xs font-semibold text-gray-700 leading-tight">Apni Website</span>
+                </div>
+                <div className="flex flex-col items-center gap-1.5 rounded-xl border bg-gray-50 p-3 text-center">
+                  <ShieldCheck className="h-5 w-5 text-amber-500" />
+                  <span className="text-xs font-semibold text-gray-700 leading-tight">Fully Managed</span>
+                </div>
+                <div className="flex flex-col items-center gap-1.5 rounded-xl border bg-gray-50 p-3 text-center">
+                  <Phone className="h-5 w-5 text-amber-500" />
+                  <span className="text-xs font-semibold text-gray-700 leading-tight">Full Support</span>
+                </div>
+              </div>
+              <Link href="/web-development" className="w-full">
+                <button
+                  type="button"
+                  className="w-full rounded-full bg-amber-500 hover:bg-amber-600 active:bg-amber-600 text-white font-semibold py-2.5 text-sm transition-colors"
+                  data-testid="home-webdev-learn-more"
+                >
+                  Learn more →
+                </button>
+              </Link>
+            </div>
+
+            {/* Card 2: Dropshipper Program */}
+            <div className="bg-white rounded-2xl border border-amber-100 shadow-sm p-6 sm:p-8 flex flex-col">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="flex-1 h-px bg-gray-100" />
+                <span className="text-xs font-semibold text-amber-500 uppercase tracking-wide whitespace-nowrap">
+                  Dropshipper Program
+                </span>
+                <div className="flex-1 h-px bg-gray-100" />
+              </div>
+              <p className="text-sm text-gray-600 mt-3 mb-4 leading-relaxed">
+                <span className="font-semibold text-gray-800">PakCart Dropshipper Program</span> — ghar baithay business shuru karein, koi investment nahi.
+              </p>
+              <div className="space-y-2.5 mb-6 flex-1">
+                <div className="flex items-center gap-3 rounded-xl border bg-gray-50 p-3">
+                  <Package className="h-5 w-5 text-amber-500 shrink-0" />
+                  <p className="text-xs font-semibold text-gray-800">Zero Stock, Zero Tension</p>
+                </div>
+                <div className="flex items-center gap-3 rounded-xl border bg-gray-50 p-3">
+                  <TrendingUp className="h-5 w-5 text-amber-500 shrink-0" />
+                  <p className="text-xs font-semibold text-gray-800">Apna Profit Set Karein</p>
+                </div>
+                <div className="flex items-center gap-3 rounded-xl border bg-gray-50 p-3">
+                  <Truck className="h-5 w-5 text-amber-500 shrink-0" />
+                  <p className="text-xs font-semibold text-gray-800">Delivery Hamari Zimmedari</p>
+                </div>
+              </div>
+              <div className="flex flex-row gap-3">
+                <Link href="/dropshipper" className="flex-1">
+                  <button
+                    type="button"
+                    className="w-full rounded-lg bg-amber-500 hover:bg-amber-600 active:bg-amber-600 text-white font-semibold py-2.5 text-sm transition-colors"
+                    data-testid="home-dropshipper-join"
+                  >
+                    Abhi Join Karein
+                  </button>
+                </Link>
+                <Link href="/web-development" className="flex-1">
+                  <button
+                    type="button"
+                    className="w-full rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-500 font-medium py-2.5 text-sm transition-colors"
+                    data-testid="home-dropshipper-learn"
+                  >
+                    Learn More
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
       </main>
     </div>
   );
