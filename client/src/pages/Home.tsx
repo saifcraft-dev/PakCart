@@ -558,18 +558,17 @@ export default function Home() {
               )}
             </div>
 
-            {allProducts && allProducts.length > 5 && (
-              <div className="mt-6 text-center">
+            <div className="mt-6 text-center">
+              <Link href="/products">
                 <Button 
                   variant="outline" 
                   size="lg"
-                  onClick={() => setShowMoreNewArrivals(!showMoreNewArrivals)}
                   className="rounded-full min-w-[200px]"
                 >
-                  {showMoreNewArrivals ? "Show Less" : "Show More"}
+                  All Products
                 </Button>
-              </div>
-            )}
+              </Link>
+            </div>
           </div>
         </section>
 
