@@ -664,57 +664,58 @@ export default function Home() {
         })}
 
         {/* ── Announcements Section ── */}
-        <section className="w-full py-12 sm:py-20 px-4" style={{ background: "linear-gradient(135deg, #fffbf0 0%, #fff8e8 50%, #fef3c7 100%)" }}>
+        <section className="w-full py-8 sm:py-16 px-3 sm:px-4" style={{ background: "linear-gradient(135deg, #fffbf0 0%, #fff8e8 50%, #fef3c7 100%)" }}>
           <div className="max-w-5xl mx-auto">
 
             {/* Section heading */}
-            <div className="text-center mb-10">
-              <span className="inline-block text-xs font-bold uppercase tracking-widest text-amber-500 mb-2">Grow With PakCart</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">Two Ways to Build Your Business</h2>
-              <p className="text-sm text-gray-500 mt-2">Choose the path that fits you — whether you want a store or start selling today.</p>
+            <div className="text-center mb-6 sm:mb-10">
+              <span className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-amber-500 mb-1.5">Grow With PakCart</span>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-gray-900 leading-tight">Two Ways to Build Your Business</h2>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1.5 px-4 sm:px-0">Choose the path that fits you — whether you want a store or start selling today.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 items-stretch">
 
               {/* Card 1: Online Store */}
-              <div className="relative bg-white rounded-3xl overflow-hidden shadow-lg border border-amber-100 flex flex-col">
-                {/* Top accent bar */}
+              <div className="relative bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-md sm:shadow-lg border border-amber-100 flex flex-col">
                 <div className="h-1.5 w-full bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500" />
-                <div className="p-7 sm:p-9 flex flex-col flex-1">
+                <div className="p-5 sm:p-8 flex flex-col flex-1">
+
                   {/* Icon + badge */}
-                  <div className="flex items-center gap-3 mb-5">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-md">
-                      <Rocket className="h-6 w-6 text-white" />
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <span className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-md shrink-0">
+                      <Rocket className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </span>
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">Web Development</span>
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">Web Development</span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 leading-snug mb-2">
+                  <h3 className="text-lg sm:text-2xl font-extrabold text-gray-900 leading-snug mb-1.5">
                     Apna Online Store Chahiye?
                   </h3>
-                  <p className="text-sm text-gray-500 mb-7 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6 leading-relaxed">
                     Professional e-commerce websites — pehle din se sell karne ke liye tayyar. Fully designed, hosted & managed.
                   </p>
 
-                  <div className="grid grid-cols-3 gap-3 w-full mb-6">
-                    <div className="flex flex-col items-center gap-2 rounded-2xl bg-amber-50 border border-amber-100 p-3.5 text-center">
-                      <Globe className="h-5 w-5 text-amber-500" />
-                      <span className="text-xs font-bold text-gray-700 leading-tight">Apni Website</span>
+                  {/* 3 feature chips */}
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3 w-full mb-4">
+                    <div className="flex flex-col items-center gap-1.5 rounded-xl sm:rounded-2xl bg-amber-50 border border-amber-100 p-2.5 sm:p-3.5 text-center">
+                      <Globe className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-700 leading-tight">Apni Website</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2 rounded-2xl bg-amber-50 border border-amber-100 p-3.5 text-center">
-                      <ShieldCheck className="h-5 w-5 text-amber-500" />
-                      <span className="text-xs font-bold text-gray-700 leading-tight">Fully Managed</span>
+                    <div className="flex flex-col items-center gap-1.5 rounded-xl sm:rounded-2xl bg-amber-50 border border-amber-100 p-2.5 sm:p-3.5 text-center">
+                      <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-700 leading-tight">Fully Managed</span>
                     </div>
-                    <div className="flex flex-col items-center gap-2 rounded-2xl bg-amber-50 border border-amber-100 p-3.5 text-center">
-                      <Phone className="h-5 w-5 text-amber-500" />
-                      <span className="text-xs font-bold text-gray-700 leading-tight">Full Support</span>
+                    <div className="flex flex-col items-center gap-1.5 rounded-xl sm:rounded-2xl bg-amber-50 border border-amber-100 p-2.5 sm:p-3.5 text-center">
+                      <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
+                      <span className="text-[10px] sm:text-xs font-bold text-gray-700 leading-tight">Full Support</span>
                     </div>
                   </div>
 
                   {/* What's Included */}
-                  <div className="mb-7 rounded-2xl bg-amber-50 border border-amber-100 px-4 py-3.5">
-                    <p className="text-xs font-bold uppercase tracking-wider text-amber-500 mb-1.5">What's Included</p>
-                    <p className="text-xs text-gray-600 leading-relaxed">
+                  <div className="mb-4 sm:mb-6 rounded-xl sm:rounded-2xl bg-amber-50 border border-amber-100 px-3 sm:px-4 py-3">
+                    <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-500 mb-1">What's Included</p>
+                    <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed">
                       Mobile responsive design, SEO optimization, WhatsApp integration, online payments (EasyPaisa, JazzCash & cards), fast loading speed, and a full admin dashboard — everything ready from day one.
                     </p>
                   </div>
@@ -723,7 +724,7 @@ export default function Home() {
                     <Link href="/web-development" className="w-full block">
                       <button
                         type="button"
-                        className="w-full rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 text-sm tracking-wide shadow-md hover:shadow-lg transition-all duration-200"
+                        className="w-full rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-2.5 sm:py-3 text-sm tracking-wide shadow-md hover:shadow-lg transition-all duration-200"
                         data-testid="home-webdev-learn-more"
                       >
                         Learn More &rarr;
@@ -734,60 +735,49 @@ export default function Home() {
               </div>
 
               {/* Card 2: Dropshipper Program */}
-              <div className="relative bg-white rounded-3xl overflow-hidden shadow-lg border border-amber-100 flex flex-col">
-                {/* Top accent bar */}
+              <div className="relative bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-md sm:shadow-lg border border-amber-100 flex flex-col">
                 <div className="h-1.5 w-full bg-gradient-to-r from-green-400 via-emerald-400 to-teal-500" />
-                <div className="p-7 sm:p-9 flex flex-col flex-1">
+                <div className="p-5 sm:p-8 flex flex-col flex-1">
+
                   {/* Icon + badge */}
-                  <div className="flex items-center gap-3 mb-5">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-md">
-                      <TrendingUp className="h-6 w-6 text-white" />
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <span className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-md shrink-0">
+                      <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </span>
-                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">Dropshipper Program</span>
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">Dropshipper Program</span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 leading-snug mb-2">
+                  <h3 className="text-lg sm:text-2xl font-extrabold text-gray-900 leading-snug mb-1.5">
                     Ghar Baithay Kamai Karein
                   </h3>
-                  <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-gray-500 mb-4 sm:mb-5 leading-relaxed">
                     <span className="font-semibold text-gray-700">PakCart Dropshipper Program</span> — koi investment nahi, koi stock nahi. Sirf sell karo aur kamao.
                   </p>
 
-                  <div className="space-y-3 mb-8 flex-1">
-                    <div className="flex items-center gap-4 rounded-2xl bg-green-50 border border-green-100 p-4">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white shadow-sm shrink-0">
-                        <Package className="h-5 w-5 text-amber-500" />
-                      </span>
-                      <div>
-                        <p className="text-sm font-bold text-gray-800">Zero Stock, Zero Tension</p>
-                        <p className="text-xs text-gray-500">Hum stock manage karte hain</p>
+                  {/* Feature rows */}
+                  <div className="space-y-2.5 sm:space-y-3 mb-4 sm:mb-6 flex-1">
+                    {[
+                      { icon: Package,    title: "Zero Stock, Zero Tension",    sub: "Hum stock manage karte hain" },
+                      { icon: TrendingUp, title: "Apna Profit Set Karein",      sub: "Apni marzi se pricing rakho" },
+                      { icon: Truck,      title: "Delivery Hamari Zimmedari",   sub: "Puri Pakistan mein fast delivery" },
+                    ].map(({ icon: Icon, title, sub }) => (
+                      <div key={title} className="flex items-center gap-3 rounded-xl sm:rounded-2xl bg-green-50 border border-green-100 p-3 sm:p-4">
+                        <span className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg sm:rounded-xl bg-white shadow-sm shrink-0">
+                          <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500" />
+                        </span>
+                        <div>
+                          <p className="text-xs sm:text-sm font-bold text-gray-800 leading-tight">{title}</p>
+                          <p className="text-[10px] sm:text-xs text-gray-500 leading-tight mt-0.5">{sub}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-4 rounded-2xl bg-green-50 border border-green-100 p-4">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white shadow-sm shrink-0">
-                        <TrendingUp className="h-5 w-5 text-amber-500" />
-                      </span>
-                      <div>
-                        <p className="text-sm font-bold text-gray-800">Apna Profit Set Karein</p>
-                        <p className="text-xs text-gray-500">Apni marzi se pricing rakho</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 rounded-2xl bg-green-50 border border-green-100 p-4">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white shadow-sm shrink-0">
-                        <Truck className="h-5 w-5 text-amber-500" />
-                      </span>
-                      <div>
-                        <p className="text-sm font-bold text-gray-800">Delivery Hamari Zimmedari</p>
-                        <p className="text-xs text-gray-500">Puri Pakistan mein fast delivery</p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
 
-                  <div className="flex flex-row gap-3 mt-auto">
+                  <div className="flex flex-row gap-2.5 sm:gap-3 mt-auto">
                     <Link href="/dropshipper" className="flex-1">
                       <button
                         type="button"
-                        className="w-full rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 text-sm tracking-wide shadow-md hover:shadow-lg transition-all duration-200"
+                        className="w-full rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-2.5 sm:py-3 text-xs sm:text-sm tracking-wide shadow-md hover:shadow-lg transition-all duration-200"
                         data-testid="home-dropshipper-join"
                       >
                         Abhi Join Karein
@@ -796,7 +786,7 @@ export default function Home() {
                     <Link href="/dropshipper" className="flex-1">
                       <button
                         type="button"
-                        className="w-full rounded-2xl border-2 border-gray-200 hover:border-amber-300 hover:bg-amber-50 text-gray-600 font-bold py-3 text-sm transition-all duration-200"
+                        className="w-full rounded-xl sm:rounded-2xl border-2 border-gray-200 hover:border-amber-300 hover:bg-amber-50 text-gray-600 font-bold py-2.5 sm:py-3 text-xs sm:text-sm transition-all duration-200"
                         data-testid="home-dropshipper-learn"
                       >
                         Learn More
