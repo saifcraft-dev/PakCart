@@ -521,7 +521,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* New Arrivals */}
+        {/* Featured Products */}
         <section
           className="py-10 bg-muted/30"
           style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 1200px' }}
@@ -534,7 +534,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <h2 className="font-display text-4xl font-bold text-foreground mb-2">New Arrivals</h2>
+                <h2 className="font-display text-4xl font-bold text-foreground mb-2">Featured Products</h2>
                 <div className="h-1.5 w-16 bg-secondary rounded-full" />
               </motion.div>
             </div>
