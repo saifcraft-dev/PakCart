@@ -4,9 +4,9 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "vite --port 5000 --host",
-    "build": "vite build && node scripts/validate-build.js",
-    "preview": "vite preview",
+    "dev": "node_modules/.bin/vite --port 5000 --host",
+    "build": "node_modules/.bin/vite build && node scripts/validate-build.js",
+    "preview": "node_modules/.bin/vite preview",
     "check": "tsc"
   },
   "dependencies": {
