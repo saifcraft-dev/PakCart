@@ -28,9 +28,11 @@ function buildGeminiParts(content: string | any[]): any[] {
   return parts;
 }
 
-/** Collect all configured Gemini API keys in order: GEMINI_API_KEY, GEMINI_API_KEY_B, GEMINI_API_KEY_C, … */
+/** Collect all configured Gemini API keys in order: AI_INTEGRATIONS_GEMINI_API_KEY (Replit managed), GEMINI_API_KEY, GEMINI_API_KEY_B, … */
 function getGeminiApiKeys(): string[] {
   const keys: string[] = [];
+  const replitManaged = process.env.AI_INTEGRATIONS_GEMINI_API_KEY;
+  if (replitManaged && replitManaged !== "_DUMMY_API_KEY_") keys.push(replitManaged);
   const primary = process.env.GEMINI_API_KEY;
   if (primary) keys.push(primary);
   for (const suffix of ["B", "C", "D", "E", "F"]) {
@@ -38,6 +40,13 @@ function getGeminiApiKeys(): string[] {
     if (k) keys.push(k);
   }
   return keys;
+}
+
+/** Get the Gemini API base URL (Replit-managed proxy or Google's default) */
+function getGeminiBaseUrl(): string | null {
+  const replitBase = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL;
+  if (replitBase) return replitBase;
+  return null;
 }
 
 /**
@@ -88,15 +97,16 @@ async function callGeminiWithFallback(
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       try {
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
-          {
+        const baseUrl = getGeminiBaseUrl();
+        const geminiUrl = baseUrl
+          ? `${baseUrl}/models/${model}:generateContent?key=${key}`
+          : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+        const geminiRes = await fetch(geminiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody),
             signal: AbortSignal.timeout(120000),
-          }
-        );
+          });
         const data = await geminiRes.json();
         lastStatus = geminiRes.status;
         lastData = data;
