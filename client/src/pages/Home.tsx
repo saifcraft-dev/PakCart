@@ -199,7 +199,7 @@ export default function Home() {
   }, [allProducts, showMoreLiked]);
 
   const newArrivals = useMemo(() => {
-    const filtered = allProducts?.filter(p => p.labels?.includes("New")) || [];
+    const filtered = allProducts?.filter(p => p.labels?.includes("Featured")) || [];
     return showMoreNewArrivals ? filtered : filtered.slice(0, 6);
   }, [allProducts, showMoreNewArrivals]);
 
