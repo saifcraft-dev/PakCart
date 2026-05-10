@@ -712,29 +712,11 @@ export default function Home() {
                   </div>
 
                   {/* What's Included */}
-                  <div className="mb-7">
-                    <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">What's Included</p>
-                    <div className="grid grid-cols-1 gap-2">
-                      {[
-                        { icon: Smartphone,       label: "Mobile Responsive Design",   sub: "Perfect on all screens" },
-                        { icon: Search,           label: "SEO Optimized",              sub: "Rank on Google faster" },
-                        { icon: MessageCircle,    label: "WhatsApp Integration",       sub: "Chat & order via WhatsApp" },
-                        { icon: CreditCard,       label: "Online Payment Ready",       sub: "EasyPaisa, JazzCash & cards" },
-                        { icon: Zap,              label: "Fast Loading Speed",         sub: "Optimized for Pakistan's network" },
-                        { icon: LayoutDashboard,  label: "Admin Dashboard",            sub: "Manage orders & products easily" },
-                      ].map(({ icon: Icon, label, sub }) => (
-                        <div key={label} className="flex items-center gap-3 py-2 px-3 rounded-xl hover:bg-amber-50 transition-colors group">
-                          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 group-hover:bg-amber-200 transition-colors shrink-0">
-                            <Icon className="h-4 w-4 text-amber-600" />
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold text-gray-800 leading-tight">{label}</p>
-                            <p className="text-xs text-gray-400 leading-tight truncate">{sub}</p>
-                          </div>
-                          <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0" />
-                        </div>
-                      ))}
-                    </div>
+                  <div className="mb-7 rounded-2xl bg-amber-50 border border-amber-100 px-4 py-3.5">
+                    <p className="text-xs font-bold uppercase tracking-wider text-amber-500 mb-1.5">What's Included</p>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      Mobile responsive design, SEO optimization, WhatsApp integration, online payments (EasyPaisa, JazzCash & cards), fast loading speed, and a full admin dashboard — everything ready from day one.
+                    </p>
                   </div>
 
                   <div className="mt-auto">
