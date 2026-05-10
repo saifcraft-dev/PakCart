@@ -76,7 +76,7 @@ async function callGemini(prompt: string): Promise<string> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: { maxOutputTokens: 4096, temperature: 0.95 },
+      generationConfig: { maxOutputTokens: 8192, temperature: 0.92 },
     }),
   });
   if (!res.ok) {
@@ -144,23 +144,55 @@ Return ONLY the JSON array. No markdown, no intro text.`;
 function parseReviews(raw: string, expected: number): GeneratedReview[] {
   // Strip markdown code fences if present
   let clean = raw.trim();
-  if (clean.startsWith("```")) {
-    clean = clean.replace(/^```[a-z]*\n?/i, "").replace(/```\s*$/i, "").trim();
-  }
+  clean = clean.replace(/^```[a-z]*\n?/i, "").replace(/```\s*$/i, "").trim();
+
+  // Try full parse first
   try {
     const arr = JSON.parse(clean);
-    if (!Array.isArray(arr)) throw new Error("not an array");
-    return arr.slice(0, expected).map((r: any) => ({
-      name: String(r.name ?? "Customer"),
-      gender: (["male","female","unisex"].includes(r.gender) ? r.gender : "unisex") as any,
-      rating: ([5,4,3].includes(Number(r.rating)) ? Number(r.rating) : 5) as any,
-      content: String(r.content ?? ""),
-      date: r.date ?? new Date().toISOString(),
-    }));
-  } catch (e) {
-    console.error("JSON parse failed. Raw response:\n", raw.slice(0, 500));
-    throw e;
+    if (Array.isArray(arr) && arr.length > 0) {
+      return normaliseReviews(arr, expected);
+    }
+  } catch (_) { /* fall through to recovery */ }
+
+  // Recovery: extract complete JSON objects from a possibly-truncated array.
+  // Walk the string, depth-track braces, pull complete {...} objects.
+  const recovered: any[] = [];
+  let depth = 0;
+  let start = -1;
+  for (let i = 0; i < clean.length; i++) {
+    const ch = clean[i];
+    if (ch === "{") {
+      if (depth === 0) start = i;
+      depth++;
+    } else if (ch === "}") {
+      depth--;
+      if (depth === 0 && start !== -1) {
+        try {
+          const obj = JSON.parse(clean.slice(start, i + 1));
+          recovered.push(obj);
+        } catch (_) { /* skip malformed object */ }
+        start = -1;
+      }
+    }
   }
+
+  if (recovered.length > 0) {
+    console.log(`  ⚠ JSON truncated — recovered ${recovered.length} complete object(s)`);
+    return normaliseReviews(recovered, expected);
+  }
+
+  console.error("JSON parse failed entirely. Raw response:\n", raw.slice(0, 500));
+  throw new Error("Could not parse any reviews from Gemini response");
+}
+
+function normaliseReviews(arr: any[], expected: number): GeneratedReview[] {
+  return arr.slice(0, expected).map((r: any) => ({
+    name: String(r.name ?? "Customer"),
+    gender: (["male","female","unisex"].includes(r.gender) ? r.gender : "unisex") as any,
+    rating: ([5,4,3,2,1].includes(Number(r.rating)) ? Number(r.rating) : 5) as any,
+    content: String(r.content ?? ""),
+    date: r.date ?? new Date().toISOString(),
+  }));
 }
 
 // ---------------------------------------------------------------------------
@@ -214,12 +246,12 @@ async function seedProduct(
   dryRun: boolean,
 ): Promise<GeneratedReview[]> {
   const price = product.discountedPrice ?? product.price ?? 0;
-  // Vary count: 4-15 reviews, higher for cheaper products
+  // Keep max at 8 per call to avoid token truncation. Cheaper products still get more.
   const reviewCount = count || (
-    price < 1000 ? 10 + Math.floor(Math.random() * 6) :
-    price < 3000 ? 8 + Math.floor(Math.random() * 5) :
-    price < 7000 ? 6 + Math.floor(Math.random() * 5) :
-                   4 + Math.floor(Math.random() * 4)
+    price < 1000 ? 7 + Math.floor(Math.random() * 2) :   // 7-8
+    price < 3000 ? 6 + Math.floor(Math.random() * 2) :   // 6-7
+    price < 7000 ? 5 + Math.floor(Math.random() * 2) :   // 5-6
+                   4 + Math.floor(Math.random() * 2)      // 4-5
   );
 
   console.log(`\n▶ ${product.name}`);
@@ -286,6 +318,11 @@ async function main() {
   const isDry      = args.includes("--dry");
   const pidx       = args.indexOf("--product");
   const singleId   = pidx !== -1 ? args[pidx + 1] : null;
+  // Batch controls: --offset N --limit N (used when isAll)
+  const oidx       = args.indexOf("--offset");
+  const lidx       = args.indexOf("--limit");
+  const batchOffset = oidx !== -1 ? parseInt(args[oidx + 1]) : 0;
+  const batchLimit  = lidx !== -1 ? parseInt(args[lidx + 1]) : 999;
 
   if (!GEMINI_KEY) {
     console.error("ERROR: No Gemini API key found. Set AI_INTEGRATIONS_GEMINI_API_KEY or GEMINI_API_KEY.");
@@ -294,9 +331,10 @@ async function main() {
 
   if (!isSample && !isAll && !singleId) {
     console.log("Usage:");
-    console.log("  npx tsx scripts/seed-ai-reviews.ts --sample        # Preview 4 reviews for first product");
-    console.log("  npx tsx scripts/seed-ai-reviews.ts --all           # Seed all unseeded products");
-    console.log("  npx tsx scripts/seed-ai-reviews.ts --product <id>  # Seed one product by ID");
+    console.log("  npx tsx scripts/seed-ai-reviews.ts --sample                       # Preview 4 reviews");
+    console.log("  npx tsx scripts/seed-ai-reviews.ts --all                          # Seed all unseeded");
+    console.log("  npx tsx scripts/seed-ai-reviews.ts --all --offset 0 --limit 8    # Seed first 8 unseeded");
+    console.log("  npx tsx scripts/seed-ai-reviews.ts --product <id>                # Seed one product");
     console.log("  Add --dry to any command to skip writing to Firestore");
     process.exit(0);
   }
@@ -355,8 +393,9 @@ async function main() {
     const seedSnap = await getDocs(seedQ);
     seedSnap.docs.forEach((d) => seededProductIds.add(d.data().productId));
 
-    const toSeed = products.filter((p) => !seededProductIds.has(p.id));
-    console.log(`\n${toSeed.length} products need seeding (${seededProductIds.size} already have seeded reviews).`);
+    const allToSeed = products.filter((p) => !seededProductIds.has(p.id));
+    const toSeed = allToSeed.slice(batchOffset, batchOffset + batchLimit);
+    console.log(`\n${allToSeed.length} total unseeded. Processing ${toSeed.length} (offset=${batchOffset}, limit=${batchLimit}).`);
 
     let done = 0;
     let failed = 0;
@@ -381,3 +420,4 @@ main().catch((err) => {
   console.error("Fatal:", err);
   process.exit(1);
 });
+// end of file
