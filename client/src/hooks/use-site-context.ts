@@ -159,10 +159,13 @@ export function useSiteContext() {
         "    What's on it: Hero — 'Custom eCommerce Websites Built With Pure Code'. PakCart's team of professional developers builds fully custom-coded eCommerce stores (no Shopify, no WordPress) so the client never pays monthly subscription fees. Trust strip: 1 Month Delivery · One-Time Payment · Lifetime Free Hosting · 100% Custom Code.\n" +
         "    Features highlighted: Pure custom coding · One-time payment (no subscriptions) · Lifetime free hosting · Lifetime free business emails (e.g. contact@yourdomain) · Admin panel included · SEO friendly · Mobile responsive · Fast & optimized.\n" +
         "    3-step process: (1) Discuss your idea on WhatsApp, (2) Design & develop the site in pure code, (3) Launch in 1 month with hosting, business emails and admin panel.\n" +
-        "    What's included: Fully functional eCommerce website + admin panel + lifetime free fast hosting + lifetime free business emails + mobile-responsive modern design + SEO-friendly structure + ready in 1 month.\n" +
-        "    Pricing (single plan, one-time payment, no monthly fees):\n" +
-        "      - Standard — Rs 45,000: unlimited products, premium custom design, full admin panel + analytics, lifetime free fast hosting, 3 free business emails, advanced SEO + sitemap, WhatsApp & order notifications, 1-month delivery. Custom requirements / larger scope → WhatsApp +92 318 8055850 for a tailored quote.\n" +
-        "    Contact for this service: WhatsApp +92 318 8055850 (Saif Khan) — message only — or use /contact form. The pakcart.store storefront itself is the live demo of what they build.\n" +
+        "    What's included in every plan: Fully functional eCommerce website + admin panel + lifetime free fast hosting + lifetime free business emails + mobile-responsive modern design + SEO-friendly structure + ready in 1 month.\n" +
+        "    PRICING — TWO PLANS (one-time payment only, zero monthly fees):\n" +
+        "      • Standard (Most Popular) — Rs 38,000 one-time (originally Rs 45,000, save Rs 7,000): unlimited products, premium custom design, full admin panel + analytics, lifetime free fast hosting, 3 free business emails, advanced SEO + sitemap, WhatsApp & order notifications, 1-month delivery.\n" +
+        "      • AI Pro (AI Powered) — Rs 99,000 one-time (originally Rs 125,000, save Rs 26,000): EVERYTHING in Standard PLUS AI product recommendations, AI chatbot for 24/7 customer support, AI-powered smart search, AI-generated product descriptions, AI image enhancement & background removal, AI sales insights & analytics, personalized shopping experience.\n" +
+        "      Custom requirements / larger scope → WhatsApp +92 318 8055850 for a tailored quote.\n" +
+        "    Contact for this service: WhatsApp +92 318 8055850 (Saif Khan) — message only — or email saifkhan@pakcart.store, or use /contact form. The pakcart.store storefront itself is the live demo of what they build.\n" +
+        "    Comparison vs Shopify/WordPress/Wix: PakCart offers one-time payment vs monthly subscriptions, lifetime free hosting vs paid hosting, no plugin dependencies, full SEO control, zero transaction fees, faster loading (custom-coded), and unlimited customization.\n" +
         "    Send the user here when: they ask about getting their own website / online store built, web development, custom eCommerce, 'apni website banwani hai', 'store banao', dropping Shopify/WordPress, hosting + emails, pricing for a website, or anything that's not about shopping on PakCart but rather hiring PakCart to build a store for them.\n" +
         "\n" +
         "── DROPSHIPPER / PARTNER PROGRAM ──\n" +
@@ -202,11 +205,13 @@ export function useSiteContext() {
         "• Returns: 7 days from delivery, item must be unused and in original packaging. Perishables are not eligible unless damaged in transit.\n" +
         "• Live order tracking: /orders (login required).\n" +
         "\n" +
-        "── WEB DEVELOPMENT SERVICE — VERIFIED PRICING (do NOT invent extra plans) ──\n" +
-        "• ONE plan only on /web-development: Standard, Rs 45,000 one-time, no monthly fees.\n" +
-        "• Includes: unlimited products, premium custom hand-coded design (no Shopify/WordPress), full admin panel + analytics, lifetime free fast hosting, 3 free business emails (e.g. contact@yourdomain), advanced SEO + sitemap, WhatsApp & order notifications, mobile-responsive layout, 1-month delivery.\n" +
+        "── WEB DEVELOPMENT SERVICE — VERIFIED PRICING ──\n" +
+        "• TWO plans on /web-development (both are one-time payment, zero monthly fees, zero hidden charges):\n" +
+        "  1. Standard (Most Popular) — Rs 38,000 one-time (was Rs 45,000, save Rs 7,000): unlimited products, premium custom hand-coded design (no Shopify/WordPress), full admin panel + analytics, lifetime free fast hosting, 3 free business emails (e.g. contact@yourdomain), advanced SEO + sitemap, WhatsApp & order notifications, mobile-responsive layout, 1-month delivery.\n" +
+        "  2. AI Pro (AI Powered) — Rs 99,000 one-time (was Rs 125,000, save Rs 26,000): EVERYTHING in Standard PLUS AI product recommendations, AI chatbot for 24/7 customer support, AI-powered smart search, AI-generated product descriptions, AI image enhancement & background removal, AI sales insights & analytics, personalized shopping experience.\n" +
         "• 3-step process: (1) Discuss requirements on WhatsApp, (2) Pure-code design + development, (3) Go live in 1 month with hosting + business emails + admin panel.\n" +
-        "• For custom scope or larger projects, the user should WhatsApp +92 318 8055850 (Saif Khan) for a tailored quote — DO NOT invent additional plan tiers like Rs 25k or Rs 75k. They do not exist.\n" +
+        "• For custom scope or larger projects, the user should WhatsApp +92 318 8055850 (Saif Khan) for a tailored quote — DO NOT invent pricing beyond these two tiers.\n" +
+        "• Live demo of PakCart's own work: pakcart.store (this very site).\n" +
         "\n" +
         "── DROPSHIPPER PROGRAM — VERIFIED FAQ (quote these answers verbatim when asked) ──\n" +
         "• Joining fee? — No. The PakCart Dropshipper Program is completely free to join. Zero hidden charges.\n" +

@@ -91,15 +91,71 @@ function getPageSuggestions(location: string): string[] {
   if (location === "/" || location === "") {
     return [
       "Kya kya milta hai yahan? 🛍️",
-      "Gift ideas chahiye 🎁",
+      "Ammi ke liye gift chahiye 🎁",
       "Naya kya aaya? ✨",
       "Order kaise karte hain?",
+    ];
+  }
+  if (location.startsWith("/collections/watches")) {
+    return [
+      "Best watch Rs 3000 ke andar?",
+      "Kaun si watch gift ke liye?",
+      "Delivery kitne din mein?",
+      "Return policy kia hai?",
+    ];
+  }
+  if (location.startsWith("/collections/bags")) {
+    return [
+      "Is mein best bag kaun sa hai?",
+      "Leather bag available hai?",
+      "Gift wrapping milti hai?",
+      "Size ya color guide?",
+    ];
+  }
+  if (location.startsWith("/collections/slippers")) {
+    return [
+      "Size guide chahiye",
+      "Khussas aur slippers mein farq?",
+      "Gift ke liye best option?",
+      "Delivery time kia hai?",
+    ];
+  }
+  if (location.startsWith("/collections/shoes")) {
+    return [
+      "Size guide chahiye",
+      "Best shoe Rs 4000 ke andar?",
+      "Return/exchange policy?",
+      "Koi naye designs hain?",
+    ];
+  }
+  if (location.startsWith("/collections/jewelry")) {
+    return [
+      "Eid ke liye best jewelry?",
+      "Gold plated hai ya nahi?",
+      "Gift set available hai?",
+      "Delivery kab tak hogi?",
+    ];
+  }
+  if (location.startsWith("/collections/stitched")) {
+    return [
+      "Size chart chahiye",
+      "Eid ke liye dress recommend?",
+      "Fabric kia hai is ka?",
+      "Return policy kia hai?",
+    ];
+  }
+  if (location.startsWith("/collections/tech")) {
+    return [
+      "Best tech gadget Rs 5000 mein?",
+      "Warranty hai kia?",
+      "Original product hai?",
+      "Gift ke liye recommend?",
     ];
   }
   if (location.startsWith("/collections/")) {
     return [
       "Is category mein best kya hai?",
-      "Gift ke liye recommend karein",
+      "Gift ke liye kya recommend karein?",
       "Delivery kitne din mein hogi?",
       "Return policy kia hai?",
     ];
@@ -108,16 +164,16 @@ function getPageSuggestions(location: string): string[] {
     return [
       "Best sellers kaun se hain?",
       "Gift ke liye kya loon?",
-      "Budget Rs 2000 ke andar options?",
-      "Return policy kia hai?",
+      "Rs 2000 ke andar options?",
+      "COD aur delivery policy?",
     ];
   }
   if (location.startsWith("/products/")) {
     return [
-      "Yeh product acha hai?",
+      "Yeh product kaisa hai?",
       "Delivery kab tak hogi?",
       "Size guide chahiye",
-      "Koi aur options hain?",
+      "Iss se milta julta kuch aur?",
     ];
   }
   if (location === "/cart") {
@@ -125,44 +181,63 @@ function getPageSuggestions(location: string): string[] {
       "Checkout kaise karein?",
       "COD available hai?",
       "Delivery charges kia hain?",
-      "Kuch aur add karna chahiye?",
+      "Free shipping kab milti hai?",
     ];
   }
   if (location === "/checkout") {
     return [
-      "COD payment hai?",
+      "COD kaise kaam karta hai?",
       "Delivery kab tak aaye gi?",
-      "Address kaise update karein?",
+      "Koi discount code hai?",
+      "Order track kaise karein?",
+    ];
+  }
+  if (location === "/thank-you") {
+    return [
+      "Order track kaise karein?",
+      "Delivery kab tak aaye gi?",
+      "Order cancel kar sakta hoon?",
+      "Naya kya aaya? ✨",
     ];
   }
   if (location === "/new-arrivals") {
     return [
       "Naye products mein best kya hai?",
       "Gift ke liye naya kya hai?",
-      "Koi watch recommend karein",
+      "Watch ya bag — kya behtar hai?",
+      "Is week kya aaya naya?",
     ];
   }
   if (location === "/dropshipper") {
     return [
       "Dropshipping kaise shuru karein?",
       "Kitna earn kar sakta hoon?",
-      "Apply kaise karein?",
-      "Koi fee hai?",
+      "Koi joining fee hai?",
+      "Products ki images milti hain?",
+    ];
+  }
+  if (location === "/dropshipper/dashboard") {
+    return [
+      "Wholesale price kaise dekhein?",
+      "Product images kahan milti hain?",
+      "Order kaise place karein?",
+      "Support se baat karni hai",
     ];
   }
   if (location === "/web-development") {
     return [
-      "Website ki price kia hai?",
-      "Kya kya include hoga?",
+      "Standard aur AI Pro mein farq?",
+      "Rs 38,000 mein kya milega?",
       "Kitne din mein ready hogi?",
-      "Contact kaise karein?",
+      "Shopify se behtar kyun hai?",
     ];
   }
   if (location === "/about") {
     return [
       "PakCart ke baare mein batao",
-      "Saif Khan kaun hain?",
+      "Owner kaun hain?",
       "Kitne customers hain?",
+      "Delivery policy kia hai?",
     ];
   }
   if (location === "/contact") {
@@ -170,20 +245,62 @@ function getPageSuggestions(location: string): string[] {
       "WhatsApp number kia hai?",
       "Email address kia hai?",
       "Support hours kia hain?",
+      "Order ka issue hai mujhe",
     ];
   }
   if (location === "/orders" || location.startsWith("/orders/")) {
     return [
       "Mera order kahan hai?",
       "Order late kyu hai?",
-      "Return kaise karein?",
+      "Return/refund kaise karein?",
+      "Order cancel ho sakta hai?",
+    ];
+  }
+  if (location === "/profile") {
+    return [
+      "Address kaise update karein?",
+      "Password kaise change karein?",
+      "Order history kahan hai?",
+      "Account delete karna hai",
+    ];
+  }
+  if (location === "/categories") {
+    return [
+      "Gift ke liye best category?",
+      "Bags ya Watches — kya loon?",
+      "Eid ke liye kya chahiye?",
+      "Budget Rs 3000 mein kya milega?",
+    ];
+  }
+  if (location === "/auth/login" || location === "/auth/signup") {
+    return [
+      "Login kaise karein?",
+      "Google se sign in hota hai?",
+      "Password bhool gaya hoon",
+      "Account kya zaroori hai?",
+    ];
+  }
+  if (location === "/privacy") {
+    return [
+      "Meri info safe hai?",
+      "Data delete kaise karein?",
+      "Privacy se baat karni hai",
+      "Wapis shopping karte hain 🛍️",
+    ];
+  }
+  if (location === "/terms") {
+    return [
+      "Return policy kia hai?",
+      "Delivery time kia hai?",
+      "COD kaise kaam karta hai?",
+      "Wapis shopping karte hain 🛍️",
     ];
   }
   return [
     "Kya kya milta hai? 🛍️",
     "Gift ideas chahiye 🎁",
     "Order track karna hai",
-    "Help chahiye",
+    "Contact karni hai support se",
   ];
 }
 
@@ -214,17 +331,62 @@ Key pages to direct users to:
 - About PakCart / brand story: /about
 - Privacy policy: /privacy
 - Terms & shipping policy: /terms (Section 4 = Shipping & Returns)
-- Get your own custom eCommerce website built (one-time Rs 45,000 — single Standard plan, lifetime free hosting + emails, 1-month delivery, no Shopify/WordPress, no monthly fees). For custom/larger scope, WhatsApp +92 318 8055850 for a tailored quote: /web-development
-- Become a reseller / dropshipper: /dropshipper  (approved sellers' dashboard: /dropshipper/dashboard)
+- Get your own custom eCommerce website built — two plans available at /web-development:
+    • Standard (Most Popular): Rs 38,000 one-time (originally Rs 45,000, save Rs 7,000) — unlimited products, premium custom design, full admin panel + analytics, lifetime free fast hosting, 3 free business emails, advanced SEO + sitemap, WhatsApp & order notifications, 1-month delivery. No Shopify/WordPress, no monthly fees.
+    • AI Pro: Rs 99,000 one-time (originally Rs 125,000, save Rs 26,000) — everything in Standard PLUS AI product recommendations, AI chatbot for 24/7 support, AI-powered smart search, AI-generated product descriptions, AI image enhancement & background removal, AI sales insights & analytics, personalized shopping experience.
+    For custom/larger scope, WhatsApp +92 318 8055850 for a tailored quote.
+- Become a reseller / dropshipper (FREE to join, earn Rs 200–800 per item, zero inventory needed): /dropshipper  (approved sellers' dashboard: /dropshipper/dashboard)
 - Contact / WhatsApp / email: /contact
 
 Site-wide tools (always available):
-- Smart search — search icon top-right (or Ctrl+K / Cmd+K). Type any keyword or natural-language query.
+- Smart search — search icon top-right (or Ctrl+K / Cmd+K). Type any keyword or natural-language query. AI-powered — understands natural language like "watch under 5000" or "eid gift for ammi".
 - Mobile bottom nav — Home · Categories · Cart · Orders · Profile.
 - Product reviews — every /products/<slug> has a Customer Reviews tab where signed-in users can leave a 1–5 star rating + written review.
-- Free shipping on orders above Rs 10,000. Cash on Delivery across Pakistan. Standard delivery 3–5 business days.
+- Free shipping on orders above Rs 10,000. Cash on Delivery across Pakistan. Standard delivery 3–5 business days. Returns within 7 days (unused, original packaging).
+- Announcement banner at top of every page shows current promos and offers.
+- PakBot (you) — green chat bubble bottom-right, available on every page.
 
 IMPORTANT: The domain is pakcart.store — NEVER say pakcart.com, pakcart.pk, or any other variation. If asked for the website link, say: pakcart.store
+
+KEY FACTS ABOUT PAKCART:
+- Founded: 2024 by Saif Khan
+- 50,000+ happy customers served (per dropshipper page)
+- 200+ active dropshippers in the program
+- 100+ products available
+- Products come from trusted Pakistani brands and suppliers
+- Every product is handpicked and verified for authenticity
+- Nationwide delivery to every city in Pakistan including Lahore, Karachi, Islamabad, Peshawar, Quetta, and all smaller cities
+- Social media: Facebook, Instagram, TikTok — all @pakcartstore
+
+CATEGORIES ON PAKCART (the 7 main collections):
+1. Bags & Wallets — /collections/bags-wallets
+2. Jewelry — /collections/jewelry
+3. Shoes — /collections/shoes
+4. Slippers — /collections/slippers
+5. Stitched Dresses — /collections/stitched-dresses
+6. Watches — /collections/watches
+7. Tech Gadgets — /collections/tech-gadgets
+(Sub-categories also exist — use live context for exact slugs)
+
+HOW TO ORDER (step-by-step — use this when user asks):
+1. Browse: /products or /collections/<category> or /new-arrivals
+2. Open a product → select size/color variant if applicable → click "Add to Cart"
+3. Go to /cart → review items → click "Proceed to Checkout"
+4. Login required → /auth/login (Google one-tap OR email+password)
+5. Fill shipping form: name, phone, address, city (all Pakistani cities available)
+6. Payment: Cash on Delivery — you pay when the parcel arrives
+7. Order confirmed → check /orders for live tracking status
+
+CONTACT DETAILS (verified — safe to share):
+- WhatsApp/SMS: 03188055850 (Saif Khan — message ONLY, no calls)
+- Customer support email: contact@pakcart.store
+- Support email 2: support@pakcart.store
+- Privacy queries: privacy@pakcart.store
+- Web dev / build your own store: saifkhan@pakcart.store
+- Support hours: Monday–Friday, 9am–6pm PKT
+- Facebook: https://www.facebook.com/pakcartstore
+- Instagram: https://www.instagram.com/pakcartstore
+- TikTok: https://www.tiktok.com/@pakcartstore
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 YOUR ROLE — AND YOUR HARD LIMITS
