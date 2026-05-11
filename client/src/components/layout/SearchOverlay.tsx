@@ -7,7 +7,7 @@ import {
   ShoppingBag,
   AlertCircle,
   Tag,
-  ArrowRight,
+  ArrowUpRight,
   Sparkles,
   Loader2,
 } from "lucide-react";
@@ -169,29 +169,29 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-40"
             onClick={onClose}
           />
 
-          {/* Panel — slides down from top, full-width, white card */}
+          {/* Panel */}
           <motion.div
-            initial={{ y: -20, opacity: 0 }}
+            initial={{ y: -16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ y: -16, opacity: 0 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="fixed top-0 left-0 right-0 z-50 flex flex-col"
-            style={{ maxHeight: "92dvh" }}
+            style={{ maxHeight: "90dvh" }}
             data-testid="search-overlay"
           >
-            {/* Green accent top bar */}
-            <div className="h-1 shrink-0 bg-gradient-to-r from-green-400 via-green-500 to-emerald-500" />
+            {/* Top accent line */}
+            <div className="h-[3px] shrink-0 bg-gradient-to-r from-green-500 to-emerald-400" />
 
-            {/* White card body — scrollable on mobile */}
-            <div className="bg-white shadow-2xl flex flex-col overflow-hidden">
+            {/* Main card */}
+            <div className="bg-white shadow-[0_8px_40px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden">
 
-              {/* ── Input section (sticky, never scrolls away) ── */}
-              <div className="px-3 sm:px-6 pt-3 sm:pt-5 pb-3 shrink-0 lg:max-w-2xl lg:mx-auto lg:w-full">
+              {/* Input section */}
+              <div className="px-4 sm:px-8 pt-5 pb-4 shrink-0 max-w-3xl mx-auto w-full">
 
                 {/* Live region */}
                 <div
@@ -207,12 +207,12 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 <form onSubmit={handleSearch} role="search">
                   <div className="relative flex items-center">
 
-                    {/* Search icon badge — smaller on mobile */}
-                    <div className="absolute left-3 sm:left-4 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-green-600 shadow-sm pointer-events-none z-10 shrink-0">
-                      <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white" aria-hidden="true" />
+                    {/* Left search icon */}
+                    <div className="absolute left-4 pointer-events-none z-10">
+                      <Search className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
 
-                    {/* Input — text-base ensures no iOS auto-zoom (≥16px) */}
+                    {/* Input */}
                     <input
                       ref={inputRef}
                       type="text"
@@ -230,16 +230,18 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                         setQuery(e.target.value);
                         setSelectedSuggestionIndex(-1);
                       }}
-                      placeholder="Search bags, watches…"
+                      placeholder="Search bags, watches, slippers…"
                       className={cn(
-                        "w-full h-12 sm:h-14",
-                        "pl-12 sm:pl-16",
-                        query.length > 0 ? "pr-24 sm:pr-36" : "pr-14 sm:pr-28",
-                        "text-base text-gray-800",
-                        "bg-gray-50 border-2 border-gray-200 rounded-xl sm:rounded-2xl",
+                        "w-full h-13 sm:h-14",
+                        "pl-12",
+                        query.length > 0 ? "pr-28 sm:pr-36" : "pr-16",
+                        "text-[15px] text-gray-800 font-normal",
+                        "bg-gray-50/80 border border-gray-200 rounded-2xl",
                         "placeholder:text-gray-400 outline-none transition-all duration-200",
-                        "focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-100"
+                        "focus:bg-white focus:border-green-400 focus:ring-3 focus:ring-green-100",
+                        "shadow-sm"
                       )}
+                      style={{ height: "52px" }}
                       data-testid="search-overlay-input"
                       autoComplete="off"
                       spellCheck={false}
@@ -247,9 +249,8 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                       enterKeyHint="search"
                     />
 
-                    {/* Right-side controls */}
+                    {/* Right controls */}
                     <div className="absolute right-2 flex items-center gap-1">
-                      {/* Clear button — only shows when there's text */}
                       {query.length > 0 && (
                         <button
                           type="button"
@@ -266,43 +267,45 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                         </button>
                       )}
 
-                      {/* Submit — icon on mobile, text on desktop */}
                       <button
                         type="submit"
                         aria-label="Search PakCart"
-                        className="h-9 sm:h-10 w-9 sm:w-auto sm:px-5 flex items-center justify-center rounded-lg sm:rounded-xl bg-green-600 hover:bg-green-700 active:scale-95 text-white transition-all duration-150 shadow-sm"
+                        className="h-9 px-4 flex items-center gap-2 justify-center rounded-xl bg-green-600 hover:bg-green-700 active:scale-95 text-white text-sm font-semibold transition-all duration-150"
                         data-testid="search-overlay-submit"
                       >
-                        <Search className="h-4 w-4 sm:hidden" aria-hidden="true" />
-                        <span className="hidden sm:block text-sm font-semibold">Search</span>
+                        <Search className="h-3.5 w-3.5 sm:hidden" aria-hidden="true" />
+                        <span className="hidden sm:block">Search</span>
+                        <span className="sm:hidden sr-only">Search</span>
                       </button>
                     </div>
                   </div>
                 </form>
               </div>
 
-              {/* ── Dropdown content — scrollable ── */}
+              {/* Divider */}
+              {isDropdownOpen && (
+                <div className="h-px bg-gray-100 mx-4 sm:mx-8 shrink-0" />
+              )}
+
+              {/* Dropdown content */}
               <div
                 id={listboxId}
                 role="listbox"
                 aria-label="Search suggestions"
                 className={cn(
-                  "overflow-y-auto overscroll-contain px-3 sm:px-6 lg:max-w-2xl lg:mx-auto lg:w-full",
+                  "overflow-y-auto overscroll-contain px-4 sm:px-8 max-w-3xl mx-auto w-full",
                   !isDropdownOpen && "hidden"
                 )}
-                style={{ maxHeight: "calc(92dvh - 80px)" }}
+                style={{ maxHeight: "calc(90dvh - 90px)" }}
               >
 
                 {/* Active query ≥ 2 chars */}
                 {query.length >= 2 && (
-                  <div className="pb-4">
+                  <div className="py-3">
                     {isLoadingSuggestions && (
-                      <div className="py-8 flex items-center justify-center gap-3 text-sm text-gray-400">
-                        <span
-                          className="inline-block h-5 w-5 rounded-full border-2 border-green-400 border-t-transparent animate-spin"
-                          aria-hidden="true"
-                        />
-                        Finding matches…
+                      <div className="py-10 flex items-center justify-center gap-2.5 text-sm text-gray-400">
+                        <Loader2 className="h-4 w-4 animate-spin text-green-500" aria-hidden="true" />
+                        <span>Searching…</span>
                       </div>
                     )}
 
@@ -314,7 +317,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                     )}
 
                     {showSuggestions && (
-                      <div className="space-y-0.5 mt-1">
+                      <div className="space-y-0.5">
                         {suggestions.map((s, idx) => {
                           const thumb = thumbnailUrl(s.image);
                           const isSelected = selectedSuggestionIndex === idx;
@@ -329,46 +332,45 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                               onClick={() => handleSuggestionClick(s)}
                               onMouseEnter={() => setSelectedSuggestionIndex(idx)}
                               className={cn(
-                                "w-full flex items-center gap-3 px-2 sm:px-3 py-2.5 rounded-xl transition-all text-left group",
-                                "border-l-2",
+                                "w-full flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all text-left group",
                                 isSelected
-                                  ? "bg-green-50 border-green-500"
-                                  : "hover:bg-gray-50 border-transparent"
+                                  ? "bg-green-50"
+                                  : "hover:bg-gray-50"
                               )}
                               data-testid={`search-suggestion-${s.type}-${idx}`}
                             >
-                              {/* Thumbnail — slightly smaller on mobile */}
+                              {/* Thumbnail */}
                               {isProduct ? (
                                 thumb ? (
                                   <img
                                     src={thumb}
                                     alt=""
                                     aria-hidden="true"
-                                    className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl object-cover shrink-0 bg-gray-100 ring-1 ring-gray-200"
+                                    className="h-10 w-10 rounded-xl object-cover shrink-0 bg-gray-100 ring-1 ring-gray-200"
                                     loading="lazy"
-                                    width={44}
-                                    height={44}
+                                    width={40}
+                                    height={40}
                                   />
                                 ) : (
                                   <span
-                                    className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-gray-100 flex items-center justify-center shrink-0"
+                                    className="h-10 w-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0"
                                     aria-hidden="true"
                                   >
-                                    <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+                                    <ShoppingBag className="h-4 w-4 text-gray-400" />
                                   </span>
                                 )
                               ) : (
                                 <span
-                                  className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-green-50 flex items-center justify-center shrink-0 ring-1 ring-green-100"
+                                  className="h-10 w-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0 ring-1 ring-green-100"
                                   aria-hidden="true"
                                 >
-                                  <Tag className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                                  <Tag className="h-4 w-4 text-green-600" />
                                 </span>
                               )}
 
                               {/* Text */}
                               <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-gray-800 truncate">
+                                <p className="text-sm font-medium text-gray-800 truncate">
                                   {s.text}
                                 </p>
                                 <p className="text-xs text-gray-400 mt-0.5">
@@ -376,11 +378,11 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                                 </p>
                               </div>
 
-                              <ArrowRight
+                              <ArrowUpRight
                                 className={cn(
                                   "h-4 w-4 shrink-0 transition-all duration-150",
                                   isSelected
-                                    ? "text-green-500 translate-x-0.5"
+                                    ? "text-green-500"
                                     : "text-gray-300 group-hover:text-gray-400"
                                 )}
                                 aria-hidden="true"
@@ -393,17 +395,20 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                         <button
                           type="button"
                           onClick={() => navigateToSearch(query.trim())}
-                          className="w-full flex items-center justify-between gap-3 mt-2 px-4 py-3 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100 hover:from-green-100 hover:to-emerald-100 transition-all group active:scale-[0.99]"
+                          className="w-full flex items-center justify-between gap-3 mt-1 px-4 py-3 rounded-xl bg-gray-50 hover:bg-green-50 border border-gray-100 hover:border-green-100 transition-all group"
                           data-testid="search-see-all-results"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <Search className="h-4 w-4 text-green-600 shrink-0" aria-hidden="true" />
-                            <span className="text-sm font-semibold text-green-700 truncate">
-                              See all results for &ldquo;{query}&rdquo;
+                            <div className="w-7 h-7 rounded-lg bg-green-100 flex items-center justify-center shrink-0">
+                              <Search className="h-3.5 w-3.5 text-green-600" aria-hidden="true" />
+                            </div>
+                            <span className="text-sm font-medium text-gray-700 truncate">
+                              See all results for{" "}
+                              <span className="font-semibold text-green-700">&ldquo;{query}&rdquo;</span>
                             </span>
                           </div>
-                          <ArrowRight
-                            className="h-4 w-4 text-green-500 shrink-0 group-hover:translate-x-0.5 transition-transform"
+                          <ArrowUpRight
+                            className="h-4 w-4 text-gray-400 shrink-0 group-hover:text-green-500 transition-colors"
                             aria-hidden="true"
                           />
                         </button>
@@ -415,14 +420,14 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                       !isSuggestionsError &&
                       suggestions.length === 0 &&
                       query.length >= 2 && (
-                        <div className="py-8 text-center">
-                          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
-                            <Search className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        <div className="py-10 text-center">
+                          <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                            <Search className="h-6 w-6 text-gray-400" aria-hidden="true" />
                           </div>
-                          <p className="text-sm font-medium text-gray-600 mb-1">
+                          <p className="text-sm font-semibold text-gray-700 mb-1">
                             No results for &ldquo;{query}&rdquo;
                           </p>
-                          <p className="text-xs text-gray-400 mb-4">
+                          <p className="text-xs text-gray-400 mb-5">
                             Try a different keyword or let AI find the best match
                           </p>
                           <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
@@ -430,7 +435,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                               type="button"
                               onClick={handleAISmartSearch}
                               disabled={isAISearching}
-                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-sm font-semibold transition-all shadow-sm active:scale-95 disabled:opacity-60"
+                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-all shadow-sm active:scale-95 disabled:opacity-60"
                               data-testid="search-ai-smart"
                             >
                               {isAISearching ? (
@@ -438,15 +443,14 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                               ) : (
                                 <Sparkles className="h-4 w-4" aria-hidden="true" />
                               )}
-                              {isAISearching ? "AI searching…" : "Try AI Smart Search"}
+                              {isAISearching ? "Searching…" : "Try AI Smart Search"}
                             </button>
                             <button
                               type="button"
                               onClick={() => navigateToSearch(query.trim())}
-                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 text-sm font-semibold transition-colors active:scale-95"
+                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 text-sm font-medium transition-colors active:scale-95"
                               data-testid="search-no-results-browse"
                             >
-                              <Search className="h-4 w-4" aria-hidden="true" />
                               Browse all products
                             </button>
                           </div>
@@ -462,21 +466,21 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                   </p>
                 )}
 
-                {/* Empty query: recents + popular */}
+                {/* Empty state: recents + popular */}
                 {query.length === 0 && (
-                  <div className="pb-4 space-y-4 sm:space-y-5">
+                  <div className="py-5 space-y-5">
 
                     {showRecentSearches && (
                       <div>
-                        <div className="flex items-center justify-between mb-2.5">
-                          <span className="flex items-center gap-1.5 text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="flex items-center gap-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest">
                             <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-                            Recent
+                            Recent Searches
                           </span>
                           <button
                             type="button"
                             onClick={clearRecentSearches}
-                            className="text-xs text-gray-400 hover:text-red-500 transition-colors font-medium py-1"
+                            className="text-xs text-gray-400 hover:text-red-500 transition-colors font-medium"
                             data-testid="search-clear-recents"
                           >
                             Clear all
@@ -495,14 +499,14 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                                 onClick={() => navigateToSearch(term)}
                                 onMouseEnter={() => setSelectedSuggestionIndex(idx)}
                                 className={cn(
-                                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-all active:scale-95",
+                                  "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium border transition-all active:scale-95",
                                   isSelected
                                     ? "bg-green-600 text-white border-green-600"
-                                    : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-green-50 hover:text-green-700 hover:border-green-300"
+                                    : "bg-white text-gray-600 border-gray-200 hover:border-green-300 hover:text-green-700 hover:bg-green-50"
                                 )}
                                 data-testid={`search-recent-${idx}`}
                               >
-                                <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                                <Clock className="h-3 w-3 shrink-0 opacity-60" aria-hidden="true" />
                                 <span className="max-w-[140px] sm:max-w-none truncate">{term}</span>
                               </button>
                             );
@@ -513,9 +517,9 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
                     {showPopular && (
                       <div>
-                        <span className="flex items-center gap-1.5 text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2.5">
-                          <Sparkles className="h-3.5 w-3.5 text-amber-400" aria-hidden="true" />
-                          Trending now
+                        <span className="flex items-center gap-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                          <TrendingUp className="h-3.5 w-3.5 text-green-500" aria-hidden="true" />
+                          Trending Now
                         </span>
                         <div className="flex flex-wrap gap-2">
                           {popularSearches.map((term) => (
@@ -523,10 +527,10 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                               key={term}
                               type="button"
                               onClick={() => navigateToSearch(term)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200 hover:from-green-600 hover:to-emerald-600 hover:text-white hover:border-green-600 transition-all duration-200 active:scale-95"
+                              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium bg-white text-gray-700 border border-gray-200 hover:border-green-400 hover:text-green-700 hover:bg-green-50 transition-all duration-150 active:scale-95"
                               data-testid={`search-popular-${term.toLowerCase().replace(/\s+/g, "-")}`}
                             >
-                              <TrendingUp className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                              <ArrowUpRight className="h-3 w-3 text-green-500 shrink-0" aria-hidden="true" />
                               <span className="max-w-[160px] sm:max-w-none truncate">{term}</span>
                             </button>
                           ))}
@@ -541,6 +545,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                     )}
                   </div>
                 )}
+
               </div>
 
             </div>
