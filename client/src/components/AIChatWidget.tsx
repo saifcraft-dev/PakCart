@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Bot, ChevronDown, RotateCcw, AlertCircle, Square } from "lucide-react";
+import { MessageCircle, X, Send, Bot, ChevronDown, RotateCcw, AlertCircle, Square, ExternalLink, ArrowRight, Phone } from "lucide-react";
 import { useLocation } from "wouter";
 import { useSiteContext } from "@/hooks/use-site-context";
 
@@ -18,73 +18,173 @@ const WELCOME_MESSAGE: Message = {
     "السلام علیکم! 👋 Main PakBot hoon — aapka PakCart shopping guide. Koi bhi cheez pochni ho to batao — main help karta hoon!\n\n📞 Owner se baat karni ho to message karein: 03188055850\n(Sirf message — call nahi)",
 };
 
-function renderInlineWithLinks(text: string, keyPrefix: string) {
-  const pattern =
-    /(https?:\/\/[^\s)]+|(?:^|\s)pakcart\.store(?:\/[^\s)]*)?|(?:^|\s)\/[a-z][a-z0-9\-/]*|\b0\d{10}\b)/gi;
-  const parts: Array<string | { kind: "link"; text: string; href: string }> = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  while ((match = pattern.exec(text)) !== null) {
-    const raw = match[0];
-    const leadingWs = raw.match(/^\s+/)?.[0] ?? "";
-    const token = raw.slice(leadingWs.length);
-    const start = match.index + leadingWs.length;
-    if (start > lastIndex) parts.push(text.slice(lastIndex, start));
+type LinkKind = "internal" | "whatsapp" | "external";
+type LinkPart = { kind: "link"; label: string; href: string; type: LinkKind };
+type TextPart = { kind: "text"; text: string };
+type Part = LinkPart | TextPart;
 
-    let href = "";
-    if (/^https?:\/\//i.test(token)) href = token;
-    else if (/^pakcart\.store/i.test(token)) href = "https://" + token;
-    else if (token.startsWith("/")) href = token;
-    else if (/^0\d{10}$/.test(token)) href = "https://wa.me/92" + token.slice(1);
+function classifyLink(href: string): LinkKind {
+  if (/wa\.me/.test(href)) return "whatsapp";
+  if (href.startsWith("/")) return "internal";
+  return "external";
+}
 
-    if (href) parts.push({ kind: "link", text: token, href });
-    else parts.push(token);
-    lastIndex = start + token.length;
-  }
-  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+function renderLinkChip(p: LinkPart, key: string) {
+  const isInternal = p.type === "internal";
+  const isWhatsApp = p.type === "whatsapp";
 
-  return parts.map((p, i) => {
-    if (typeof p === "string") return <span key={`${keyPrefix}-${i}`}>{p}</span>;
-    const isInternal = p.href.startsWith("/");
+  if (isWhatsApp) {
     return (
       <a
-        key={`${keyPrefix}-${i}`}
+        key={key}
         href={p.href}
-        target={isInternal ? undefined : "_blank"}
-        rel={isInternal ? undefined : "noopener noreferrer"}
-        className="underline underline-offset-2 font-medium hover:opacity-80"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1 mx-0.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-500 text-white hover:bg-green-600 active:bg-green-700 transition-colors no-underline"
+        style={{ verticalAlign: "middle" }}
       >
-        {p.text}
+        <Phone size={11} className="shrink-0" />
+        <span>{p.label}</span>
       </a>
     );
+  }
+
+  if (isInternal) {
+    return (
+      <a
+        key={key}
+        href={p.href}
+        className="inline-flex items-center gap-1 mx-0.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border transition-colors no-underline"
+        style={{
+          verticalAlign: "middle",
+          background: "hsl(168 58% 32% / 0.1)",
+          borderColor: "hsl(168 58% 32% / 0.35)",
+          color: "hsl(168 58% 25%)",
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLAnchorElement).style.background = "hsl(168 58% 32% / 0.2)";
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLAnchorElement).style.background = "hsl(168 58% 32% / 0.1)";
+        }}
+      >
+        <ArrowRight size={10} className="shrink-0" />
+        <span>{p.label}</span>
+      </a>
+    );
+  }
+
+  return (
+    <a
+      key={key}
+      href={p.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 mx-0.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 active:bg-blue-200 transition-colors no-underline"
+      style={{ verticalAlign: "middle" }}
+    >
+      <ExternalLink size={10} className="shrink-0" />
+      <span>{p.label}</span>
+    </a>
+  );
+}
+
+function parseParts(text: string): Part[] {
+  const parts: Part[] = [];
+  // Match: [Label](url/path), OR bare https://..., OR bare /path, OR bare pakcart.store..., OR phone 03xxxxxxxxx
+  const pattern = /\[([^\]]+)\]\(((?:https?:\/\/|\/)[^\s)]+|0\d{10})\)|(https?:\/\/[^\s)>\]]+)|((?:^|\s)(\/[a-z][a-z0-9\-/]*))|(\b0\d{10}\b)|(pakcart\.store(?:\/[^\s),]*)?)/gi;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    const [full, mdLabel, mdHref, bareUrl, , barePath, barePhone, bareDomain] = match;
+    const start = match.index;
+
+    if (start > lastIndex) {
+      parts.push({ kind: "text", text: text.slice(lastIndex, start) });
+    }
+
+    if (mdLabel && mdHref) {
+      const href = /^0\d{10}$/.test(mdHref)
+        ? `https://wa.me/92${mdHref.slice(1)}`
+        : mdHref;
+      const type = classifyLink(href);
+      parts.push({ kind: "link", label: mdLabel, href, type });
+      lastIndex = start + full.length;
+    } else if (bareUrl) {
+      const type = classifyLink(bareUrl);
+      const label = type === "whatsapp" ? "WhatsApp" : bareUrl.replace(/^https?:\/\//, "").slice(0, 40);
+      parts.push({ kind: "link", label, href: bareUrl, type });
+      lastIndex = start + bareUrl.length;
+    } else if (barePath) {
+      const leadingWs = full.match(/^\s+/)?.[0] ?? "";
+      const path = barePath;
+      if (start + leadingWs.length > lastIndex) {
+        parts.push({ kind: "text", text: text.slice(lastIndex, start + leadingWs.length) });
+      }
+      const label = path === "/" ? "Home" : path.replace(/^\//, "").replace(/-/g, " ").replace(/\//g, " › ");
+      parts.push({ kind: "link", label, href: path, type: "internal" });
+      lastIndex = start + full.length;
+    } else if (barePhone) {
+      parts.push({ kind: "link", label: barePhone, href: `https://wa.me/92${barePhone.slice(1)}`, type: "whatsapp" });
+      lastIndex = start + barePhone.length;
+    } else if (bareDomain) {
+      parts.push({ kind: "link", label: bareDomain, href: `https://${bareDomain}`, type: "external" });
+      lastIndex = start + bareDomain.length;
+    } else {
+      lastIndex = start + full.length;
+    }
+  }
+
+  if (lastIndex < text.length) {
+    parts.push({ kind: "text", text: text.slice(lastIndex) });
+  }
+  return parts;
+}
+
+function renderInlineWithLinks(text: string, keyPrefix: string) {
+  const parts = parseParts(text);
+  return parts.map((p, i) => {
+    if (p.kind === "text") return <span key={`${keyPrefix}-${i}`}>{p.text}</span>;
+    return renderLinkChip(p, `${keyPrefix}-${i}`);
   });
 }
 
 function renderMessageContent(text: string) {
-  const boldPattern = /\*\*([^*\n]+)\*\*|__([^_\n]+)__/g;
-  const segments: Array<{ bold: boolean; text: string }> = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  while ((match = boldPattern.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      segments.push({ bold: false, text: text.slice(lastIndex, match.index) });
-    }
-    segments.push({ bold: true, text: match[1] ?? match[2] ?? "" });
-    lastIndex = match.index + match[0].length;
-  }
-  if (lastIndex < text.length) {
-    segments.push({ bold: false, text: text.slice(lastIndex) });
-  }
+  const lines = text.split("\n");
+  const result: React.ReactNode[] = [];
 
-  return segments.map((seg, i) =>
-    seg.bold ? (
-      <strong key={`b-${i}`} className="font-semibold">
-        {renderInlineWithLinks(seg.text, `bi-${i}`)}
-      </strong>
-    ) : (
-      <span key={`s-${i}`}>{renderInlineWithLinks(seg.text, `si-${i}`)}</span>
-    ),
-  );
+  lines.forEach((line, lineIdx) => {
+    const boldPattern = /\*\*([^*\n]+)\*\*|__([^_\n]+)__/g;
+    const segments: Array<{ bold: boolean; text: string }> = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+    while ((match = boldPattern.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        segments.push({ bold: false, text: line.slice(lastIndex, match.index) });
+      }
+      segments.push({ bold: true, text: match[1] ?? match[2] ?? "" });
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < line.length) {
+      segments.push({ bold: false, text: line.slice(lastIndex) });
+    }
+
+    const rendered = segments.map((seg, i) =>
+      seg.bold ? (
+        <strong key={`b-${lineIdx}-${i}`} className="font-semibold">
+          {renderInlineWithLinks(seg.text, `bi-${lineIdx}-${i}`)}
+        </strong>
+      ) : (
+        <span key={`s-${lineIdx}-${i}`}>{renderInlineWithLinks(seg.text, `si-${lineIdx}-${i}`)}</span>
+      ),
+    );
+
+    result.push(<span key={`line-${lineIdx}`}>{rendered}</span>);
+    if (lineIdx < lines.length - 1) result.push(<br key={`br-${lineIdx}`} />);
+  });
+
+  return result;
 }
 
 function getPageSuggestions(location: string): string[] {
@@ -347,6 +447,35 @@ Site-wide tools (always available):
 - PakBot (you) — green chat bubble bottom-right, available on every page.
 
 IMPORTANT: The domain is pakcart.store — NEVER say pakcart.com, pakcart.pk, or any other variation. If asked for the website link, say: pakcart.store
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLICKABLE LINK FORMATTING (CRITICAL — always follow this)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+When directing a user to any page or contact, ALWAYS use this markdown format:
+  [Descriptive Label](/path)
+
+Examples you MUST follow:
+- Browsing products: [Browse All Products](/products)
+- A category: [Shop Watches](/collections/watches) or [Shop Bags](/collections/bags-wallets)
+- New arrivals: [New Arrivals](/new-arrivals)
+- Cart: [Go to Cart](/cart)
+- Checkout: [Checkout Now](/checkout)
+- Orders: [Track Your Order](/orders)
+- Login: [Login / Sign Up](/auth/login)
+- About: [Our Story](/about)
+- Contact: [Contact Us](/contact)
+- Terms: [Shipping & Return Policy](/terms)
+- Web dev service: [Get Your Website Built](/web-development)
+- Dropshipper program: [Join as Dropshipper](/dropshipper)
+- WhatsApp owner: [WhatsApp Saif Khan](03188055850)
+
+RULES:
+1. NEVER write raw paths like /products or /collections/watches alone — always wrap in [Label](/path).
+2. NEVER write bare phone numbers alone — always wrap in [WhatsApp Saif Khan](03188055850).
+3. For WhatsApp, the href is the 11-digit number starting with 0 (e.g. 03188055850) — NOT a wa.me URL.
+4. Use short, action-oriented labels: "Shop Watches", "Track Order", "WhatsApp Us", etc.
+5. You can include multiple links in one message if genuinely helpful.
+6. Links render as green clickable chips in the chat — use them to make navigation effortless for the user.
 
 KEY FACTS ABOUT PAKCART:
 - Founded: 2024 by Saif Khan
