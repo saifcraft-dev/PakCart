@@ -139,7 +139,7 @@ const benefits = [
     icon: BadgeCheck,
     title: "Proven Products",
     description:
-      "50,000+ happy customers. Every product we offer has already been tested in the Pakistani market.",
+      "25,000+ happy customers. Every product we offer has already been tested in the Pakistani market.",
   },
   {
     icon: TrendingUp,
@@ -403,7 +403,7 @@ export default function Dropshipper() {
 
             <div className="hidden lg:grid grid-cols-2 gap-4">
               {[
-                { label: "Happy Customers", value: "50,000+" },
+                { label: "Happy Customers", value: "25,000+" },
                 { label: "Active Dropshippers", value: "15+" },
                 { label: "Products Available", value: "100+" },
                 { label: "Avg. Profit/Order", value: "Rs. 400+" },
@@ -424,7 +424,7 @@ export default function Dropshipper() {
         <div className="border-t border-green-600/40 bg-green-900/50">
           <div className="container mx-auto px-4 py-4 sm:py-5 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center lg:hidden">
             {[
-              { value: "50,000+", label: "Happy Customers" },
+              { value: "25,000+", label: "Happy Customers" },
               { value: "15+", label: "Active Dropshippers" },
               { value: "100+", label: "Products Available" },
               { value: "PKR 0", label: "Upfront Cost" },

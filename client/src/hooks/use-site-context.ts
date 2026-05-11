@@ -193,7 +193,7 @@ export function useSiteContext() {
         "── COMPANY / BRAND FACTS (safe to quote — verified from the live site) ──\n" +
         "• Brand name: PakCart (always one word, capital P and C). Legal domain: pakcart.store (only).\n" +
         "• Founded: 2024 by Saif Khan.\n" +
-        "• Customers served (per /dropshipper): 50,000+ happy customers — every product is already market-tested in Pakistan.\n" +
+        "• Customers served (per /dropshipper): 25,000+ happy customers — every product is already market-tested in Pakistan.\n" +
         "• Mission (from /about): Pakistan's premier destination for authentic artisanal products — connecting local artisans with customers nationwide, sustainable commerce that empowers communities while delivering exceptional quality.\n" +
         "• Two pillars highlighted on /about: (1) Nationwide Delivery — every corner of Pakistan, (2) Authentic Quality — every product handpicked & verified.\n" +
         "\n" +
