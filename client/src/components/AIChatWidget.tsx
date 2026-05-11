@@ -480,7 +480,7 @@ RULES:
 KEY FACTS ABOUT PAKCART:
 - Founded: 2024 by Saif Khan
 - 50,000+ happy customers served (per dropshipper page)
-- 200+ active dropshippers in the program
+- 15+ active dropshippers in the program
 - 100+ products available
 - Products come from trusted Pakistani brands and suppliers
 - Every product is handpicked and verified for authenticity
