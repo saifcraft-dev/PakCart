@@ -405,7 +405,7 @@ export default function Dropshipper() {
               {[
                 { label: "Happy Customers", value: "25,000+" },
                 { label: "Active Dropshippers", value: "15+" },
-                { label: "Products Available", value: "100+" },
+                { label: "Products Available", value: "150+" },
                 { label: "Avg. Profit/Order", value: "Rs. 400+" },
               ].map((s) => (
                 <div
@@ -426,7 +426,7 @@ export default function Dropshipper() {
             {[
               { value: "25,000+", label: "Happy Customers" },
               { value: "15+", label: "Active Dropshippers" },
-              { value: "100+", label: "Products Available" },
+              { value: "150+", label: "Products Available" },
               { value: "PKR 0", label: "Upfront Cost" },
             ].map((stat) => (
               <div key={stat.label}>

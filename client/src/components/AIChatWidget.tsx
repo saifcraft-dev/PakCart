@@ -481,7 +481,7 @@ KEY FACTS ABOUT PAKCART:
 - Founded: 2024 by Saif Khan
 - 25,000+ happy customers served (per dropshipper page)
 - 15+ active dropshippers in the program
-- 100+ products available
+- 150+ products available
 - Products come from trusted Pakistani brands and suppliers
 - Every product is handpicked and verified for authenticity
 - Nationwide delivery to every city in Pakistan including Lahore, Karachi, Islamabad, Peshawar, Quetta, and all smaller cities
