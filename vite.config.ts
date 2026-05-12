@@ -28,11 +28,11 @@ function buildGeminiParts(content: string | any[]): any[] {
   return parts;
 }
 
-/** Collect all configured Gemini API keys in order: AI_INTEGRATIONS_GEMINI_API_KEY (Replit managed), GEMINI_API_KEY, GEMINI_API_KEY_B, … */
+/** Collect all configured Gemini API keys in order: AI_INTEGRATIONS_GEMINI_API_KEY, GEMINI_API_KEY, GEMINI_API_KEY_B, … */
 function getGeminiApiKeys(): string[] {
   const keys: string[] = [];
-  const replitManaged = process.env.AI_INTEGRATIONS_GEMINI_API_KEY;
-  if (replitManaged && replitManaged !== "_DUMMY_API_KEY_") keys.push(replitManaged);
+  const managedKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY;
+  if (managedKey && managedKey !== "_DUMMY_API_KEY_") keys.push(managedKey);
   const primary = process.env.GEMINI_API_KEY;
   if (primary) keys.push(primary);
   for (const suffix of ["B", "C", "D", "E", "F"]) {
@@ -42,10 +42,10 @@ function getGeminiApiKeys(): string[] {
   return keys;
 }
 
-/** Get the Gemini API base URL (Replit-managed proxy or Google's default) */
+/** Get the Gemini API base URL (managed proxy or Google's default) */
 function getGeminiBaseUrl(): string | null {
-  const replitBase = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL;
-  if (replitBase) return replitBase;
+  const managedBase = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL;
+  if (managedBase) return managedBase;
   return null;
 }
 
@@ -238,7 +238,7 @@ async function geminiProxy(req: any, res: any, model: string, defaults: { max_to
         } else if (status === 429 || status === 503) {
           friendlyMsg = `All ${keys.length} Gemini API key(s) are rate-limited on every fallback model${retryAfter ? `. Try again in ~${retryAfter}s.` : "."} Add another GEMINI_API_KEY_B/C/D… to increase capacity. (${baseMsg})`;
         } else if (status === 401 || status === 403) {
-          friendlyMsg = `All ${keys.length} Gemini API key(s) were denied by Google on every fallback model. Common causes: (1) the API key's Google Cloud project is in a country/region where Gemini API is unavailable — create the keys at https://aistudio.google.com from a supported region; (2) the project has billing or admin restrictions; (3) the key was revoked. Generate fresh keys at https://aistudio.google.com/app/apikey and replace GEMINI_API_KEY / GEMINI_API_KEY_B / GEMINI_API_KEY_C in Replit Secrets. (${baseMsg})`;
+          friendlyMsg = `All ${keys.length} Gemini API key(s) were denied by Google on every fallback model. Common causes: (1) the API key's Google Cloud project is in a country/region where Gemini API is unavailable — create the keys at https://aistudio.google.com from a supported region; (2) the project has billing or admin restrictions; (3) the key was revoked. Generate fresh keys at https://aistudio.google.com/app/apikey and replace GEMINI_API_KEY / GEMINI_API_KEY_B / GEMINI_API_KEY_C in your environment secrets. (${baseMsg})`;
         } else {
           friendlyMsg = baseMsg;
         }

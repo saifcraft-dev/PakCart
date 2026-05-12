@@ -10,7 +10,7 @@ import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
  * ContactForm component that submits to Web3Forms.
  * 
  * IMPORTANT: Make sure to set VITE_WEB3FORMS_ACCESS_KEY in your .env file
- * or in the Replit Secrets tool.
+ * or in your environment secrets.
  */
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");

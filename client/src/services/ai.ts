@@ -157,7 +157,7 @@ async function callAI(
   }, 0);
   console.log(`[AI] sending request: ${payloadMB.toFixed(2)} MB, ${imageCount} images`);
 
-  // Replit's edge proxy on .replit.dev limits POST bodies to ~10MB. The deployed
+  // The dev proxy limits POST bodies to ~10MB. The deployed
   // domain is more generous but still finite. We cap at 9MB so the friendly
   // error fires BEFORE the edge returns "Request Entity Too Large".
   if (payloadMB > 9) {

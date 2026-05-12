@@ -80,7 +80,7 @@ The platform includes a complete admin dashboard, AI-powered chat assistant, dro
 | **Auth** | Firebase Authentication (Email/Password + Google) |
 | **Database** | Firebase Firestore |
 | **Media** | Cloudinary (image upload, optimization, transformations) |
-| **AI** | Google Gemini (via Replit AI Integration) |
+| **AI** | Google Gemini AI |
 | **Email** | EmailJS (order notifications) |
 | **Rich Text** | Tiptap Editor |
 | **Charts** | Recharts |
