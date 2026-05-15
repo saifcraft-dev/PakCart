@@ -1,0 +1,39 @@
+
+> rest-express@1.0.0 dev
+> node_modules/.bin/vite --port 5000 --host
+
+[1G[0K
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J
+  [32m[1mVITE[22m v7.3.1[39m  [2mready in [0m[1m226[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5000[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.31.106.2:[1m5000[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[AI proxy] gemini-2.5-flash | maxTokens=80 | images=0 | keys=3
+[AI proxy] gemini-2.5-flash key #1 failed (400 INVALID_ARGUMENT): API key expired. Please renew the API key.
+[AI proxy] Exhausted 3 key(s) across all fallback models. Last status: 400, emptyReason=null
+[AI proxy] gemini-2.5-flash | maxTokens=150 | images=0 | keys=3
+[AI proxy] gemini-2.5-flash key #1 failed (400 INVALID_ARGUMENT): API key expired. Please renew the API key.
+[AI proxy] Exhausted 3 key(s) across all fallback models. Last status: 400, emptyReason=null

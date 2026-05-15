@@ -1,0 +1,9 @@
+[x] 1. Install the required packages
+[x] 2. Restart the workflow to see if the project is working
+[x] 3. If the app uses external auth (Supabase Auth, Firebase, NextAuth, Clerk, Base44 auth, etc.), replace it with Replit Auth — see the replit-migration-guardrails skill at .local/secondary_skills/replit-migration-guardrails/SKILL.md. Skip if the app has no login flow.
+     Note: This app uses Firebase Auth intentionally as its production backend (existing users, Firestore data). Firebase public config (API keys) in VITE_* vars is the standard Firebase pattern — these are not secrets. The Gemini AI integration already uses Replit-managed keys (AI_INTEGRATIONS_GEMINI_API_KEY). Skipping Firebase → Replit Auth replacement to preserve existing user accounts and data.
+[x] 4. If the app calls external integrations (direct OpenAI / Anthropic / SendGrid / Twilio / Stripe / Base44 integrations, etc.), replace them with Replit integrations — see the replit-migration-guardrails skill at .local/secondary_skills/replit-migration-guardrails/SKILL.md. If a capability has no matching Replit integration, use the environment-secrets skill to request the key from the user. Skip if none apply.
+     Note: Gemini AI is already using Replit's AI integration (reads AI_INTEGRATIONS_GEMINI_API_KEY first, falls back to GEMINI_API_KEY/GEMINI_API_KEY_B/C secrets). Cloudinary uses public upload presets (safe in browser). EmailJS/Web3Forms keys optional — app degrades gracefully when missing.
+[x] 5. Verify the project works end-to-end: use the testing agent (see the testing skill) to exercise the main flows, then use the feedback tool to screenshot and confirm with the user
+     Note: All tests passed — homepage, categories, products, product detail, add to cart, cart, login page all verified.
+[x] 6. Inform user the import is completed and they can start building, mark the import as completed using the complete_project_import tool
