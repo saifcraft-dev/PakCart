@@ -333,7 +333,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                           const isProduct = s.type === "product";
                           return (
                             <button
-                              key={`suggestion-${idx}`}
+                              key={s.slug ? `${s.type}-${s.slug}` : `${s.type}-${s.text}`}
                               id={`search-option-${idx}`}
                               type="button"
                               role="option"

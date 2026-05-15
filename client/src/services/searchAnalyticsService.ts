@@ -53,20 +53,26 @@ export async function getTrendingSearches(limitCount: number = 10): Promise<Tren
   try {
     const sevenDaysAgo = Timestamp.fromMillis(Date.now() - SEVEN_DAYS_MS);
 
+    // Fetch by count desc — single-field index auto-created by Firestore, no composite index needed.
+    // Filter hasResults and recency client-side to avoid needing a composite index.
     const q = query(
       collection(db, ANALYTICS_COLLECTION),
-      where("hasResults", "==", true),
-      where("lastSearched", ">=", sevenDaysAgo),
-      orderBy("lastSearched", "desc"),
       orderBy("count", "desc"),
-      limit(limitCount)
+      limit(limitCount * 3)
     );
 
     const snap = await getDocs(q);
-    return snap.docs.map((d) => {
-      const data = d.data();
-      return { query: data.query as string, count: data.count as number };
-    });
+
+    return snap.docs
+      .map((d) => d.data())
+      .filter(
+        (d) =>
+          d.hasResults === true &&
+          d.lastSearched instanceof Timestamp &&
+          d.lastSearched.toMillis() >= sevenDaysAgo.toMillis()
+      )
+      .slice(0, limitCount)
+      .map((d) => ({ query: d.query as string, count: d.count as number }));
   } catch {
     return [];
   }

@@ -1,5 +1,6 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useLocation, useSearch } from "wouter";
+import { logSearch } from "@/services/searchAnalyticsService";
 import SEO from "@/components/SEO";
 import { ProductCard as ProductCardComponent } from "@/components/product/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -157,6 +158,14 @@ export default function Products() {
       (window as any).__SEO_PAGE_READY__ = true;
     }
   }, [isLoading]);
+
+  const loggedQueryRef = useRef("");
+  useEffect(() => {
+    if (!isLoading && queryParam && loggedQueryRef.current !== queryParam) {
+      loggedQueryRef.current = queryParam;
+      logSearch(queryParam, filteredAndSortedProducts.length);
+    }
+  }, [isLoading, queryParam, filteredAndSortedProducts.length]);
 
   const handleFilterChange = (newFilters: FilterState) => {
     setFilterState(newFilters);

@@ -83,6 +83,30 @@ function sanitizeQuery(raw: string): string {
     .substring(0, 100);
 }
 
+/**
+ * Build plural/singular variants for a single token word.
+ * Used to widen the Firestore array-contains-any search so that
+ * e.g. "bags" matches products whose nameTokens contain "bag",
+ * and "watch" matches products with "watches".
+ */
+function buildWordVariants(word: string): string[] {
+  const v = new Set<string>([word]);
+
+  if (word.endsWith("es") && word.length > 3) {
+    v.add(word.slice(0, -2)); // "watches" → "watch"
+    v.add(word.slice(0, -1)); // "watches" → "watche" (edge-case singulars)
+  }
+  if (word.endsWith("s") && word.length > 2) {
+    v.add(word.slice(0, -1)); // "bags" → "bag"
+  }
+  if (!word.endsWith("s")) {
+    v.add(word + "s");  // "bag" → "bags"
+    v.add(word + "es"); // "watch" → "watches"
+  }
+
+  return [...v].slice(0, 10); // Firestore array-contains-any max is 10
+}
+
 export async function searchProducts(
   rawQuery: string,
   options: SearchOptions = {}
@@ -113,9 +137,10 @@ export async function searchProductsPage(
 
   const queryWords = queryLower.split(/\s+/).filter((w) => w.length > 0);
   const anchorWord = getLongestWord(queryWords);
+  const anchorVariants = buildWordVariants(anchorWord);
 
   const baseConstraints: QueryConstraint[] = [
-    where("nameTokens", "array-contains", anchorWord),
+    where("nameTokens", "array-contains-any", anchorVariants),
     where("active", "==", true),
   ];
 
@@ -140,8 +165,7 @@ export async function searchProductsPage(
   const q = query(collection(db, SEARCH_INDEX_COLLECTION), ...baseConstraints);
   const snap = await getDocs(q);
 
-  let docs = snap.docs;
-  let entries = docs.map((d) => ({
+  let entries = snap.docs.map((d) => ({
     doc: d,
     data: d.data() as RawIndexEntry,
   }));
@@ -230,14 +254,13 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
 
   const queryWords = queryLower.split(/\s+/).filter((w) => w.length > 0);
   const anchorWord = getLongestWord(queryWords);
-  const variants = buildQueryVariants(queryLower);
+  const anchorVariants = buildWordVariants(anchorWord);
+  const queryVariants = buildQueryVariants(queryLower);
   const emptyDocs: QueryDocumentSnapshot<DocumentData>[] = [];
 
-  // Query searchIndex using token matching — same source as search results page
-  // so suggestions are always consistent with what the user will see.
   const indexQuery = query(
     collection(db, SEARCH_INDEX_COLLECTION),
-    where("nameTokens", "array-contains", anchorWord),
+    where("nameTokens", "array-contains-any", anchorVariants),
     where("active", "==", true),
     orderBy("searchScore", "desc"),
     limit(30)
@@ -260,7 +283,7 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
       .map((d): ScoredSuggestion | null => {
         const data = d.data() as RawIndexEntry;
         const name: string = data.name ?? "";
-        if (!matchesQuery(name, variants)) return null;
+        if (!matchesQuery(name, queryVariants)) return null;
         const isBestSeller = Array.isArray(data.labels) && data.labels.includes("Best Seller");
         const score =
           computeRelevanceScore(data, queryLower, queryWords) +
@@ -281,7 +304,7 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
   );
 
   const categorySuggestions: Suggestion[] = categorySnap.docs
-    .filter((d) => matchesQuery(d.data().name ?? "", variants))
+    .filter((d) => matchesQuery(d.data().name ?? "", queryVariants))
     .map((d) => {
       const data = d.data();
       return {
@@ -296,7 +319,6 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
 }
 
 export async function getPopularSearches(): Promise<string[]> {
-  // Try real trending searches from analytics first, fall back to category names
   try {
     const trending = await getTrendingSearches(8);
     if (trending.length >= 3) {
@@ -306,7 +328,6 @@ export async function getPopularSearches(): Promise<string[]> {
     // fall through to category fallback
   }
 
-  // Fallback: use category names as suggested search terms
   const snap = await getDocs(collection(db, CATEGORIES_COLLECTION)).catch(
     () => ({ docs: [] as QueryDocumentSnapshot<DocumentData>[] })
   );
@@ -374,14 +395,15 @@ export function levenshteinDistance(a: string, b: string): number {
 export async function getSmartSuggestions(failedQuery: string): Promise<SmartSuggestion> {
   const q = failedQuery.toLowerCase().trim();
   const words = q.split(/\s+/).filter((w) => w.length > 0);
+  const anchorVariants = words[0] ? buildWordVariants(words[0]) : [];
 
   const [trending, relatedSnap, categoriesSnap] = await Promise.allSettled([
     getTrendingSearches(5),
-    words[0]
+    anchorVariants.length > 0
       ? getDocs(
           query(
             collection(db, SEARCH_INDEX_COLLECTION),
-            where("nameTokens", "array-contains", words[0]),
+            where("nameTokens", "array-contains-any", anchorVariants),
             where("active", "==", true),
             orderBy("searchScore", "desc"),
             limit(8)
@@ -432,7 +454,6 @@ export async function getSmartSuggestions(failedQuery: string): Promise<SmartSug
     }
   }
 
-  // Spell-correction via Levenshtein against top trending queries
   let correctedQuery: string | undefined;
   for (const t of trendingNow) {
     const dist = levenshteinDistance(q, t);
