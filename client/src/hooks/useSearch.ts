@@ -149,6 +149,13 @@ export function useSearch() {
     setRecentSearches([]);
   }, []);
 
+  const saveSearch = useCallback((q: string) => {
+    const trimmed = q.trim();
+    if (!trimmed) return;
+    saveRecentSearch(trimmed);
+    setRecentSearches(getRecentSearches());
+  }, []);
+
   return {
     query,
     setQuery,
@@ -164,6 +171,7 @@ export function useSearch() {
     popularSearches,
     recentSearches,
     clearRecentSearches,
+    saveSearch,
     selectedSuggestionIndex,
     setSelectedSuggestionIndex,
     isDropdownOpen,

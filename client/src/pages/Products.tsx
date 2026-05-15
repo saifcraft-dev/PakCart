@@ -60,6 +60,10 @@ export default function Products() {
     return params.get("search") || params.get("q") || "";
   }, [search]);
 
+  useEffect(() => {
+    setVisibleCount(getInitialCount());
+  }, [queryParam]);
+
   // Sync filter state when URL search params change (e.g. navigating between categories)
   useEffect(() => {
     const params = new URLSearchParams(search);
@@ -324,7 +328,9 @@ export default function Products() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">No results found</h3>
                 <p className="text-muted-foreground mb-8 text-balance">
-                  We couldn't find any products matching your current selection. Try broadening your filters.
+                  {queryParam
+                    ? `We couldn't find any products matching "${queryParam}". Try a different keyword or browse our categories.`
+                    : "We couldn't find any products matching your current filters. Try broadening your selection."}
                 </p>
                 <Button 
                   variant="default" 
@@ -332,7 +338,7 @@ export default function Products() {
                   className="rounded-full px-8"
                   onClick={() => handleFilterChange({ categories: [], priceRange: null, inStockOnly: false })}
                 >
-                  Reset All Filters
+                  {queryParam ? "Browse All Products" : "Reset All Filters"}
                 </Button>
               </div>
             </div>

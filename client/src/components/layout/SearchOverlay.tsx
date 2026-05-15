@@ -40,6 +40,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     popularSearches,
     recentSearches,
     clearRecentSearches,
+    saveSearch,
     selectedSuggestionIndex,
     setSelectedSuggestionIndex,
     prefetchDropdown,
@@ -109,6 +110,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const navigateToSearch = (q: string) => {
     const trimmed = q.trim();
     if (!trimmed) return;
+    saveSearch(trimmed);
     setLocation(`/products?q=${encodeURIComponent(trimmed)}`);
     onClose();
   };
@@ -138,6 +140,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   };
 
   const handleSuggestionClick = (s: { text: string; type: string; slug?: string }) => {
+    saveSearch(s.text);
     if (s.type === "product" && s.slug) {
       setLocation(`/products/${s.slug}`);
       onClose();

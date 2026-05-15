@@ -238,14 +238,9 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
     limit(60)
   );
 
-  const lastChar = rawQuery.trim().slice(-1);
-  const nextChar = String.fromCharCode(lastChar.charCodeAt(0) + 1);
-  const prefix = rawQuery.trim().slice(0, -1);
   const categoryQuery = query(
     collection(db, CATEGORIES_COLLECTION),
-    where("name", ">=", rawQuery.trim()),
-    where("name", "<", prefix + nextChar),
-    limit(3)
+    limit(30)
   );
 
   const [productSnap, categorySnap] = await Promise.all([
@@ -291,7 +286,8 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
         type: "category" as const,
         slug: data.slug as string,
       };
-    });
+    })
+    .slice(0, 3);
 
   return [...productSuggestions, ...categorySuggestions].slice(0, 7);
 }
