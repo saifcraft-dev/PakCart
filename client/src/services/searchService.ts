@@ -228,14 +228,19 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
   const queryLower = rawQuery.toLowerCase().trim();
   if (queryLower.length < 2) return [];
 
+  const queryWords = queryLower.split(/\s+/).filter((w) => w.length > 0);
+  const anchorWord = getLongestWord(queryWords);
   const variants = buildQueryVariants(queryLower);
   const emptyDocs: QueryDocumentSnapshot<DocumentData>[] = [];
 
-  // Query products directly — products collection has public read access
-  const productQuery = query(
-    collection(db, "products"),
+  // Query searchIndex using token matching — same source as search results page
+  // so suggestions are always consistent with what the user will see.
+  const indexQuery = query(
+    collection(db, SEARCH_INDEX_COLLECTION),
+    where("nameTokens", "array-contains", anchorWord),
     where("active", "==", true),
-    limit(60)
+    orderBy("searchScore", "desc"),
+    limit(30)
   );
 
   const categoryQuery = query(
@@ -243,31 +248,29 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
     limit(30)
   );
 
-  const [productSnap, categorySnap] = await Promise.all([
-    getDocs(productQuery).catch(() => ({ docs: emptyDocs })),
+  const [indexSnap, categorySnap] = await Promise.all([
+    getDocs(indexQuery).catch(() => ({ docs: emptyDocs })),
     getDocs(categoryQuery).catch(() => ({ docs: emptyDocs })),
   ]);
 
   type ScoredSuggestion = Suggestion & { _score: number };
 
   const productSuggestions: Suggestion[] = (
-    productSnap.docs
+    indexSnap.docs
       .map((d): ScoredSuggestion | null => {
-        const data = d.data();
+        const data = d.data() as RawIndexEntry;
         const name: string = data.name ?? "";
-        const matches =
-          matchesQuery(name, variants) ||
-          (Array.isArray(data.labels) && data.labels.some((l: string) => matchesQuery(l, variants)));
-        if (!matches) return null;
-        const rating = Number(data.rating ?? 0);
-        const reviewCount = Number(data.reviewCount ?? 0);
+        if (!matchesQuery(name, variants)) return null;
         const isBestSeller = Array.isArray(data.labels) && data.labels.includes("Best Seller");
-        const score = rating * reviewCount * 0.3 + (isBestSeller ? 50 : 0) + (data.inStock ? 20 : 0);
+        const score =
+          computeRelevanceScore(data, queryLower, queryWords) +
+          (isBestSeller ? 50 : 0) +
+          (data.inStock ? 20 : 0);
         return {
           text: name,
           type: "product" as const,
-          slug: data.slug as string,
-          image: Array.isArray(data.images) ? (data.images[0] ?? "") : "",
+          slug: data.slug,
+          image: data.primaryImage ?? "",
           _score: score,
         };
       })
@@ -293,7 +296,17 @@ export async function getSuggestions(rawQuery: string): Promise<Suggestion[]> {
 }
 
 export async function getPopularSearches(): Promise<string[]> {
-  // Use categories collection (public read) as popular search terms
+  // Try real trending searches from analytics first, fall back to category names
+  try {
+    const trending = await getTrendingSearches(8);
+    if (trending.length >= 3) {
+      return trending.map((t) => t.query);
+    }
+  } catch {
+    // fall through to category fallback
+  }
+
+  // Fallback: use category names as suggested search terms
   const snap = await getDocs(collection(db, CATEGORIES_COLLECTION)).catch(
     () => ({ docs: [] as QueryDocumentSnapshot<DocumentData>[] })
   );

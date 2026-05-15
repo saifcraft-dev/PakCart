@@ -75,6 +75,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
       if (e.key === "Escape") {
+        e.preventDefault();
         onClose();
         return;
       }
@@ -86,11 +87,15 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
         setSelectedSuggestionIndex((i) => Math.max(i - 1, -1));
       } else if (e.key === "Enter") {
         if (selectedSuggestionIndex >= 0) {
+          e.preventDefault();
           if (showSuggestions && suggestions[selectedSuggestionIndex]) {
             handleSuggestionClick(suggestions[selectedSuggestionIndex]);
           } else if (showRecentSearches && recentSearches[selectedSuggestionIndex]) {
             navigateToSearch(recentSearches[selectedSuggestionIndex]);
           }
+        } else if (query.trim()) {
+          e.preventDefault();
+          navigateToSearch(query.trim());
         }
       }
     };
@@ -99,6 +104,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   }, [
     isOpen,
     onClose,
+    query,
     selectedSuggestionIndex,
     suggestions,
     recentSearches,
@@ -235,7 +241,7 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                       }}
                       placeholder="Search bags, watches, slippers…"
                       className={cn(
-                        "w-full h-13 sm:h-14",
+                        "w-full",
                         "pl-12",
                         query.length > 0 ? "pr-28 sm:pr-36" : "pr-16",
                         "text-[15px] text-gray-800 font-normal",

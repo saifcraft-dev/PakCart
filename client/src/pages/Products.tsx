@@ -40,7 +40,7 @@ function getInitialCount() {
 }
 
 export default function Products() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const search = useSearch();
   const { isApprovedDropshipper } = useDropshipperStatus();
   const [visibleCount, setVisibleCount] = useState(getInitialCount);
@@ -336,7 +336,12 @@ export default function Products() {
                   variant="default" 
                   size="lg"
                   className="rounded-full px-8"
-                  onClick={() => handleFilterChange({ categories: [], priceRange: null, inStockOnly: false })}
+                  onClick={() => {
+                    handleFilterChange({ categories: [], priceRange: null, inStockOnly: false });
+                    if (queryParam) {
+                      setLocation("/products");
+                    }
+                  }}
                 >
                   {queryParam ? "Browse All Products" : "Reset All Filters"}
                 </Button>
