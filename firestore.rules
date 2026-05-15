@@ -105,6 +105,12 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // Settings collection: Admin read/write only
+    match /settings/{docId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
     // Default deny for everything else
     match /{document=**} {
       allow read, write: if false;
