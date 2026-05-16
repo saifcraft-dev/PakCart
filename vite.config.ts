@@ -32,7 +32,9 @@ function buildGeminiParts(content: string | any[]): any[] {
 function getGeminiApiKeys(): string[] {
   const keys: string[] = [];
   const managedKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY;
-  if (managedKey && managedKey !== "_DUMMY_API_KEY_") keys.push(managedKey);
+  // Include the managed key even if it's the dummy value — when a base URL is set,
+  // the dummy key is still needed as a placeholder for Replit AI Integrations proxy.
+  if (managedKey) keys.push(managedKey);
   const primary = process.env.GEMINI_API_KEY;
   if (primary) keys.push(primary);
   for (const suffix of ["B", "C", "D", "E", "F"]) {
