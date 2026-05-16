@@ -8,6 +8,7 @@ export interface ProfitRule {
 
 export interface ProfitRulesSettings {
   rules: ProfitRule[];
+  categoryRules?: { [categoryId: string]: ProfitRule[] };
   updatedAt?: any;
 }
 
@@ -32,19 +33,28 @@ export const settingsFirestoreService = {
           maxCostPrice: r.maxCostPrice ?? r.maxWholesalePrice ?? 0,
           profit: r.profit ?? 0,
         }));
-        return { ...data, rules } as ProfitRulesSettings;
+        const categoryRules: { [categoryId: string]: ProfitRule[] } = {};
+        if (data.categoryRules) {
+          for (const [catId, catRulesRaw] of Object.entries(data.categoryRules)) {
+            categoryRules[catId] = (catRulesRaw as any[]).map((r: any) => ({
+              maxCostPrice: r.maxCostPrice ?? 0,
+              profit: r.profit ?? 0,
+            }));
+          }
+        }
+        return { ...data, rules, categoryRules } as ProfitRulesSettings;
       }
-      return { rules: DEFAULT_RULES };
+      return { rules: DEFAULT_RULES, categoryRules: {} };
     } catch (error: any) {
       console.error("Error getting profit rules:", error);
-      return { rules: DEFAULT_RULES };
+      return { rules: DEFAULT_RULES, categoryRules: {} };
     }
   },
 
-  async saveProfitRules(rules: ProfitRule[]): Promise<void> {
+  async saveProfitRules(rules: ProfitRule[], categoryRules?: { [categoryId: string]: ProfitRule[] }): Promise<void> {
     try {
       const docRef = doc(db, SETTINGS_COLLECTION, PROFIT_RULES_DOC);
-      await setDoc(docRef, { rules, updatedAt: serverTimestamp() });
+      await setDoc(docRef, { rules, categoryRules: categoryRules ?? {}, updatedAt: serverTimestamp() });
     } catch (error: any) {
       console.error("Error saving profit rules:", error);
       throw error;
@@ -59,5 +69,16 @@ export const settingsFirestoreService = {
       }
     }
     return sorted[sorted.length - 1]?.profit ?? 0;
+  },
+
+  calculateProfitForCategory(
+    costPrice: number,
+    categoryId: string | undefined | null,
+    settings: ProfitRulesSettings
+  ): number {
+    if (categoryId && settings.categoryRules?.[categoryId]?.length) {
+      return this.calculateProfit(costPrice, settings.categoryRules[categoryId]);
+    }
+    return this.calculateProfit(costPrice, settings.rules);
   },
 };

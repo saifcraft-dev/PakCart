@@ -104,12 +104,17 @@ export default function AdminProductForm() {
   });
 
   const costPrice = form.watch("price");
+  const watchedCategoryId = form.watch("categoryId");
   useEffect(() => {
     if (costPrice && costPrice > 0 && profitRulesSettings?.rules?.length) {
-      const profit = settingsFirestoreService.calculateProfit(costPrice, profitRulesSettings.rules);
+      const profit = settingsFirestoreService.calculateProfitForCategory(
+        costPrice,
+        watchedCategoryId || undefined,
+        profitRulesSettings
+      );
       form.setValue("profit", profit, { shouldValidate: true });
     }
-  }, [costPrice, profitRulesSettings]);
+  }, [costPrice, watchedCategoryId, profitRulesSettings]);
 
   useEffect(() => {
     if (product) {
