@@ -5,7 +5,7 @@ import AnnouncementBanner from './AnnouncementBanner';
 import MobileBottomNav from './MobileBottomNav';
 
 const AnnouncementPopup = lazy(() => import('./AnnouncementPopup'));
-const AIChatWidget = lazy(() => import('@/components/AIChatWidget'));
+const AIChatWidget = lazy(() => import('@/components/ai/AIChatWidget'));
 
 interface LayoutProps {
   children: React.ReactNode;

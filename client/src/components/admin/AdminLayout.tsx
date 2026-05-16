@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "../admin-sidebar";
-import { ThemeToggle } from "../theme-toggle";
+import { AdminSidebar } from "./AdminSidebar";
+import { ThemeToggle } from "../ui/theme-toggle";
 
 interface AdminLayoutProps {
   children: ReactNode;

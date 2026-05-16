@@ -15,7 +15,7 @@ import {
   type Timestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import type { ProductImageData } from '@/components/ProductImage';
+import type { ProductImageData } from '@/components/product/ProductImage';
 
 /**
  * Stored image metadata in Firestore

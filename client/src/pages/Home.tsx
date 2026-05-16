@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { ArrowRight, Star, Truck, ShieldCheck, Clock, ChevronLeft, ChevronRight, MapPin, Rocket, Globe, Phone, Package, TrendingUp, CheckCircle2, Smartphone, Search, MessageCircle, Zap, CreditCard, LayoutDashboard } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { CategoryCard } from "@/components/products/CategoryCard";
+import { CategoryCard } from "@/components/product/CategoryCard";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";

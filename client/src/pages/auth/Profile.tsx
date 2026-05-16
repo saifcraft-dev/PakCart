@@ -16,7 +16,7 @@ import { db } from "@/lib/firebase";
 import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { UserAvatar } from "../../components/auth/UserAvatar";
 // @ts-ignore - MediaUpload.jsx doesn't have TypeScript declarations
-import { MediaUpload } from "../../components/MediaUpload";
+import { MediaUpload } from "@/components/media/MediaUpload";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LayoutDashboard } from "lucide-react";
 import { Link } from "wouter";

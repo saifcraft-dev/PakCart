@@ -33,7 +33,7 @@ import { Link } from "wouter";
 import { ImageUploader } from "@/components/product/ImageUploader";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
 // @ts-ignore - VideoUpload.jsx doesn't have TypeScript declarations
-import { VideoUpload } from "@/components/VideoUpload";
+import { VideoUpload } from "@/components/media/VideoUpload";
 import { useEffect, Fragment, useState } from "react";
 import { productFirestoreService } from "@/services/productFirestoreService";
 import { categoryFirestoreService } from "@/services/categoryFirestoreService";

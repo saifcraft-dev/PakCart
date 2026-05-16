@@ -1,153 +1,170 @@
-import { 
-  LayoutDashboard, 
-  Package, 
-  ListTree, 
-  ShoppingCart, 
-  Settings, 
-  LogOut,
-  ChevronLeft,
-  Menu,
-  FileSearch,
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  Tags,
+  Home,
+  ShoppingCart,
+  Globe,
   Image as ImageIcon,
   Megaphone,
-  MessageSquare,
-  BarChart3,
-  TrendingUp,
-  Wand2,
+  BarChart2,
+  MessageSquarePlus,
   Users,
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { useAuthStore } from "@/store/authStore";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Separator } from "@/components/ui/separator";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { useRealtimeCollection } from "@/hooks/use-firestore-realtime";
+import { orderSchema, type Order } from "@shared/schema";
+import { Badge } from "@/components/ui/badge";
+import { where } from "firebase/firestore";
+import { z } from "zod";
 
-const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/admin" },
-  { icon: Package, label: "Products", href: "/admin/products" },
-  { icon: ListTree, label: "Categories", href: "/admin/categories" },
-  { icon: ShoppingCart, label: "Orders", href: "/admin/orders" },
-  { icon: Users, label: "Dropshippers", href: "/admin/dropshippers" },
-  { icon: ImageIcon, label: "Homepage Slider", href: "/admin/homepage-slider" },
-  { icon: Megaphone, label: "Announcements", href: "/admin/announcements" },
-  { icon: MessageSquare, label: "Seed Comments", href: "/admin/seed-comments" },
-  { icon: ListTree, label: "Seed Categories", href: "/admin/seed-categories" },
-  { icon: Wand2, label: "Re-categorize Products", href: "/admin/recategorize-products" },
-  { icon: BarChart3, label: "Search Analytics", href: "/admin/search-analytics" },
-  { icon: TrendingUp, label: "Profit Rules", href: "/admin/profit-rules" },
-  { icon: FileSearch, label: "Sitemap", href: "/admin/sitemap" },
+const dropshipperAppSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+});
+
+const overviewItems = [
+  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
 ];
+
+const productItems = [
+  { title: "Products", url: "/admin/products", icon: ShoppingBag },
+  { title: "Categories", url: "/admin/categories", icon: Tags },
+];
+
+const orderItems = [
+  { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
+];
+
+const partnerItems = [
+  { title: "Dropshippers", url: "/admin/dropshippers", icon: Users },
+];
+
+const contentItems = [
+  { title: "Homepage Slider", url: "/admin/homepage-slider", icon: ImageIcon },
+  { title: "Announcements", url: "/admin/announcements", icon: Megaphone },
+];
+
+const toolItems = [
+  { title: "Search Analytics", url: "/admin/search-analytics", icon: BarChart2 },
+  { title: "Seed Comments", url: "/admin/seed-comments", icon: MessageSquarePlus },
+  { title: "Sitemap", url: "/admin/sitemap", icon: Globe },
+];
+
+function NavGroup({
+  label,
+  items,
+  location,
+  pendingCount,
+  secondaryCount,
+}: {
+  label: string;
+  items: { title: string; url: string; icon: React.ElementType }[];
+  location: string;
+  pendingCount?: number;
+  secondaryCount?: number;
+}) {
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((item) => (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                asChild
+                isActive={
+                  item.url === "/admin"
+                    ? location === "/admin"
+                    : location.startsWith(item.url)
+                }
+                tooltip={item.title}
+              >
+                <Link href={item.url} className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </div>
+                  {item.title === "Orders" && (pendingCount ?? 0) > 0 && (
+                    <Badge
+                      variant="destructive"
+                      className="h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full"
+                    >
+                      {pendingCount}
+                    </Badge>
+                  )}
+                  {item.title === "Dropshippers" && (secondaryCount ?? 0) > 0 && (
+                    <Badge
+                      variant="destructive"
+                      className="h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full"
+                    >
+                      {secondaryCount}
+                    </Badge>
+                  )}
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+}
 
 export function AdminSidebar() {
   const [location] = useLocation();
-  const { logout } = useAuthStore();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { data: pendingOrders } = useRealtimeCollection<Order>(
+    "orders",
+    orderSchema,
+    ["/api/admin/orders/pending"],
+    [where("status", "==", "pending")]
+  );
+
+  const pendingCount = pendingOrders?.length || 0;
+
+  const { data: pendingDropshippers } = useRealtimeCollection(
+    "dropshipper_applications",
+    dropshipperAppSchema,
+    ["/admin/dropshippers/pending"],
+    [where("status", "==", "pending")]
+  );
+  const pendingDropshipperCount = pendingDropshippers?.length || 0;
 
   return (
-    <div 
-      className={cn(
-        "flex flex-col h-screen bg-sidebar border-r transition-all duration-300 ease-in-out relative group",
-        isCollapsed ? "w-[70px]" : "w-64"
-      )}
-    >
-      <div className="p-4 flex items-center justify-between overflow-hidden">
-        <AnimatePresence mode="wait">
-          {!isCollapsed && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="font-bold text-xl truncate text-primary flex items-center gap-2"
-            >
-              <Settings className="h-6 w-6" />
-              <span>Admin Panel</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className={cn(
-            "h-8 w-8 text-muted-foreground hover:text-primary transition-colors",
-            isCollapsed && "mx-auto"
-          )}
-        >
-          {isCollapsed ? <Menu className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
-        </Button>
-      </div>
+    <Sidebar>
+      <SidebarContent>
+        <NavGroup label="Overview" items={overviewItems} location={location} />
+        <NavGroup label="Product Management" items={productItems} location={location} />
+        <NavGroup label="Orders" items={orderItems} location={location} pendingCount={pendingCount} />
+        <NavGroup label="Partners" items={partnerItems} location={location} secondaryCount={pendingDropshipperCount} />
+        <NavGroup label="Content" items={contentItems} location={location} />
+        <NavGroup label="Tools & Analytics" items={toolItems} location={location} />
 
-      <Separator className="opacity-50" />
-
-      <nav className="flex-1 py-4 space-y-1 px-2 overflow-y-auto overflow-x-hidden custom-scrollbar">
-        {menuItems.map((item) => {
-          const isActive = location === item.href;
-          return (
-            <Link key={item.href} href={item.href}>
-              <a
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 group relative",
-                  isActive 
-                    ? "bg-primary text-primary-foreground shadow-md" 
-                    : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                )}
-                title={isCollapsed ? item.label : ""}
-              >
-                <item.icon className={cn(
-                  "h-5 w-5 shrink-0 transition-transform duration-200",
-                  !isActive && "group-hover:scale-110"
-                )} />
-                <AnimatePresence mode="wait">
-                  {!isCollapsed && (
-                    <motion.span
-                      initial={{ opacity: 0, width: 0 }}
-                      animate={{ opacity: 1, width: "auto" }}
-                      exit={{ opacity: 0, width: 0 }}
-                      className="text-sm font-medium whitespace-nowrap overflow-hidden"
-                    >
-                      {item.label}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                
-                {isCollapsed && isActive && (
-                  <motion.div 
-                    layoutId="active-indicator"
-                    className="absolute left-0 w-1 h-6 bg-primary-foreground rounded-r-full"
-                  />
-                )}
-              </a>
-            </Link>
-          );
-        })}
-      </nav>
-
-      <Separator className="opacity-50" />
-
-      <div className="p-4 space-y-4">
-        <div className={cn(
-          "flex items-center transition-all duration-300",
-          isCollapsed ? "justify-center" : "justify-between"
-        )}>
-          {!isCollapsed && <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Theme</span>}
-        </div>
-        
-        <Button
-          variant="ghost"
-          className={cn(
-            "w-full flex items-center gap-3 text-destructive hover:text-destructive hover:bg-destructive/10 transition-colors duration-200",
-            isCollapsed ? "justify-center px-0" : "justify-start px-3"
-          )}
-          onClick={() => logout()}
-          title={isCollapsed ? "Logout" : ""}
-        >
-          <LogOut className="h-5 w-5 shrink-0" />
-          {!isCollapsed && <span className="text-sm font-medium">Logout</span>}
-        </Button>
-      </div>
-    </div>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="Back to Shop">
+                  <Link href="/" className="flex items-center gap-2">
+                    <Home className="h-4 w-4" />
+                    <span>Back to Shop</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 }
