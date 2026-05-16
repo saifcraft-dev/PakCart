@@ -1,0 +1,129 @@
+🖼️ PROMPT 1 — FIRST FRAME IMAGE
+(Starting point — Calm, Inviting, Brand Introduction)
+CopyA premium e-commerce brand intro screen in 9:16 vertical aspect ratio (1080x1920px) for "PakCart" online store.
+
+Background: Deep emerald green gradient (top) blending into warm cream/beige (bottom). Soft golden light rays radiating gently from center. Subtle bokeh particles floating in background. Calm, premium atmosphere.
+
+Top section (15% of screen):
+- Bold "PakCart" logo text in clean modern sans-serif font, pure white color with subtle golden glow outline
+- Small shopping cart icon beside the logo in golden yellow
+- Below logo, tagline in cream text: "Pakistan's Trusted Online Store"
+
+Center section (50% of screen):
+- A single elegant 3D shopping bag (dark emerald green with golden handles) sitting calmly in center, slightly tilted, with soft realistic shadow underneath
+- Bag is CLOSED, looking premium and mysterious
+- A few small sparkle particles scattered around the bag
+- Soft spotlight glow behind the bag
+
+Middle text overlay (below the bag):
+- Bold white text "SHOP SMART" in large modern font
+- Below it: "with Pakistan's #1 Store" in smaller golden text
+
+Lower section (20% of screen):
+- A rounded rectangle CTA button in solid orange-yellow gradient
+- Bold black text inside: "VISIT PAKCART.STORE"
+- Small white arrow icon on the right side of button
+- Button appears slightly dim/inactive (not yet glowing)
+
+Bottom section (15% of screen):
+- Three small white pill-shaped trust badges in a row (slightly faded/transparent):
+  • "✓ Cash on Delivery"
+  • "✓ All Pakistan Delivery"
+  • "✓ 100% Genuine"
+- Very bottom: "www.pakcart.store" in clean white text
+
+Mood: Calm, premium, inviting, professional. Like the calm before excitement.
+
+Color palette: Deep emerald green (#0B5D3B), warm cream (#F5E6D3), golden yellow (#F4C430), bright orange (#FF7A00), pure white (#FFFFFF)
+
+Style: Modern e-commerce brand design, mobile-optimized, high-quality 4K, sharp clean details, no clutter.
+
+Aspect ratio: 9:16 vertical
+Resolution: 1080x1920
+🖼️ PROMPT 2 — LAST FRAME IMAGE
+(Ending point — Energetic, Celebratory, Call to Action)
+CopyA premium e-commerce brand end screen in 9:16 vertical aspect ratio (1080x1920px) for "PakCart" online store — SAME composition as first frame but at peak energy and excitement.
+
+Background: SAME deep emerald green to cream gradient, BUT now the golden light rays are brighter and more radiant, fully illuminating the screen. Background particles are more vibrant and glowing.
+
+Top section (15% of screen):
+- SAME "PakCart" logo, but now with a STRONGER golden glow around it, looking fully activated and prominent
+- Shopping cart icon beside logo glowing brightly in gold
+- Tagline "Pakistan's Trusted Online Store" with subtle shine effect on letters
+
+Center section (50% of screen):
+- The SAME 3D shopping bag is now OPEN at the top, with colorful products bursting out and floating around it: a perfume bottle, a wristwatch, headphones, a beauty cream jar, a clothing item, a small gadget — all in vibrant colors, arranged in a beautiful circular orbit around the bag
+- Bright sparkles and golden confetti particles scattered everywhere around the products
+- Strong radiant glow behind the bag, making it look like a treasure unveiling
+
+Middle text overlay:
+- Bold white text "SHOP SMART" — now with a vibrant golden shine sweep across letters
+- Below it: "with Pakistan's #1 Store" — now glowing brighter
+
+Lower section (20% of screen):
+- The SAME rounded rectangle CTA button — but now FULLY GLOWING, brighter orange-yellow, with a strong soft halo of light around it
+- Text "VISIT PAKCART.STORE" in bold black — looking active and clickable
+- Arrow icon now has a bright glow trail
+- A subtle ripple effect emanating from the button (like a tap just happened)
+
+Bottom section (15% of screen):
+- Three trust badges now FULLY VISIBLE and glowing — each lit up brightly:
+  • "✓ Cash on Delivery"
+  • "✓ All Pakistan Delivery"
+  • "✓ 100% Genuine"
+- Very bottom: "www.pakcart.store" now has a bright left-to-right light shine across the URL
+
+Mood: Energetic, celebratory, exciting, action-triggering. Peak conversion moment.
+
+Color palette: SAME as first frame (consistency) — Deep emerald green (#0B5D3B), warm cream (#F5E6D3), golden yellow (#F4C430), bright orange (#FF7A00), pure white (#FFFFFF)
+
+Style: Modern e-commerce brand design, mobile-optimized, high-quality 4K, vibrant and celebratory.
+
+Aspect ratio: 9:16 vertical
+Resolution: 1080x1920
+🎬 PROMPT 3 — ANIMATION PROMPT
+(For Kling AI, Runway, Luma — Image-to-Video using both frames)
+CopyAnimate a smooth 5-second transition from the first frame (calm intro) to the last frame (energetic celebration) for a TikTok/Reels e-commerce brand end screen.
+
+[0-1 second] OPENING:
+- Background light rays slowly start rotating clockwise from center, gradually brightening
+- The "PakCart" logo at top gently fades in with a soft scale-up (95% to 100%) and a golden glow starts building around it
+- Tagline below logo has a subtle shimmer wave passing left to right across the letters
+
+[1-2.5 seconds] PRODUCT REVEAL:
+- The closed shopping bag in the center smoothly OPENS at the top with a gentle "pop" motion
+- Products (perfume bottle, watch, headphones, beauty jar, clothing, gadget) gracefully float UP and OUT of the bag one by one in sequence
+- Products spread out into a circular orbit around the bag, rotating slowly
+- Golden sparkle particles burst outward from the bag center, then continue twinkling around the products
+- Background light rays intensify, making the scene brighter and more vibrant
+
+[2.5-3.5 seconds] TEXT ACTIVATION:
+- "SHOP SMART" text gets a smooth golden shine sweep from left to right across the letters
+- "with Pakistan's #1 Store" tagline brightens and glows
+- A subtle scale-bounce on text (98% to 102% to 100%)
+
+[3.5-4.5 seconds] CTA BUTTON ACTIVATION:
+- The orange "VISIT PAKCART.STORE" button starts pulsing with a heartbeat rhythm (100% → 106% → 100%)
+- A bright glowing halo builds around the button, expanding outward
+- A finger-tap icon briefly appears in the center of button, taps it, then disappears
+- A ripple wave effect spreads outward from the button after the tap
+
+[4.5-5 seconds] FINAL TRUST + URL HIGHLIGHT:
+- The three trust badges at bottom light up one by one in quick sequence (left to right), each with a brief golden flash
+- The "www.pakcart.store" URL at the very bottom gets a bright left-to-right light shine sweep
+- Final celebratory sparkles float gently upward across the entire screen
+- All elements settle at peak brightness — matching the last frame perfectly
+
+Overall motion guidelines:
+- Camera stays completely static — only elements inside animate
+- Motion is smooth, premium, and purposeful — no chaotic movements
+- Transition from calm to celebratory should feel natural and exciting
+- The animation should end at the EXACT composition of the last frame so it can loop seamlessly back to the first frame
+
+Style: Modern premium e-commerce brand animation, TikTok/Reels optimized, trust-building and conversion-focused.
+
+Duration: 5 seconds
+Aspect ratio: 9:16 vertical
+Frame rate: 30fps
+Motion intensity: Medium-high (energetic but professional)
+Transition feel: Smooth, cinematic, celebratory
