@@ -71,3 +71,9 @@ id = "IRI6HDIE9UMBATGzCg5RS"
 uri = "file://freelance-fullstack-guide.md"
 type = "text"
 title = "The Ultimate Freelance Fullstack Developer Guide (Deeply Researched)"
+
+[[outputs]]
+id = "jhhrDOTJplT4qpOzX8J0L"
+uri = "file://docs/pakcart-creative-prompts.md"
+type = "text"
+title = "PakCart — Professional Image & Video Generation Prompts"
