@@ -2,7 +2,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { Upload, X, FileText, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCloudinary } from '../hooks/use-cloudinary';
+import { useCloudinary } from '../../hooks/use-cloudinary';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';

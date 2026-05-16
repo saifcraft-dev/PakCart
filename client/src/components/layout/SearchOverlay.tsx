@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearch } from "@/hooks/useSearch";
+import { useSearch } from "@/hooks/use-search";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
 import { cn } from "@/lib/utils";
 import { generateSmartSearchQuery } from "@/services/ai";
