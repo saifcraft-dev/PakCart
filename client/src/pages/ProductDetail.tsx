@@ -382,11 +382,23 @@ export default function ProductDetail() {
                     className="w-full h-full relative"
                   >
                     <video 
-                      src={product.videoUrl}
+                      src={!isApprovedDropshipper ? getWatermarkedVideoUrl(product.videoUrl) : product.videoUrl}
                       controls 
                       autoPlay
+                      controlsList={!isApprovedDropshipper ? "nodownload" : undefined}
+                      onContextMenu={!isApprovedDropshipper ? (e) => e.preventDefault() : undefined}
                       className="w-full h-full object-contain"
                     />
+                    {!isApprovedDropshipper && (
+                      <div className="absolute bottom-10 sm:bottom-12 left-1/2 -translate-x-1/2 pointer-events-none bg-white/80 rounded-md sm:rounded-lg px-1.5 py-0.5 sm:px-2 sm:py-1">
+                        <img
+                          src={logoImg}
+                          alt="PakCart"
+                          className="h-4 sm:h-9 w-auto object-contain"
+                          draggable={false}
+                        />
+                      </div>
+                    )}
                   </motion.div>
                 ) : (
                   <motion.img
@@ -407,6 +419,17 @@ export default function ProductDetail() {
                 )}
               </AnimatePresence>
 
+              {/* Watermark overlay — hidden for approved dropshippers */}
+              {!isApprovedDropshipper && !showVideo && (
+                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 pointer-events-none bg-white/80 rounded-md sm:rounded-lg px-1.5 py-0.5 sm:px-2 sm:py-1">
+                  <img
+                    src={logoImg}
+                    alt="PakCart"
+                    className="h-4 sm:h-9 w-auto object-contain"
+                    draggable={false}
+                  />
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
