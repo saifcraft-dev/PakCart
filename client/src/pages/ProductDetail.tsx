@@ -409,15 +409,13 @@ export default function ProductDetail() {
 
               {/* Watermark overlay — hidden for approved dropshippers */}
               {!isApprovedDropshipper && !showVideo && (
-                <div className="absolute inset-0 pointer-events-none flex items-start justify-center pt-3 sm:pt-4">
-                  <div className="bg-white/70 backdrop-blur-[2px] rounded-lg px-3 py-1.5 shadow-sm">
-                    <img
-                      src={logoImg}
-                      alt="PakCart"
-                      className="h-6 sm:h-7 w-auto object-contain"
-                      draggable={false}
-                    />
-                  </div>
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 pointer-events-none">
+                  <img
+                    src={logoImg}
+                    alt="PakCart"
+                    className="h-7 sm:h-9 w-auto object-contain opacity-70"
+                    draggable={false}
+                  />
                 </div>
               )}
             </CardContent>
