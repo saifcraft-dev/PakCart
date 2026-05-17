@@ -407,17 +407,6 @@ export default function ProductDetail() {
                 )}
               </AnimatePresence>
 
-              {/* Watermark overlay — hidden for approved dropshippers */}
-              {!isApprovedDropshipper && !showVideo && (
-                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 pointer-events-none bg-white/80 rounded-md sm:rounded-lg px-1.5 py-0.5 sm:px-2 sm:py-1">
-                  <img
-                    src={logoImg}
-                    alt="PakCart"
-                    className="h-4 sm:h-9 w-auto object-contain"
-                    draggable={false}
-                  />
-                </div>
-              )}
             </CardContent>
           </Card>
         </div>
