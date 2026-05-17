@@ -98,6 +98,66 @@ export default function ProductDetail() {
   const [showVideo, setShowVideo] = useState(false);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({}); 
   const [mediaOpen, setMediaOpen] = useState(false);
+  const [imageDownloading, setImageDownloading] = useState(false);
+
+  const downloadWatermarkedImage = async (imageUrl: string, filename: string) => {
+    setImageDownloading(true);
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Canvas not supported");
+
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("Image load failed"));
+        img.src = imageUrl;
+      });
+
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+
+      const logo = new Image();
+      logo.crossOrigin = "anonymous";
+      await new Promise<void>((resolve) => {
+        logo.onload = () => resolve();
+        logo.onerror = () => resolve();
+        logo.src = logoImg;
+      });
+
+      if (logo.complete && logo.naturalWidth > 0) {
+        const logoH = Math.round(canvas.height * 0.07);
+        const logoW = Math.round((logo.naturalWidth / logo.naturalHeight) * logoH);
+        const margin = Math.round(canvas.width * 0.02);
+        const x = canvas.width - logoW - margin;
+        const y = margin;
+        ctx.fillStyle = "rgba(255,255,255,0.8)";
+        const pad = Math.round(logoH * 0.15);
+        ctx.beginPath();
+        ctx.roundRect(x - pad, y - pad, logoW + pad * 2, logoH + pad * 2, 6);
+        ctx.fill();
+        ctx.drawImage(logo, x, y, logoW, logoH);
+      }
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, "image/jpeg", 0.92);
+    } catch {
+      window.open(imageUrl, "_blank");
+    } finally {
+      setImageDownloading(false);
+    }
+  };
 
   useEffect(() => {
     if (product) {
@@ -385,8 +445,6 @@ export default function ProductDetail() {
                       src={!isApprovedDropshipper ? getWatermarkedVideoUrl(product.videoUrl) : product.videoUrl}
                       controls 
                       autoPlay
-                      controlsList={!isApprovedDropshipper ? "nodownload" : undefined}
-                      onContextMenu={!isApprovedDropshipper ? (e) => e.preventDefault() : undefined}
                       className="w-full h-full object-contain"
                     />
                   </motion.div>
@@ -419,6 +477,24 @@ export default function ProductDetail() {
                     draggable={false}
                   />
                 </div>
+              )}
+
+              {/* Download button for regular users — downloads watermarked image */}
+              {!isApprovedDropshipper && !showVideo && (
+                <button
+                  onClick={() => downloadWatermarkedImage(
+                    getOptimizedImageUrl(activeImageUrl, { width: 1200, height: 1200, crop: 'fill' }),
+                    `pakcart-${product.slug}-image.jpg`
+                  )}
+                  disabled={imageDownloading}
+                  className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-white/80 hover:bg-white transition-colors rounded-md sm:rounded-lg p-1.5 sm:p-2 shadow-sm"
+                  title="Download image"
+                >
+                  {imageDownloading
+                    ? <Loader2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin text-gray-600" />
+                    : <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-600" />
+                  }
+                </button>
               )}
             </CardContent>
           </Card>
