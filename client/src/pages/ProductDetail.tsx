@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { Minus, Plus, ShoppingCart, ChevronLeft, Star, Check, Loader2, Zap, Download, Package, ExternalLink } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { useDropshipperStatus } from "@/hooks/use-dropshipper-status";
 import { MediaDownloadDialog } from "@/components/product/MediaDownloadDialog";
 import {
@@ -370,7 +371,7 @@ export default function ProductDetail() {
           )}
           
           <Card className="flex-1 overflow-hidden border border-border/50 shadow-sm rounded-xl sm:rounded-2xl order-1 sm:order-2">
-            <CardContent className="p-0 aspect-square relative bg-black">
+            <CardContent className="p-0 aspect-square relative bg-black select-none">
               <AnimatePresence mode="wait">
                 {showVideo && product.videoUrl ? (
                   <motion.div
@@ -400,9 +401,25 @@ export default function ProductDetail() {
                     width="800"
                     height="800"
                     fetchPriority="high"
+                    onContextMenu={!isApprovedDropshipper ? (e) => e.preventDefault() : undefined}
+                    onDragStart={!isApprovedDropshipper ? (e) => e.preventDefault() : undefined}
                   />
                 )}
               </AnimatePresence>
+
+              {/* Watermark overlay — hidden for approved dropshippers */}
+              {!isApprovedDropshipper && !showVideo && (
+                <div className="absolute inset-0 pointer-events-none flex items-start justify-center pt-3 sm:pt-4">
+                  <div className="bg-white/70 backdrop-blur-[2px] rounded-lg px-3 py-1.5 shadow-sm">
+                    <img
+                      src={logoImg}
+                      alt="PakCart"
+                      className="h-6 sm:h-7 w-auto object-contain"
+                      draggable={false}
+                    />
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
