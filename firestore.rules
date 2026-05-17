@@ -87,10 +87,10 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Search analytics: Public read, Auth write
+    // Search analytics: Public read and write (guests can log searches)
     match /searchAnalytics/{docId} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if true;
     }
 
     // Dropshipper applications: Public create & read own (by email), Admin full access

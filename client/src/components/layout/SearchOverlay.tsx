@@ -17,6 +17,7 @@ import { useSearch } from "@/hooks/use-search";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
 import { cn } from "@/lib/utils";
 import { generateSmartSearchQuery } from "@/services/ai";
+import { logSearch } from "@/services/searchAnalyticsService";
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -148,9 +149,11 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const handleSuggestionClick = (s: { text: string; type: string; slug?: string }) => {
     saveSearch(s.text);
     if (s.type === "product" && s.slug) {
+      logSearch(query.trim() || s.text, 1);
       setLocation(`/products/${s.slug}`);
       onClose();
     } else if (s.type === "category" && s.slug) {
+      logSearch(query.trim() || s.text, 1);
       setLocation(`/collections/${s.slug}`);
       onClose();
     } else {
