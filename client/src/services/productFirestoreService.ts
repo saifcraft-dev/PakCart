@@ -11,12 +11,14 @@ import {
   updateDoc, 
   deleteDoc,
   startAfter,
+  writeBatch,
   QueryConstraint
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { type Product, type InsertProduct, insertProductSchema } from "@shared/schema";
 import { getPublicIdFromUrl, deleteCloudinaryImage } from "@/lib/cloudinary";
 import { searchIndexService } from "@/services/searchIndexService";
+import { settingsFirestoreService, type ProfitRulesSettings } from "@/services/settingsFirestoreService";
 
 const COLLECTION_NAME = "products";
 const productsRef = collection(db, COLLECTION_NAME);
@@ -251,6 +253,46 @@ export const productFirestoreService = {
       console.error("Error creating product:", error);
       throw new Error(`Failed to create product: ${error.message}`);
     }
+  },
+
+  async bulkApplyProfitRules(
+    settings: ProfitRulesSettings,
+    onProgress?: (done: number, total: number) => void
+  ): Promise<{ updated: number; skipped: number }> {
+    const snapshot = await getDocs(productsRef);
+    const allDocs = snapshot.docs;
+    const total = allDocs.length;
+    let updated = 0;
+    let skipped = 0;
+    const BATCH_SIZE = 400;
+
+    for (let i = 0; i < allDocs.length; i += BATCH_SIZE) {
+      const batch = writeBatch(db);
+      const chunk = allDocs.slice(i, i + BATCH_SIZE);
+
+      for (const d of chunk) {
+        const data = d.data();
+        const costPrice = Number(data.price ?? 0);
+        if (!costPrice || costPrice <= 0) { skipped++; continue; }
+
+        const newProfit = settingsFirestoreService.calculateProfitForCategory(
+          costPrice,
+          data.categoryId ?? null,
+          settings
+        );
+
+        batch.update(doc(db, COLLECTION_NAME, d.id), {
+          profit: newProfit,
+          updatedAt: new Date(),
+        });
+        updated++;
+      }
+
+      await batch.commit();
+      onProgress?.(Math.min(i + BATCH_SIZE, total), total);
+    }
+
+    return { updated, skipped };
   },
 
   async deleteAllProducts() {

@@ -1,9 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { settingsFirestoreService, type ProfitRule, type ProfitRulesSettings } from "@/services/settingsFirestoreService";
 import { categoryFirestoreService } from "@/services/categoryFirestoreService";
+import { productFirestoreService } from "@/services/productFirestoreService";
 import { type Category } from "@shared/schema";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ import {
 import {
   Loader2, Save, Plus, Trash2, TrendingUp, Info, Calculator,
   ChevronRight, AlertCircle, CheckCircle2, Zap, BarChart3, RefreshCw,
-  Globe, Tag, X, FolderOpen
+  Globe, Tag, X, FolderOpen, Wand2, PackageCheck, TriangleAlert
 } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -279,6 +280,11 @@ export default function AdminProfitRules() {
   const [addCatOpen, setAddCatOpen] = useState(false);
   const [selectedNewCat, setSelectedNewCat] = useState<string>("");
 
+  // Bulk apply state
+  const [bulkConfirm, setBulkConfirm] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState<{ done: number; total: number } | null>(null);
+  const [bulkResult, setBulkResult] = useState<{ updated: number; skipped: number } | null>(null);
+
   const { data: settings, isLoading } = useQuery({
     queryKey: ["settings", "profitRules"],
     queryFn: () => settingsFirestoreService.getProfitRules(),
@@ -357,6 +363,41 @@ export default function AdminProfitRules() {
     setLocalRules(null);
     setHasUnsaved(false);
   };
+
+  const bulkApplyMutation = useMutation({
+    mutationFn: async () => {
+      const currentSettings: ProfitRulesSettings = {
+        rules: [...effectiveGlobal].sort((a, b) => a.maxCostPrice - b.maxCostPrice),
+        categoryRules: Object.fromEntries(
+          Object.entries(effectiveCategoryRules).map(([id, rules]) => [
+            id,
+            [...rules].sort((a, b) => a.maxCostPrice - b.maxCostPrice),
+          ])
+        ),
+      };
+      setBulkProgress({ done: 0, total: 0 });
+      const result = await productFirestoreService.bulkApplyProfitRules(
+        currentSettings,
+        (done, total) => setBulkProgress({ done, total })
+      );
+      return result;
+    },
+    onSuccess: (result) => {
+      setBulkResult(result);
+      setBulkProgress(null);
+      setBulkConfirm(false);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast({
+        title: "Done! All products updated",
+        description: `${result.updated} products repriced · ${result.skipped} skipped (no cost price set).`,
+      });
+    },
+    onError: (error: any) => {
+      setBulkProgress(null);
+      setBulkConfirm(false);
+      toast({ title: "Bulk apply failed", description: error.message, variant: "destructive" });
+    },
+  });
 
   // Categories not yet overridden
   const availableCategories = allCategories.filter(c => !activeCategoryIds.includes(String(c.id)));
@@ -528,6 +569,88 @@ export default function AdminProfitRules() {
                 rules={activeRules}
                 onChange={updated => updateRules(activeTab, updated)}
               />
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Bulk Apply Card */}
+        <Card className="border-2 border-dashed border-orange-300 bg-orange-50/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Wand2 className="h-4 w-4 text-orange-600" />
+              Apply Rules to All Existing Products
+            </CardTitle>
+            <CardDescription>
+              Profit rules only auto-fill when editing a product. Use this to retroactively reprice every product already in your store based on current rules.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+
+            {/* Warning note */}
+            {!bulkResult && (
+              <div className="flex gap-2 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                <TriangleAlert className="h-4 w-4 shrink-0 mt-0.5 text-amber-600" />
+                <span>This will overwrite the <strong>profit field</strong> on every product. Selling price = cost price + new profit. Products without a cost price are skipped. This action cannot be undone automatically — save your rules first.</span>
+              </div>
+            )}
+
+            {/* Success result */}
+            {bulkResult && !bulkApplyMutation.isPending && (
+              <div className="flex gap-2 text-sm text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+                <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-emerald-600" />
+                <span>
+                  <strong>{bulkResult.updated} products</strong> were repriced successfully.
+                  {bulkResult.skipped > 0 && <> · <strong>{bulkResult.skipped}</strong> skipped (no cost price).</>}
+                </span>
+              </div>
+            )}
+
+            {/* Progress bar */}
+            {bulkProgress && bulkApplyMutation.isPending && (
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <Loader2 className="h-3 w-3 animate-spin" /> Updating products…
+                  </span>
+                  <span>{bulkProgress.total > 0 ? `${bulkProgress.done} / ${bulkProgress.total}` : "Counting…"}</span>
+                </div>
+                <div className="w-full bg-black/10 rounded-full h-2">
+                  <div
+                    className="h-2 rounded-full bg-orange-500 transition-all duration-300"
+                    style={{ width: bulkProgress.total > 0 ? `${(bulkProgress.done / bulkProgress.total) * 100}%` : "5%" }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Confirm step */}
+            {bulkConfirm && !bulkApplyMutation.isPending ? (
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <span className="text-sm font-medium text-orange-800">Are you sure? This will update all products.</span>
+                <Button
+                  size="sm"
+                  onClick={() => bulkApplyMutation.mutate()}
+                  className="gap-2 bg-orange-600 hover:bg-orange-700 text-white h-8"
+                  data-testid="button-confirm-bulk-apply"
+                >
+                  <PackageCheck className="h-3.5 w-3.5" />
+                  Yes, reprice all products
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => setBulkConfirm(false)} className="h-8 text-muted-foreground">
+                  Cancel
+                </Button>
+              </div>
+            ) : !bulkApplyMutation.isPending && (
+              <Button
+                variant="outline"
+                onClick={() => { setBulkResult(null); setBulkConfirm(true); }}
+                data-testid="button-bulk-apply"
+                className="gap-2 border-orange-300 text-orange-700 hover:bg-orange-100 hover:border-orange-400"
+                disabled={hasUnsaved}
+              >
+                <Wand2 className="h-4 w-4" />
+                {hasUnsaved ? "Save rules first, then bulk apply" : "Reprice All Existing Products"}
+              </Button>
             )}
           </CardContent>
         </Card>
