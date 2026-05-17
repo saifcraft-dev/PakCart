@@ -127,6 +127,23 @@ export async function uploadImage(file: File): Promise<string> {
 }
 
 /**
+ * Returns a Cloudinary video URL with a PakCart logo text watermark baked in.
+ * Only transforms Cloudinary-hosted videos; returns the original URL otherwise.
+ * The watermark is rendered server-side by Cloudinary, so it appears in downloads too.
+ */
+export function getWatermarkedVideoUrl(url: string): string {
+  if (!url || !url.includes('cloudinary.com')) return url;
+
+  const parts = url.split('/upload/');
+  if (parts.length !== 2) return url;
+
+  // Overlay: white "PakCart.store" text at 80% opacity, bottom-center
+  const watermark = 'l_text:Arial_22_bold:PakCart.store,co_white,o_80,g_south,y_50';
+
+  return `${parts[0]}/upload/${watermark}/${parts[1]}`;
+}
+
+/**
  * Extracts the public ID from a Cloudinary URL.
  */
 export function getPublicIdFromUrl(url: string): string | null {

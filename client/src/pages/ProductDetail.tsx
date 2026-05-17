@@ -20,7 +20,7 @@ import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SEO from "@/components/SEO";
 import { Card, CardContent } from "@/components/ui/card";
-import { getOptimizedImageUrl } from "@/lib/cloudinary";
+import { getOptimizedImageUrl, getWatermarkedVideoUrl } from "@/lib/cloudinary";
 import { Play } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { productFirestoreService } from "@/services/productFirestoreService";
@@ -382,9 +382,11 @@ export default function ProductDetail() {
                     className="w-full h-full relative"
                   >
                     <video 
-                      src={product.videoUrl} 
+                      src={!isApprovedDropshipper ? getWatermarkedVideoUrl(product.videoUrl) : product.videoUrl}
                       controls 
                       autoPlay
+                      controlsList={!isApprovedDropshipper ? "nodownload" : undefined}
+                      onContextMenu={!isApprovedDropshipper ? (e) => e.preventDefault() : undefined}
                       className="w-full h-full object-contain"
                     />
                     {!isApprovedDropshipper && (
