@@ -413,7 +413,7 @@ export default function ProductDetail() {
                   <img
                     src={logoImg}
                     alt="PakCart"
-                    className="h-7 sm:h-9 w-auto object-contain opacity-70"
+                    className="h-7 sm:h-9 w-auto object-contain"
                     draggable={false}
                   />
                 </div>
