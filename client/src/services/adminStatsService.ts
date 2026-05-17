@@ -1,6 +1,5 @@
 import { 
   collection, 
-  getCountFromServer,
   query,
   getDocs,
   limit,
@@ -25,8 +24,8 @@ export interface AdminStats {
 
 async function safeCount(col: ReturnType<typeof collection>): Promise<number> {
   try {
-    const snap = await getCountFromServer(col);
-    return snap.data().count;
+    const snap = await getDocs(query(col, limit(1000)));
+    return snap.size;
   } catch {
     return 0;
   }
@@ -34,23 +33,24 @@ async function safeCount(col: ReturnType<typeof collection>): Promise<number> {
 
 export class AdminStatsService {
   async getAdminStats(): Promise<AdminStats> {
-    const [totalProducts, totalCategories, totalUsers, totalOrders] = await Promise.all([
+    const [totalProducts, totalCategories, totalUsers] = await Promise.all([
       safeCount(collection(db, PRODUCTS_COLLECTION)),
       safeCount(collection(db, CATEGORIES_COLLECTION)),
       safeCount(collection(db, USERS_COLLECTION)),
-      safeCount(collection(db, ORDERS_COLLECTION)),
     ]);
 
+    let totalOrders = 0;
     let totalRevenue = 0;
     try {
-      const q = query(collection(db, ORDERS_COLLECTION), limit(100));
+      const q = query(collection(db, ORDERS_COLLECTION), limit(1000));
       const querySnapshot = await getDocs(q);
+      totalOrders = querySnapshot.size;
       querySnapshot.forEach((d) => {
         const data = d.data();
         totalRevenue += (data.total || data.amount || 0);
       });
     } catch (e) {
-      console.warn("Could not calculate revenue from orders collection:", e);
+      console.warn("Could not fetch orders collection:", e);
     }
 
     return { totalProducts, totalCategories, totalUsers, totalOrders, totalRevenue };
