@@ -379,7 +379,7 @@ export default function ProductDetail() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="w-full h-full"
+                    className="w-full h-full relative"
                   >
                     <video 
                       src={product.videoUrl} 
@@ -387,6 +387,16 @@ export default function ProductDetail() {
                       autoPlay
                       className="w-full h-full object-contain"
                     />
+                    {!isApprovedDropshipper && (
+                      <div className="absolute bottom-10 sm:bottom-12 left-1/2 -translate-x-1/2 pointer-events-none bg-white/80 rounded-md sm:rounded-lg px-1.5 py-0.5 sm:px-2 sm:py-1">
+                        <img
+                          src={logoImg}
+                          alt="PakCart"
+                          className="h-4 sm:h-9 w-auto object-contain"
+                          draggable={false}
+                        />
+                      </div>
+                    )}
                   </motion.div>
                 ) : (
                   <motion.img
